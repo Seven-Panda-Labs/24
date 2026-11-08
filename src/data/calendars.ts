@@ -1,5 +1,5 @@
 import { collection, deleteDoc, deleteField, doc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore'
-import type { CalendarFields, Day, Status } from '../domain/types.ts'
+import type { CalendarFields, Day } from '../domain/types.ts'
 import { db } from '../services/firestore.ts'
 import { report } from './report.ts'
 
@@ -20,18 +20,17 @@ export function deleteCalendar(wid: string, id: string): void {
 }
 
 /**
- * Writes one day by field path, so two people editing different days of the
- * same calendar never overwrite each other. `null` empties the day.
+ * Writes the given fields of one day by path (`days.5.status`), so edits to
+ * different days, or to different fields of the same day, never overwrite
+ * each other. Missing parents are created, so this also starts a new day.
  */
-export function saveDay(wid: string, id: string, day: number, value: Day | null): void {
-  void updateDoc(calendarRef(wid, id), {
-    [`days.${day}`]: value ?? deleteField(),
-    updatedAt: serverTimestamp(),
-  }).catch(report)
+export function updateDay(wid: string, id: string, day: number, changes: Partial<Day>): void {
+  const fields = Object.fromEntries(Object.entries(changes).map(([key, value]) => [`days.${day}.${key}`, value]))
+  void updateDoc(calendarRef(wid, id), { ...fields, updatedAt: serverTimestamp() }).catch(report)
 }
 
-export function setDayStatus(wid: string, id: string, day: number, status: Status): void {
-  void updateDoc(calendarRef(wid, id), { [`days.${day}.status`]: status, updatedAt: serverTimestamp() }).catch(report)
+export function clearDay(wid: string, id: string, day: number): void {
+  void updateDoc(calendarRef(wid, id), { [`days.${day}`]: deleteField(), updatedAt: serverTimestamp() }).catch(report)
 }
 
 export function setDayPhoto(wid: string, id: string, day: number, photo: { path: string; url: string } | null): void {

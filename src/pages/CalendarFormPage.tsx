@@ -82,6 +82,7 @@ export default function CalendarFormPage() {
           required
           autoFocus={!existing}
           maxLength={80}
+          pattern=".*\S.*"
           list="people"
           value={fields.person}
           onChange={(event) => set('person', event.target.value)}

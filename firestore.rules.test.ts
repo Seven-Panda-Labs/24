@@ -122,6 +122,11 @@ describe('invites', () => {
     await assertFails(as('mallory', 'carol@example.com', false).doc('workspaces/w1').update(accept))
   })
 
+  it('refuses a join that shows another email to the family', async () => {
+    const spoofed = { ...accept, members: { ...accept.members, carol: { name: 'Carol', email: 'alice@example.com' } } }
+    await assertFails(as('carol').doc('workspaces/w1').update(spoofed))
+  })
+
   it('refuses a join that changes anything else', async () => {
     await assertFails(as('carol').doc('workspaces/w1').update({ ...accept, name: 'Minha' }))
     await assertFails(as('carol').doc('workspaces/w1').update({ ...accept, memberIds: ['carol'] }))

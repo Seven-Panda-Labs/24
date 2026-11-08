@@ -47,6 +47,8 @@ Enforced by hooks, see [Enforcement](#enforcement).
    ```
    Use [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md).
 
+   **Every PR targets `main`. Never stack PRs** on another feature branch: head branches are not deleted on merge, so GitHub does not retarget a stacked PR, and it merges into its base branch instead of `main`. If work depends on an unmerged PR, wait for that PR to merge and branch from the updated `main`, or put both in one PR.
+
 ## Before opening a PR
 
 | Check | Command / note |

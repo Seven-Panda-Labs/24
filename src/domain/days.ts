@@ -1,4 +1,4 @@
-import type { Calendar, Day, Status } from './types.ts'
+import { STATUSES, type Calendar, type Day, type Status } from './types.ts'
 
 export function currentYear(): number {
   return new Date().getFullYear()
@@ -67,4 +67,49 @@ export function daysWithStatus(calendars: Calendar[], status: Status): DayRef[] 
       return value?.status === status ? [{ calendar, day, value }] : []
     }),
   )
+}
+
+export type DayDraft = Pick<Day, 'gift' | 'status' | 'tagIds' | 'notes'> & { fromSuggestion: boolean }
+
+/**
+ * What saving an edited day writes: only the fields that differ from the day as
+ * it was when the editor opened, so whatever someone else changed meanwhile
+ * survives. `null` empties the day; `{}` means there is nothing to write.
+ */
+export function dayChanges(before: Day | undefined, draft: DayDraft): Partial<Day> | null {
+  const gift = draft.gift.trim()
+  const notes = draft.notes.trim()
+  if (!gift) return before ? null : {}
+  if (!before) {
+    return { gift, status: draft.status, tagIds: draft.tagIds, notes, ...(draft.fromSuggestion && { fromSuggestion: true }) }
+  }
+  const changes: Partial<Day> = {}
+  if (gift !== before.gift) changes.gift = gift
+  if (draft.status !== before.status) changes.status = draft.status
+  if ([...draft.tagIds].sort().join() !== [...before.tagIds].sort().join()) changes.tagIds = draft.tagIds
+  if (notes !== before.notes) changes.notes = notes
+  if (draft.fromSuggestion !== (before.fromSuggestion ?? false)) changes.fromSuggestion = draft.fromSuggestion
+  return changes
+}
+
+/**
+ * The days of a calendar document as the app expects them. The rules can check
+ * that `days` is a map but not what is inside it, and a day without `tagIds`
+ * from a buggy client would otherwise break every screen, for the whole family
+ * and from the offline cache too. Days without a gift are dropped.
+ */
+export function cleanDays(days: unknown): Record<string, Day> {
+  if (!days || typeof days !== 'object') return {}
+  const clean: Record<string, Day> = {}
+  for (const [key, raw] of Object.entries(days)) {
+    const day = (raw ?? {}) as Partial<Record<keyof Day, unknown>>
+    if (typeof day.gift !== 'string' || !day.gift) continue
+    clean[key] = {
+      ...(day as Day),
+      status: STATUSES.includes(day.status as Status) ? (day.status as Status) : 'planned',
+      tagIds: Array.isArray(day.tagIds) ? day.tagIds.filter((id): id is string => typeof id === 'string') : [],
+      notes: typeof day.notes === 'string' ? day.notes : '',
+    }
+  }
+  return clean
 }

@@ -14,6 +14,12 @@
 - Dark mode colours with more contrast.
 - The sign-in page opens faster and secondary text has more contrast.
 
+### Fixed
+
+- Someone without a family space was stuck on the loading screen when coming back to the app.
+- Saving a day no longer undoes or deletes what someone else changed meanwhile.
+- Uploading a photo offline says so straight away instead of spinning.
+
 ## [0.4.0] - 2026-11-08
 
 ### Added

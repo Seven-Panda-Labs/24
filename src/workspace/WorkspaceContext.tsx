@@ -1,6 +1,7 @@
 import { collection, query, where } from 'firebase/firestore'
 import { createContext, useContext, useState, type ReactNode } from 'react'
 import { useUser } from '../auth/AuthContext.tsx'
+import { cleanDays } from '../domain/days.ts'
 import type { Calendar, Tag, Workspace } from '../domain/types.ts'
 import OnboardingPage from '../pages/OnboardingPage.tsx'
 import Splash from '../components/Splash.tsx'
@@ -62,7 +63,9 @@ function WorkspaceData({
 
   if (!calendars || !tags) return <Splash />
 
-  const sorted = [...calendars].sort((a, b) => b.year - a.year || a.person.localeCompare(b.person))
+  const sorted = calendars
+    .map((calendar) => ({ ...calendar, days: cleanDays(calendar.days) }))
+    .sort((a, b) => b.year - a.year || a.person.localeCompare(b.person))
   return (
     <WorkspaceContext.Provider value={{ ...state, calendars: sorted, tags }}>{children}</WorkspaceContext.Provider>
   )

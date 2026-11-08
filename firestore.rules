@@ -74,6 +74,7 @@ service cloud.firestore {
           && data.memberIds == resource.data.memberIds.concat([request.auth.uid])
           && data.members.diff(resource.data.members).affectedKeys().hasOnly([request.auth.uid])
           && validMember(data.members[request.auth.uid])
+          && data.members[request.auth.uid].email == email()
           && data.invitedEmails.toSet() == resource.data.invitedEmails.toSet().difference([email()].toSet());
       }
 
