@@ -16,8 +16,28 @@
   --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
+/* Dark follows the system unless Settings chose a theme (data-theme on <html>). */
+@custom-variant dark {
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme='light']), :root:not([data-theme='light']) *) {
+      @slot;
+    }
+  }
+  &:where([data-theme='dark'], [data-theme='dark'] *) {
+    @slot;
+  }
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+:root {
+  @variant dark {
     /* Lighter tints of Verde Abeto and Vermelho Baga: the brief's values fall
        under 3:1 against Noite de Consoada. */
     --color-primary: #5fbf94;
@@ -88,8 +108,8 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .jute {
+.jute {
+  @variant dark {
     background-color: #33415f;
     background-image: radial-gradient(#3f4e70 1px, transparent 0);
   }

@@ -7,8 +7,10 @@ import { AuthProvider } from './auth/AuthContext.tsx'
 import './i18n/index.ts'
 import './services/firebase.ts'
 import './styles/globals.css'
+import { applyTheme, storedTheme } from './theme.ts'
 
 registerSW({ immediate: true })
+applyTheme(storedTheme())
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

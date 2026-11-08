@@ -1,5 +1,11 @@
 # Registo de alterações
 
+## [0.9.0] - 2026-11-08
+
+### Adicionado
+
+- Tema nas Definições: Sistema, Claro ou Escuro, guardado em cada dispositivo.
+
 ## [0.8.0] - 2026-11-08
 
 ### Alterado

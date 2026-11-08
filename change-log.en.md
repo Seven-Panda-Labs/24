@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.9.0] - 2026-11-08
+
+### Added
+
+- Theme in Settings: System, Light or Dark, saved per device.
+
 ## [0.8.0] - 2026-11-08
 
 ### Changed

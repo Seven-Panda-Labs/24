@@ -5,6 +5,12 @@
     "pt-PT": "Português",
     "en": "English"
   },
+  "theme": {
+    "label": "Theme",
+    "system": "System",
+    "light": "Light",
+    "dark": "Dark"
+  },
   "common": {
     "close": "Close",
     "save": "Save",

@@ -1,5 +1,5 @@
 import { signOut } from 'firebase/auth'
-import { useState, type FormEvent } from 'react'
+import { useState, type FormEvent, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { useUser } from '../auth/AuthContext.tsx'
@@ -8,6 +8,7 @@ import { LANGUAGES } from '../i18n/index.ts'
 import RemindersSettings from '../components/RemindersSettings.tsx'
 import { auth } from '../services/firebase.ts'
 import { pushConfigured } from '../services/push.ts'
+import { applyTheme, storedTheme, THEMES, type Theme } from '../theme.ts'
 import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
 
 export default function SettingsPage() {
@@ -15,7 +16,13 @@ export default function SettingsPage() {
   const user = useUser()
   const { workspace, workspaces, selectWorkspace } = useWorkspace()
   const [email, setEmail] = useState('')
+  const [theme, setTheme] = useState(storedTheme)
   const isOwner = workspace.ownerId === user.uid
+
+  function chooseTheme(choice: Theme) {
+    applyTheme(choice)
+    setTheme(choice)
+  }
 
   function sendInvite(event: FormEvent) {
     event.preventDefault()
@@ -124,15 +131,20 @@ export default function SettingsPage() {
         <h2 className="font-display text-lg font-bold">{t('language.label')}</h2>
         <div className="flex gap-2">
           {LANGUAGES.map((language) => (
-            <button
-              key={language}
-              type="button"
-              aria-pressed={i18n.resolvedLanguage === language}
-              onClick={() => void i18n.changeLanguage(language)}
-              className="rounded-2xl border border-primary px-4 py-2 text-sm font-semibold text-primary aria-pressed:bg-primary aria-pressed:text-background"
-            >
+            <Choice key={language} pressed={i18n.resolvedLanguage === language} onClick={() => void i18n.changeLanguage(language)}>
               {t(`language.${language}`)}
-            </button>
+            </Choice>
+          ))}
+        </div>
+      </section>
+
+      <section className="card flex flex-col gap-3">
+        <h2 className="font-display text-lg font-bold">{t('theme.label')}</h2>
+        <div className="flex flex-wrap gap-2">
+          {THEMES.map((option) => (
+            <Choice key={option} pressed={theme === option} onClick={() => chooseTheme(option)}>
+              {t(`theme.${option}`)}
+            </Choice>
           ))}
         </div>
       </section>
@@ -144,5 +156,18 @@ export default function SettingsPage() {
         </button>
       </section>
     </div>
+  )
+}
+
+function Choice({ pressed, onClick, children }: { pressed: boolean; onClick: () => void; children: ReactNode }) {
+  return (
+    <button
+      type="button"
+      aria-pressed={pressed}
+      onClick={onClick}
+      className="rounded-2xl border border-primary px-4 py-2 text-sm font-semibold text-primary aria-pressed:bg-primary aria-pressed:text-background"
+    >
+      {children}
+    </button>
   )
 }
