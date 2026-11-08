@@ -55,6 +55,7 @@ Enforced by hooks, see [Enforcement](#enforcement).
 | Licenses (if deps changed) | `npm run check:licenses` |
 | No secrets | CI Gitleaks; never commit `.env.local`, `.firebaserc`, keys, service accounts |
 | No real personal data | Fixtures, tests and screenshots use fictional people and gifts (e.g. «Zé Ninguém») |
+| Private files | Real source data (e.g. the original Excel calendars) lives in `private/`, which is gitignored. Scripts read it from there; never copy it into the repo |
 | Firestore and Storage rules | Every new collection or path gets rules and a case in `firestore.rules.test.ts` in the same PR |
 | Changelog (on version bump) | `package.json` + `change-log.md` and `change-log.en.md` (`## [X.Y.Z] - YYYY-MM-DD`) |
 | Scope | One topic per PR |
