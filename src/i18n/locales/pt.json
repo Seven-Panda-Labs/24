@@ -258,5 +258,14 @@
   "connection": {
     "offline": "Sem rede. O que mudares fica guardado e sincroniza quando voltares a ter ligação.",
     "refused": "O servidor recusou uma alteração e ela foi desfeita. Se continuar a acontecer, recarrega a app."
+  },
+  "reminders": {
+    "title": "Lembretes",
+    "help": "Ao domingo à tarde, de Novembro até ao Natal, uma notificação com o que falta comprar, embrulhar e preencher. Liga-se em cada dispositivo. No iPhone, instala primeiro a app no ecrã principal.",
+    "enable": "Ativar neste dispositivo",
+    "disable": "Desativar neste dispositivo",
+    "unsupported": "Este browser não suporta notificações.",
+    "denied": "As notificações estão bloqueadas. Ativa-as nas definições do browser e tenta outra vez.",
+    "failed": "Não foi possível mudar os lembretes. Tenta outra vez com rede."
   }
 }

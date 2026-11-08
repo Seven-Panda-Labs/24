@@ -258,5 +258,14 @@
   "connection": {
     "offline": "Offline. Your changes are kept and sync when you are back online.",
     "refused": "The server refused a change and it was undone. If it keeps happening, reload the app."
+  },
+  "reminders": {
+    "title": "Reminders",
+    "help": "On Sunday evenings, from November to Christmas, a notification with what is left to buy, wrap and fill. Turned on per device. On iPhone, install the app on the home screen first.",
+    "enable": "Turn on for this device",
+    "disable": "Turn off for this device",
+    "unsupported": "This browser does not support notifications.",
+    "denied": "Notifications are blocked. Allow them in the browser settings and try again.",
+    "failed": "Could not change reminders. Try again with a connection."
   }
 }

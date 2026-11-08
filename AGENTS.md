@@ -35,7 +35,7 @@ Enforced by hooks, see [Enforcement](#enforcement).
    ```bash
    npm run check
    ```
-   It runs the build (typecheck included), lint, tests, Firestore rules tests and the changelog check. Read its exit status, not grepped output.
+   It runs the functions build, the app build (typecheck included), lint, tests, Firestore and Storage rules tests and the changelog check. Read its exit status, not grepped output.
 5. **Commit** only when the user explicitly asks.
 6. Push the **branch** (not `main`):
    ```bash

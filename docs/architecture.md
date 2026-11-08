@@ -13,15 +13,19 @@ flowchart TB
     AUTH["Authentication"]
     FS[("Firestore")]
     STG["Cloud Storage<br/>gift photos"]
+    CF["Cloud Functions<br/>sendReminders (weekly)"]
+    FCM["FCM (Web Push)"]
   end
 
   PWA --> AUTH
   PWA -->|SDK + rules| FS
   PWA --> STG
+  CF -->|Admin SDK| FS
+  CF --> FCM -->|push| PWA
   PWA <--> IDB
 ```
 
-The PWA reads and writes Firestore and Storage directly, guarded by `firestore.rules` and `storage.rules`. There are no Cloud Functions: the suggestion engine runs in the browser over the family's history (brief, section 4.4). Push reminders (brief, section 4.8) are not built; they need a scheduled function, so they would bring a `functions/` package and the Blaze plan's Cloud Scheduler.
+The PWA reads and writes Firestore and Storage directly, guarded by `firestore.rules` and `storage.rules`. The suggestion engine runs in the browser over the family's history (brief, section 4.4). The only Cloud Function is the weekly reminder, see [Reminders](#reminders).
 
 ## Code layout
 
@@ -37,6 +41,7 @@ The PWA reads and writes Firestore and Storage directly, guarded by `firestore.r
 | `src/i18n/` | i18next setup and the `pt` and `en` locales |
 | `src/styles/globals.css` | Tailwind theme tokens and base components, see [`visual-identity.md`](./visual-identity.md) |
 | `public/` | Icons and illustrations cropped from `docs/assets/` |
+| `functions/` | Cloud Functions (`sendReminders`), its own package and lockfile; `npm run check` builds it |
 | `scripts/` | Node scripts run with `tsx`: changelog check, Excel import ([`importing-the-excel.md`](./importing-the-excel.md)) |
 
 ## Data model
@@ -47,6 +52,7 @@ workspaces/{wid}                 name, ownerId, memberIds[], members{uid: {name,
                                  days{"1": {gift, status, tagIds[], notes, fromSuggestion?, photoPath?, photoUrl?}, ...}
   tags/{tid}                     name, color, emoji
   feedback/{fid}                 calendarId, gift, action (accepted | dismissed), at
+users/{uid}                      fcmTokens[], language
 ```
 
 A **workspace** is the family space. `memberIds` is there for the "my workspaces" query, `members` for showing names; the rules keep them in step. Any member can rename it and invite; only the owner removes members.
@@ -72,6 +78,12 @@ Rules: [`firestore.rules`](../firestore.rules) and [`storage.rules`](../storage.
 - **New:** gifts they never got (from the catalog, or given to someone else in the family) score 1 for novelty; gifts they last got three or more years ago score 0.5.
 - The calendar's slider mixes the two: `(1 - originality) × tradition + originality × novelty`. Between the extremes, the five picks always include at least one of each.
 - With repeats off, gifts already in the calendar are left out. A small hash of calendar, day and gift breaks ties, so each day shows a different order but the same day always shows the same one.
+
+## Reminders
+
+Opt-in per device, in Settings, shown only when `VITE_FIREBASE_VAPID_KEY` is set. Turning it on asks for notification permission, gets an FCM token for the app's service worker ([`src/services/push.ts`](../src/services/push.ts)) and adds it to `users/{uid}.fcmTokens`, with the interface language.
+
+[`functions/src/index.ts`](../functions/src/index.ts) runs on Sundays at 18:00 Lisbon time and does nothing outside 1 November to 24 December. For each workspace it counts what is left in the year's calendars (to buy, to wrap, days to fill) and sends each member who has tokens a data message: title, body, link to the shopping list. [`public/push-sw.js`](../public/push-sw.js), loaded into the generated service worker, shows it. Tokens FCM reports as gone are removed. The counting and the text are in [`functions/src/reminders.ts`](../functions/src/reminders.ts), tested from the root suite.
 
 ## Offline
 

@@ -29,6 +29,7 @@ O caos organizado de Dezembro. PWA para planear calendários de advento: 24 dias
 - Lista de compras e lista do que falta embrulhar, mesmo sem rede
 - Sugestões a partir do histórico: tradições, prendas esquecidas e ideias novas
 - Histórico pesquisável e importação do Excel antigo
+- Lembretes opcionais ao domingo, de Novembro ao Natal
 - Português e inglês, modo claro e escuro
 
 O produto e o plano estão em [`docs/project_brief.md`](docs/project_brief.md).
@@ -36,7 +37,7 @@ O produto e o plano estão em [`docs/project_brief.md`](docs/project_brief.md).
 **Arrancar** (Node.js 24, Java 21+ para os emuladores):
 
 ```bash
-npm install
+npm install && npm --prefix functions install
 cp .env.emulator.example .env.local
 npm run emulators    # terminal 1
 npm run dev          # terminal 2
@@ -69,6 +70,7 @@ December's organized chaos. A PWA to plan advent calendars: 24 days, 24 small gi
 - Shopping list and a list of what is left to wrap, even offline
 - Suggestions from history: traditions, forgotten gifts and new ideas
 - Searchable history and an import for the old spreadsheet
+- Optional Sunday reminders from November to Christmas
 - Portuguese and English, light and dark mode
 
 The product and the plan are in [`docs/project_brief.md`](docs/project_brief.md) (Portuguese).
@@ -76,7 +78,7 @@ The product and the plan are in [`docs/project_brief.md`](docs/project_brief.md)
 **Run it** (Node.js 24, Java 21+ for the emulators):
 
 ```bash
-npm install
+npm install && npm --prefix functions install
 cp .env.emulator.example .env.local
 npm run emulators    # terminal 1
 npm run dev          # terminal 2

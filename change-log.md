@@ -1,5 +1,11 @@
 # Registo de alterações
 
+## [0.7.0] - 2026-11-08
+
+### Adicionado
+
+- Lembretes opcionais por notificação: ao domingo à tarde, de Novembro até ao Natal, o que falta comprar, embrulhar e preencher. Ligam-se em cada dispositivo, nas Definições.
+
 ## [0.6.0] - 2026-11-08
 
 ### Adicionado

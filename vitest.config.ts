@@ -2,6 +2,6 @@ import { configDefaults, defineConfig } from 'vitest/config'
 
 export default defineConfig({
   test: {
-    exclude: [...configDefaults.exclude, 'firestore.rules.test.ts'],
+    exclude: [...configDefaults.exclude, 'firestore.rules.test.ts', 'functions/lib/**'],
   },
 })

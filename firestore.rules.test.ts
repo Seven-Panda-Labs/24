@@ -201,3 +201,13 @@ describe('gift photos', () => {
     await assertFails(getBytes(ref(storage('eve'), path)))
   })
 })
+
+describe('users', () => {
+  it('lets people keep their own push tokens and nobody else read them', async () => {
+    await assertSucceeds(as('bob').doc('users/bob').set({ fcmTokens: ['token-1'], language: 'pt-PT' }))
+    await assertSucceeds(as('bob').doc('users/bob').get())
+    await assertFails(as('alice').doc('users/bob').get())
+    await assertFails(as('alice').doc('users/bob').set({ fcmTokens: ['token-2'], language: 'en' }))
+    await assertFails(as('bob').doc('users/bob').set({ fcmTokens: ['token-1'], language: 'pt-PT', admin: true }))
+  })
+})

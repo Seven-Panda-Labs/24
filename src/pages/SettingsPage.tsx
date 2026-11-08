@@ -5,7 +5,9 @@ import { Link } from 'react-router-dom'
 import { useUser } from '../auth/AuthContext.tsx'
 import { cancelInvite, invite, removeMember, renameWorkspace } from '../data/workspaces.ts'
 import { LANGUAGES } from '../i18n/index.ts'
+import RemindersSettings from '../components/RemindersSettings.tsx'
 import { auth } from '../services/firebase.ts'
+import { pushConfigured } from '../services/push.ts'
 import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
 
 export default function SettingsPage() {
@@ -115,6 +117,8 @@ export default function SettingsPage() {
           {t('settings.manageTags')}
         </Link>
       </section>
+
+      {pushConfigured && <RemindersSettings />}
 
       <section className="card flex flex-col gap-3">
         <h2 className="font-display text-lg font-bold">{t('language.label')}</h2>

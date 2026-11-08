@@ -15,7 +15,7 @@ Node.js 24. Java 21+ for the emulators and `npm run test:rules`.
 ```bash
 git clone https://github.com/Seven-Panda-Labs/24.git
 cd 24
-npm install
+npm install && npm --prefix functions install
 npm run setup:githooks                 # once per clone
 cp .env.emulator.example .env.local
 npm run emulators                      # terminal 1
@@ -26,7 +26,7 @@ Details: [docs/emulators.md](docs/emulators.md). Using your own Firebase project
 
 ## Checks
 
-`npm run check` is what CI runs: build (with typecheck), lint, tests, Firestore rules tests and the changelog check. If you change dependencies, also run `npm run check:licenses`. CI additionally runs Gitleaks.
+`npm run check` is what CI runs: functions build, app build (with typecheck), lint, tests, Firestore and Storage rules tests and the changelog check. If you change dependencies, also run `npm run check:licenses`. CI additionally runs Gitleaks.
 
 ## Changelog
 
