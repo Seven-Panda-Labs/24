@@ -4,7 +4,7 @@ import { connectAuthEmulator, getAuth } from 'firebase/auth'
 function requireEnv(name: keyof ImportMetaEnv): string {
   const value = import.meta.env[name]
   if (!value) {
-    const message = `Missing ${name}. Copy .env.example to .env.local and fill in your Firebase config, or .env.emulator.example to use the emulators.`
+    const message = `Missing ${name}. Copy .env.emulator.example to .env.development.local for npm run dev, or .env.example to .env.production.local for a build. See docs/configuration.md.`
     // This runs before React mounts, so without it the page stays blank.
     document.getElementById('root')!.textContent = message
     throw new Error(message)

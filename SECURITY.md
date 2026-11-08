@@ -23,4 +23,4 @@ Fixes land on `main`; older versions get no backports.
 
 Every PR and push to `main` runs [Gitleaks](https://github.com/gitleaks/gitleaks) ([workflow](.github/workflows/secret-scan.yml), [config](.gitleaks.toml)). Also enable GitHub secret scanning and push protection under Settings, Code security.
 
-Never commit `.env.local`, `.firebaserc`, `*-service-account*.json` or real API keys.
+Never commit `.env*.local`, `.firebaserc`, `*-service-account*.json` or real API keys.
