@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { setDayPhoto } from '../data/calendars.ts'
+import { setGiftPhoto } from '../data/calendars.ts'
 import { deletePhoto, uploadPhoto } from '../data/photos.ts'
-import type { Day } from '../domain/types.ts'
+import type { Day, Slot } from '../domain/types.ts'
 import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
 
 /** Uploads straight away, outside the editor's Save: Storage has no offline queue to wait in. */
-export default function PhotoField({ calendarId, day, value }: { calendarId: string; day: number; value: Day }) {
+export default function PhotoField({ calendarId, slot, value }: { calendarId: string; slot: Slot; value: Day }) {
   const { t } = useTranslation()
   const { workspace } = useWorkspace()
   const [busy, setBusy] = useState(false)
@@ -21,7 +21,7 @@ export default function PhotoField({ calendarId, day, value }: { calendarId: str
     setBusy(true)
     setError('')
     try {
-      setDayPhoto(workspace.id, calendarId, day, await uploadPhoto(workspace.id, calendarId, day, file))
+      setGiftPhoto(workspace.id, calendarId, slot, await uploadPhoto(workspace.id, calendarId, slot, file))
       if (value.photoPath) deletePhoto(value.photoPath)
     } catch (cause) {
       console.error(cause)
@@ -34,7 +34,7 @@ export default function PhotoField({ calendarId, day, value }: { calendarId: str
   function remove() {
     if (!value.photoPath) return
     deletePhoto(value.photoPath)
-    setDayPhoto(workspace.id, calendarId, day, null)
+    setGiftPhoto(workspace.id, calendarId, slot, null)
   }
 
   return (

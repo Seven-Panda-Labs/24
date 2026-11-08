@@ -1,12 +1,14 @@
 import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+import type { Slot } from '../domain/types.ts'
 import { storage } from '../services/firestore.ts'
 import { report } from './report.ts'
 
 const MAX_SIDE = 1280
 
 /** Shrinks the photo to a JPEG of at most 1280px a side and uploads it. Needs a connection. */
-export async function uploadPhoto(wid: string, calendarId: string, day: number, file: File): Promise<{ path: string; url: string }> {
-  const path = `workspaces/${wid}/photos/${calendarId}/${day}-${Date.now()}.jpg`
+export async function uploadPhoto(wid: string, calendarId: string, slot: Slot, file: File): Promise<{ path: string; url: string }> {
+  const name = 'day' in slot ? slot.day : `sack-${slot.sack}`
+  const path = `workspaces/${wid}/photos/${calendarId}/${name}-${Date.now()}.jpg`
   const photo = ref(storage, path)
   await uploadBytes(photo, await shrink(file), { contentType: 'image/jpeg' })
   return { path, url: await getDownloadURL(photo) }

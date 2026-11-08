@@ -1,4 +1,4 @@
-import { STATUSES, type Calendar, type Day, type Status } from './types.ts'
+import { STATUSES, type Calendar, type Day, type Slot, type Status } from './types.ts'
 
 export function currentYear(): number {
   return new Date().getFullYear()
@@ -11,6 +11,19 @@ export function dayNumbers(calendar: Pick<Calendar, 'dayCount'>): number[] {
 export function dayOf(calendar: Calendar, day: number): Day | undefined {
   const value = calendar.days[String(day)]
   return value?.gift ? value : undefined
+}
+
+export function giftAt(calendar: Calendar, slot: Slot): Day | undefined {
+  return 'day' in slot ? dayOf(calendar, slot.day) : calendar.sack[slot.sack]
+}
+
+/** The gifts in the sack with their ids, in the order they went in. */
+export function sackOf(calendar: Pick<Calendar, 'sack'>): [string, Day][] {
+  return Object.entries(calendar.sack).sort(([a], [b]) => (a < b ? -1 : 1))
+}
+
+export function newSackId(): string {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 6)
 }
 
 export function dateOfDay(calendar: Pick<Calendar, 'startDate'>, day: number): Date {
@@ -26,6 +39,10 @@ export interface Progress {
   wrapped: number
 }
 
+/**
+ * Gifts in the sack count towards the empty days, the furthest along first.
+ * Past the number of empty days they are spare ideas and do not count.
+ */
 export function progressOf(calendar: Calendar): Progress {
   const progress: Progress = { total: calendar.dayCount, empty: 0, planned: 0, bought: 0, wrapped: 0 }
   for (const day of dayNumbers(calendar)) {
@@ -33,6 +50,11 @@ export function progressOf(calendar: Calendar): Progress {
     if (value) progress[value.status]++
     else progress.empty++
   }
+  const counted = Object.values(calendar.sack)
+    .sort((a, b) => STATUSES.indexOf(b.status) - STATUSES.indexOf(a.status))
+    .slice(0, progress.empty)
+  for (const gift of counted) progress[gift.status]++
+  progress.empty -= counted.length
   return progress
 }
 
@@ -53,20 +75,24 @@ export function nextStatus(status: Status): Status {
   return NEXT[status]
 }
 
-export interface DayRef {
+export interface GiftRef {
   calendar: Calendar
-  day: number
+  slot: Slot
   value: Day
 }
 
-/** Every filled day with the given status across calendars, in calendar then day order. */
-export function daysWithStatus(calendars: Calendar[], status: Status): DayRef[] {
-  return calendars.flatMap((calendar) =>
-    dayNumbers(calendar).flatMap((day) => {
-      const value = dayOf(calendar, day)
-      return value?.status === status ? [{ calendar, day, value }] : []
-    }),
-  )
+/** Every gift with the given status across calendars: each calendar's days in order, then its sack. */
+export function giftsWithStatus(calendars: Calendar[], status: Status): GiftRef[] {
+  return calendars.flatMap((calendar) => {
+    const gifts: GiftRef[] = [
+      ...dayNumbers(calendar).flatMap((day) => {
+        const value = dayOf(calendar, day)
+        return value ? [{ calendar, slot: { day }, value }] : []
+      }),
+      ...sackOf(calendar).map(([id, value]) => ({ calendar, slot: { sack: id }, value })),
+    ]
+    return gifts.filter((gift) => gift.value.status === status)
+  })
 }
 
 export type DayDraft = Pick<Day, 'gift' | 'status' | 'tagIds' | 'notes'> & { fromSuggestion: boolean }
@@ -93,10 +119,10 @@ export function dayChanges(before: Day | undefined, draft: DayDraft): Partial<Da
 }
 
 /**
- * The days of a calendar document as the app expects them. The rules can check
- * that `days` is a map but not what is inside it, and a day without `tagIds`
- * from a buggy client would otherwise break every screen, for the whole family
- * and from the offline cache too. Days without a gift are dropped.
+ * The days, or the sack, of a calendar document as the app expects them. The
+ * rules can check that `days` is a map but not what is inside it, and a day
+ * without `tagIds` from a buggy client would otherwise break every screen, for
+ * the whole family and from the offline cache too. Days without a gift are dropped.
  */
 export function cleanDays(days: unknown): Record<string, Day> {
   if (!days || typeof days !== 'object') return {}

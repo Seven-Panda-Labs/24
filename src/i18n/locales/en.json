@@ -112,6 +112,20 @@
     "saveAndNext": "Save and next",
     "advance": "Next status"
   },
+  "sack": {
+    "title": "Sack",
+    "intro": "Gifts and ideas without a day yet. They count towards progress while there are empty days.",
+    "add": "Add to sack",
+    "noDay": "No day yet",
+    "fromSack": "From the sack",
+    "putOnDay": "Put on a day",
+    "keepInSack": "Keep in the sack",
+    "remove": "Delete gift",
+    "backToSack": "Back to the sack",
+    "inSack": "In the sack",
+    "spare_one": "{{count}} more gift than empty days.",
+    "spare_other": "{{count}} more gifts than empty days."
+  },
   "shopping": {
     "title": "Shopping",
     "buyTab": "Buy ({{count}})",

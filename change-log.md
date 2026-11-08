@@ -1,5 +1,11 @@
 # Registo de alterações
 
+## [0.12.0] - 2026-11-08
+
+### Adicionado
+
+- Saco em cada calendário: prendas e ideias ainda sem dia, para distribuir mais tarde. Contam para o progresso enquanto houver dias vazios, aparecem na lista de compras e no lembrete semanal. Uma prenda do saco vai para um dia no editor dela, ou a partir de um dia vazio, e um dia preenchido pode devolver a prenda ao saco.
+
 ## [0.11.0] - 2026-11-08
 
 ### Alterado

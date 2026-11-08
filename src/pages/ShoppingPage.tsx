@@ -3,13 +3,14 @@ import { useTranslation } from 'react-i18next'
 import { Link, useSearchParams } from 'react-router-dom'
 import EmptyState from '../components/EmptyState.tsx'
 import TagChip from '../components/TagChip.tsx'
-import { updateDay } from '../data/calendars.ts'
-import { currentYear, daysWithStatus, type DayRef } from '../domain/days.ts'
+import { updateGift } from '../data/calendars.ts'
+import { currentYear, giftsWithStatus, type GiftRef } from '../domain/days.ts'
 import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
 
 /**
- * The shopping list: every planned gift of the year, grouped by person, to tick
- * off in the shop. A second tab lists bought gifts for whoever wraps them.
+ * The shopping list: every planned gift of the year, on a day or in the sack,
+ * grouped by person, to tick off in the shop. A second tab lists bought gifts
+ * for whoever wraps them.
  * Both read from the local cache, so they work without signal.
  */
 export default function ShoppingPage() {
@@ -21,11 +22,11 @@ export default function ShoppingPage() {
   const tagsById = new Map(tags.map((tag) => [tag.id, tag]))
 
   const ofYear = calendars.filter((calendar) => calendar.year === year)
-  const toBuy = daysWithStatus(ofYear, 'planned')
-  const toWrap = daysWithStatus(ofYear, 'bought')
+  const toBuy = giftsWithStatus(ofYear, 'planned')
+  const toWrap = giftsWithStatus(ofYear, 'bought')
   const items = tab === 'buy' ? toBuy : toWrap
 
-  const groups = new Map<string, DayRef[]>()
+  const groups = new Map<string, GiftRef[]>()
   for (const item of items) groups.set(item.calendar.id, [...(groups.get(item.calendar.id) ?? []), item])
 
   return (
@@ -58,19 +59,21 @@ export default function ShoppingPage() {
               <Link to={`/calendars/${group[0].calendar.id}`}>{group[0].calendar.person}</Link>
             </h2>
             <ul className="flex flex-col divide-y divide-foreground/10">
-              {group.map(({ calendar, day, value }) => (
-                <li key={day}>
+              {group.map(({ calendar, slot, value }) => (
+                <li key={'day' in slot ? slot.day : slot.sack}>
                   <label className="flex cursor-pointer items-start gap-3 py-2.5">
                     <input
                       type="checkbox"
                       className="mt-1 h-5 w-5 accent-primary"
-                      onChange={() => updateDay(workspace.id, calendar.id, day, { status: tab === 'buy' ? 'bought' : 'wrapped' })}
+                      onChange={() => updateGift(workspace.id, calendar.id, slot, { status: tab === 'buy' ? 'bought' : 'wrapped' })}
                     />
                     <span className="flex flex-1 flex-col gap-1">
                       <span className="font-semibold">{value.gift}</span>
                       {value.notes && <span className="text-sm text-foreground/70">{value.notes}</span>}
                       <span className="flex flex-wrap gap-1">
-                        <span className="text-xs text-foreground/70">{t('day.number', { number: day })}</span>
+                        <span className="text-xs text-foreground/70">
+                          {'day' in slot ? t('day.number', { number: slot.day }) : t('sack.inSack')}
+                        </span>
                         {value.tagIds.flatMap((id) => tagsById.get(id) ?? []).map((tag) => (
                           <TagChip key={tag.id} tag={tag} />
                         ))}

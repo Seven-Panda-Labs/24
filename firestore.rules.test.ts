@@ -6,7 +6,7 @@ import {
   initializeTestEnvironment,
   type RulesTestEnvironment,
 } from '@firebase/rules-unit-testing'
-import { collection, deleteDoc, doc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
+import { collection, deleteDoc, deleteField, doc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
 import { deleteObject, getBytes, ref, uploadBytes } from 'firebase/storage'
 import { afterAll, beforeAll, beforeEach, describe, it } from 'vitest'
 
@@ -156,11 +156,21 @@ describe('calendars', () => {
     await assertSucceeds(bob.collection('workspaces/w1/calendars').get())
   })
 
+  it('lets members put gifts in the sack and move them to a day', async () => {
+    const bob = as('bob')
+    const gift = { gift: 'Meias', status: 'planned', tagIds: [], notes: '' }
+    await assertSucceeds(bob.doc('workspaces/w1/calendars/c1').update({ 'sack.a1': gift }))
+    await assertSucceeds(updateDoc(doc(bob, 'workspaces/w1/calendars/c1'), { 'sack.a1': deleteField(), 'days.2': gift }))
+  })
+
   it('refuses malformed calendars', async () => {
     const bob = as('bob')
     await assertFails(bob.doc('workspaces/w1/calendars/c3').set({ ...CALENDAR, year: '2026' }))
     await assertFails(bob.doc('workspaces/w1/calendars/c3').set({ ...CALENDAR, person: '' }))
     await assertFails(bob.doc('workspaces/w1/calendars/c3').set({ ...CALENDAR, owner: 'bob' }))
+    await assertFails(bob.doc('workspaces/w1/calendars/c3').set({ ...CALENDAR, sack: 'Meias' }))
+    const tooMany = Object.fromEntries(Array.from({ length: 101 }, (_, index) => [`g${index}`, { gift: 'Meias' }]))
+    await assertFails(bob.doc('workspaces/w1/calendars/c3').set({ ...CALENDAR, sack: tooMany }))
   })
 
   it('keeps outsiders out', async () => {

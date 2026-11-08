@@ -1,18 +1,20 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { dateOfDay, dayChanges, dayOf } from '../domain/days.ts'
+import { dateOfDay, dayChanges, dayNumbers, dayOf, giftAt, newSackId, sackOf } from '../domain/days.ts'
 import { TAG_STYLES } from '../domain/tags.ts'
-import { STATUSES, type Calendar, type Day, type Tag } from '../domain/types.ts'
+import { STATUSES, type Calendar, type Day, type Slot, type Tag } from '../domain/types.ts'
 import type { Suggestion } from '../suggestions/engine.ts'
 import PhotoField from './PhotoField.tsx'
 import SuggestionList from './SuggestionList.tsx'
 
 export interface DayEditorProps {
   calendar: Calendar
-  number: number
+  slot: Slot
   tags: Tag[]
-  /** The fields to write (see dayChanges), or `null` to empty the day. */
+  /** The fields to write (see dayChanges), or `null` to empty the slot. */
   onSave: (changes: Partial<Day> | null) => void
+  /** Moves a gift to another slot, with the given edits. */
+  onMove: (from: Slot, to: Slot, changes: Partial<Day>) => void
   onClose: () => void
   onNext?: () => void
   /** Shown while the gift is empty. */
@@ -20,9 +22,9 @@ export interface DayEditorProps {
   onDismiss?: (suggestion: Suggestion) => void
 }
 
-export default function DayEditor({ calendar, number, tags, onSave, onClose, onNext, suggestions = [], onDismiss }: DayEditorProps) {
+export default function DayEditor({ calendar, slot, tags, onSave, onMove, onClose, onNext, suggestions = [], onDismiss }: DayEditorProps) {
   const { t, i18n } = useTranslation()
-  const saved = dayOf(calendar, number)
+  const saved = giftAt(calendar, slot)
   // The day as it was when the editor opened: saving writes only what differs from it.
   const [before] = useState(saved)
   const [gift, setGift] = useState(before?.gift ?? '')
@@ -30,6 +32,7 @@ export default function DayEditor({ calendar, number, tags, onSave, onClose, onN
   const [tagIds, setTagIds] = useState(before?.tagIds ?? [])
   const [notes, setNotes] = useState(before?.notes ?? '')
   const [fromSuggestion, setFromSuggestion] = useState(before?.fromSuggestion ?? false)
+  const [targetDay, setTargetDay] = useState(0)
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => event.key === 'Escape' && onClose()
@@ -41,11 +44,17 @@ export default function DayEditor({ calendar, number, tags, onSave, onClose, onN
 
   function submit(event: FormEvent) {
     event.preventDefault()
-    onSave(changes())
+    const edits = changes()
+    if (targetDay && edits) onMove(slot, { day: targetDay }, edits)
+    else onSave(edits)
     onClose()
   }
 
-  const date = dateOfDay(calendar, number).toLocaleDateString(i18n.language, { weekday: 'long', day: 'numeric', month: 'long' })
+  const date =
+    'day' in slot &&
+    dateOfDay(calendar, slot.day).toLocaleDateString(i18n.language, { weekday: 'long', day: 'numeric', month: 'long' })
+  const emptyDays = dayNumbers(calendar).filter((day) => !dayOf(calendar, day))
+  const sack = 'day' in slot && !saved ? sackOf(calendar) : []
 
   return (
     <div className="fixed inset-0 z-30 flex items-end justify-center bg-carvao/50 sm:items-center" onClick={onClose}>
@@ -60,9 +69,9 @@ export default function DayEditor({ calendar, number, tags, onSave, onClose, onN
         <header className="flex items-start justify-between gap-2">
           <div>
             <h2 id="day-editor-title" className="font-display text-2xl font-bold text-primary">
-              {t('day.number', { number })}
+              {'day' in slot ? t('day.number', { number: slot.day }) : t('sack.title')}
             </h2>
-            <p className="text-sm text-foreground/70 first-letter:uppercase">{date}</p>
+            <p className="text-sm text-foreground/70 first-letter:uppercase">{date || t('sack.noDay')}</p>
           </div>
           <button type="button" onClick={onClose} className="btn-ghost" aria-label={t('common.close')}>
             ✕
@@ -82,6 +91,31 @@ export default function DayEditor({ calendar, number, tags, onSave, onClose, onN
             className="input"
           />
         </label>
+
+        {!gift.trim() && sack.length > 0 && (
+          <section aria-labelledby="from-sack-title" className="flex flex-col gap-2 rounded-2xl bg-foreground/5 p-3">
+            <h3 id="from-sack-title" className="text-sm font-bold">
+              {t('sack.fromSack')}
+            </h3>
+            <ul className="flex flex-col gap-1.5">
+              {sack.map(([id, value]) => (
+                <li key={id}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onMove({ sack: id }, slot, {})
+                      onClose()
+                    }}
+                    className="flex w-full items-center justify-between gap-2 rounded-xl bg-background px-3 py-2 text-left"
+                  >
+                    <span className="font-semibold">{value.gift}</span>
+                    <span className="text-xs text-foreground/70">{t(`status.${value.status}`)}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         {!gift.trim() && suggestions.length > 0 && (
           <SuggestionList
@@ -145,7 +179,21 @@ export default function DayEditor({ calendar, number, tags, onSave, onClose, onN
           />
         </label>
 
-        {saved && <PhotoField calendarId={calendar.id} day={number} value={saved} />}
+        {saved && <PhotoField calendarId={calendar.id} slot={slot} value={saved} />}
+
+        {'sack' in slot && emptyDays.length > 0 && (
+          <label className="flex flex-col gap-1 text-sm font-semibold">
+            {t('sack.putOnDay')}
+            <select value={targetDay} onChange={(event) => setTargetDay(Number(event.target.value))} className="input">
+              <option value={0}>{t('sack.keepInSack')}</option>
+              {emptyDays.map((day) => (
+                <option key={day} value={day}>
+                  {t('day.number', { number: day })}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
 
         <footer className="flex flex-wrap items-center gap-2 pt-2">
           {saved && (
@@ -157,7 +205,19 @@ export default function DayEditor({ calendar, number, tags, onSave, onClose, onN
                 onClose()
               }}
             >
-              {t('day.clear')}
+              {'day' in slot ? t('day.clear') : t('sack.remove')}
+            </button>
+          )}
+          {saved && 'day' in slot && (
+            <button
+              type="button"
+              className="btn-ghost"
+              onClick={() => {
+                onMove(slot, { sack: newSackId() }, changes() ?? {})
+                onClose()
+              }}
+            >
+              {t('sack.backToSack')}
             </button>
           )}
           <span className="flex-1" />

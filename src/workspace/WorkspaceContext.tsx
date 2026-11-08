@@ -64,7 +64,7 @@ function WorkspaceData({
   if (!calendars || !tags) return <Splash />
 
   const sorted = calendars
-    .map((calendar) => ({ ...calendar, days: cleanDays(calendar.days) }))
+    .map((calendar) => ({ ...calendar, days: cleanDays(calendar.days), sack: cleanDays(calendar.sack) }))
     .sort((a, b) => b.year - a.year || a.person.localeCompare(b.person))
   return (
     <WorkspaceContext.Provider value={{ ...state, calendars: sorted, tags }}>{children}</WorkspaceContext.Provider>

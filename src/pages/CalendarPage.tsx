@@ -5,14 +5,27 @@ import DayCard from '../components/DayCard.tsx'
 import DayEditor from '../components/DayEditor.tsx'
 import ProgressBar from '../components/ProgressBar.tsx'
 import Celebration from '../components/Celebration.tsx'
+import Sack from '../components/Sack.tsx'
+import StatusButton from '../components/StatusButton.tsx'
 import TagChip from '../components/TagChip.tsx'
 import { query, where } from 'firebase/firestore'
-import { clearDay, updateDay } from '../data/calendars.ts'
+import { clearGift, moveGift, updateGift } from '../data/calendars.ts'
 import { feedbackOf, recordFeedback, type Feedback } from '../data/feedback.ts'
 import { deletePhoto } from '../data/photos.ts'
 import { useDocs } from '../data/useDocs.ts'
-import { currentYear, dayNumbers, dayOf, matchesFilter, nextStatus, progressOf, type DayFilter } from '../domain/days.ts'
-import type { Day, Tag } from '../domain/types.ts'
+import {
+  currentYear,
+  dayNumbers,
+  dayOf,
+  giftAt,
+  matchesFilter,
+  newSackId,
+  nextStatus,
+  progressOf,
+  sackOf,
+  type DayFilter,
+} from '../domain/days.ts'
+import type { Day, Slot, Tag } from '../domain/types.ts'
 import { historyOf, suggest, type Idea } from '../suggestions/engine.ts'
 import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
 
@@ -41,50 +54,60 @@ export default function CalendarPage() {
 
   const progress = progressOf(calendar)
   const tagsById = new Map(tags.map((tag) => [tag.id, tag]))
-  const openDay = Number(params.get('day')) || null
   const days = dayNumbers(calendar)
+  const openDay = Number(params.get('day'))
+  const openSack = params.get('sack')
+  const openSlot: Slot | null =
+    openDay > 0 && openDay <= calendar.dayCount ? { day: openDay } : openSack && calendar.sack[openSack] ? { sack: openSack } : null
 
-  const open = (day: number | null) => setParams(day ? { day: String(day) } : {}, { replace: openDay !== null })
-  const save = (day: number, changes: Partial<Day> | null) => {
-    const current = dayOf(calendar, day)
+  const open = (slot: Slot | null) =>
+    setParams(slot ? ('day' in slot ? { day: String(slot.day) } : { sack: slot.sack }) : {}, { replace: openSlot !== null })
+  const save = (slot: Slot, changes: Partial<Day> | null) => {
+    const current = giftAt(calendar, slot)
     if (changes === null) {
       if (current?.photoPath) deletePhoto(current.photoPath)
-      clearDay(workspace.id, calendar.id, day)
+      clearGift(workspace.id, calendar.id, slot)
       return
     }
     if (Object.keys(changes).length === 0) return
-    updateDay(workspace.id, calendar.id, day, changes)
+    updateGift(workspace.id, calendar.id, slot, changes)
     if (changes.fromSuggestion) {
       recordFeedback(workspace.id, calendar.id, changes.gift ?? current?.gift ?? '', 'accepted')
     }
+  }
+  const move = (from: Slot, to: Slot, changes: Partial<Day>) => {
+    const current = giftAt(calendar, from)
+    if (current) moveGift(workspace.id, calendar.id, from, to, { ...current, ...changes })
   }
 
   const ideas: Idea[] = Object.entries(t('ideas', { returnObjects: true }) as Record<string, string[]>).flatMap(
     ([category, gifts]) => gifts.map((gift) => ({ gift, tagIds: [category] })),
   )
   const suggestions =
-    openDay !== null && !dayOf(calendar, openDay)
+    openSlot && 'day' in openSlot && !dayOf(calendar, openSlot.day)
       ? suggest({
           history: historyOf(calendars.filter((other) => other.id !== calendar.id)),
           calendar,
-          current: days.flatMap((day) => dayOf(calendar, day)?.gift ?? []),
+          current: [...days.flatMap((day) => dayOf(calendar, day)?.gift ?? []), ...sackOf(calendar).map(([, gift]) => gift.gift)],
           ideas,
           dismissed: feedback.filter((entry) => entry.action === 'dismissed').map((entry) => entry.gift),
-          seed: `${calendar.id}:${openDay}`,
+          seed: `${calendar.id}:${openSlot.day}`,
         })
       : []
-  const nextEmpty = (after: number) => days.find((day) => day > after && !dayOf(calendar, day)) ?? null
+  const nextDay = openSlot && 'day' in openSlot ? (days.find((day) => day > openSlot.day && !dayOf(calendar, day)) ?? null) : null
 
   function changeView(next: 'grid' | 'list') {
     localStorage.setItem(VIEW_KEY, next)
     setView(next)
   }
 
+  // Counts of days only: the progress also counts the sack.
+  const countOf = (filter: DayFilter) => days.filter((day) => matchesFilter(dayOf(calendar, day), filter)).length
   const filters: { value: DayFilter; label: string }[] = [
     { value: 'all', label: t('filters.all') },
-    { value: 'empty', label: t('filters.empty', { count: progress.empty }) },
-    { value: 'toBuy', label: t('filters.toBuy', { count: progress.planned }) },
-    { value: 'toWrap', label: t('filters.toWrap', { count: progress.bought }) },
+    { value: 'empty', label: t('filters.empty', { count: countOf('empty') }) },
+    { value: 'toBuy', label: t('filters.toBuy', { count: countOf('toBuy') }) },
+    { value: 'toWrap', label: t('filters.toWrap', { count: countOf('toWrap') }) },
   ]
   const sameFilter = (a: DayFilter, b: DayFilter) =>
     typeof a === 'string' || typeof b === 'string' ? a === b : a.tagId === b.tagId
@@ -107,7 +130,11 @@ export default function CalendarPage() {
 
       <ProgressBar progress={progress} showLegend />
 
-      <Celebration person={calendar.person} days={progress.total} complete={progress.total > 0 && progress.wrapped === progress.total} />
+      <Celebration
+        person={calendar.person}
+        days={progress.total}
+        complete={days.every((day) => dayOf(calendar, day)?.status === 'wrapped')}
+      />
 
       <div className="flex flex-wrap items-center gap-2">
         <div role="group" aria-label={t('filters.label')} className="flex flex-wrap gap-1.5">
@@ -150,7 +177,7 @@ export default function CalendarPage() {
               day={dayOf(calendar, day)}
               tags={tagsById}
               dimmed={!matchesFilter(dayOf(calendar, day), filter)}
-              onOpen={() => open(day)}
+              onOpen={() => open({ day })}
             />
           ))}
         </div>
@@ -164,23 +191,32 @@ export default function CalendarPage() {
                 number={day}
                 day={dayOf(calendar, day)}
                 tags={tagsById}
-                onSave={(value) => save(day, value)}
-                onAdvance={(value) => updateDay(workspace.id, calendar.id, day, { status: nextStatus(value.status) })}
-                onOpen={() => open(day)}
+                onSave={(value) => save({ day }, value)}
+                onAdvance={(value) => updateGift(workspace.id, calendar.id, { day }, { status: nextStatus(value.status) })}
+                onOpen={() => open({ day })}
               />
             ))}
         </ol>
       )}
 
-      {openDay !== null && openDay <= calendar.dayCount && (
+      <Sack
+        calendar={calendar}
+        tags={tagsById}
+        onAdd={(gift) => updateGift(workspace.id, calendar.id, { sack: newSackId() }, { gift, status: 'planned', tagIds: [], notes: '' })}
+        onAdvance={(id, value) => updateGift(workspace.id, calendar.id, { sack: id }, { status: nextStatus(value.status) })}
+        onOpen={(id) => open({ sack: id })}
+      />
+
+      {openSlot && (
         <DayEditor
-          key={openDay}
+          key={'day' in openSlot ? openSlot.day : openSlot.sack}
           calendar={calendar}
-          number={openDay}
+          slot={openSlot}
           tags={tags}
-          onSave={(value) => save(openDay, value)}
+          onSave={(value) => save(openSlot, value)}
+          onMove={move}
           onClose={() => open(null)}
-          onNext={nextEmpty(openDay) === null ? undefined : () => open(nextEmpty(openDay))}
+          onNext={nextDay === null ? undefined : () => open({ day: nextDay })}
           suggestions={suggestions}
           onDismiss={(suggestion) => recordFeedback(workspace.id, calendar.id, suggestion.gift, 'dismissed')}
         />
@@ -248,23 +284,7 @@ function ListRow({
       <span className="hidden gap-1 sm:flex">
         {day?.tagIds.flatMap((id) => tags.get(id) ?? []).map((tag) => <TagChip key={tag.id} tag={tag} />)}
       </span>
-      {day && (
-        <button
-          type="button"
-          onClick={() => onAdvance(day)}
-          disabled={day.status === 'wrapped'}
-          title={day.status === 'wrapped' ? undefined : t('day.advance')}
-          className={`rounded-full px-2.5 py-1 text-[11px] font-bold whitespace-nowrap ${
-            day.status === 'planned'
-              ? 'bg-foreground/10'
-              : day.status === 'bought'
-                ? 'bg-accent/30 text-carvao'
-                : 'bg-primary text-background'
-          }`}
-        >
-          {t(`status.${day.status}`)}
-        </button>
-      )}
+      {day && <StatusButton status={day.status} onAdvance={() => onAdvance(day)} />}
     </li>
   )
 }

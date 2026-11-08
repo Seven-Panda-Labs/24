@@ -112,6 +112,20 @@
     "saveAndNext": "Guardar e seguinte",
     "advance": "Avançar estado"
   },
+  "sack": {
+    "title": "Saco",
+    "intro": "Prendas e ideias ainda sem dia. Contam para o progresso enquanto houver dias vazios.",
+    "add": "Pôr no saco",
+    "noDay": "Ainda sem dia",
+    "fromSack": "Do saco",
+    "putOnDay": "Pôr num dia",
+    "keepInSack": "Fica no saco",
+    "remove": "Apagar prenda",
+    "backToSack": "Devolver ao saco",
+    "inSack": "No saco",
+    "spare_one": "Há {{count}} prenda a mais do que dias vazios.",
+    "spare_other": "Há {{count}} prendas a mais do que dias vazios."
+  },
   "shopping": {
     "title": "Compras",
     "buyTab": "Comprar ({{count}})",
