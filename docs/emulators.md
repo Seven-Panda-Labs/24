@@ -51,5 +51,5 @@ npx firebase emulators:start --project demo-24 --import=./emulator-data --export
 | Problem | Fix |
 |---------|-----|
 | `Java version before 21` | Install JDK 21+ |
-| `Missing VITE_FIREBASE_…` on start | `.env.local` missing; copy `.env.emulator.example` |
+| Page says `Missing VITE_FIREBASE_…` | `.env.local` missing; copy `.env.emulator.example` |
 | Stuck on the loading screen after sign-in | Check the browser console for `permission-denied`; the listeners retry, but a rules change needs a reload |
