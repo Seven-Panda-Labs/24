@@ -25,6 +25,10 @@ jobs:
         with:
           node-version: 24
           cache: npm
+          # Both lockfiles, or the functions install never comes from the cache.
+          cache-dependency-path: |
+            package-lock.json
+            functions/package-lock.json
 
       # The Firestore emulator behind npm run test:rules needs Java 21+.
       - name: Setup Java
@@ -35,6 +39,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Install functions dependencies
+        run: npm --prefix functions ci
 
       - name: Build, lint, test, rules and changelog
         run: npm run check
@@ -53,9 +60,16 @@ jobs:
         with:
           node-version: 24
           cache: npm
+          # Both lockfiles, or the functions install never comes from the cache.
+          cache-dependency-path: |
+            package-lock.json
+            functions/package-lock.json
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Install functions dependencies
+        run: npm --prefix functions ci
 
       - name: Verify dependency licenses
         run: npm run check:licenses

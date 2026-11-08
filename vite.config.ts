@@ -28,6 +28,7 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,woff2}'],
+        importScripts: ['push-sw.js'],
         navigateFallback: '/index.html',
         // Firebase Hosting serves /__/auth and /__/firebase; the app shell must not shadow them.
         navigateFallbackDenylist: [/^\/__/],

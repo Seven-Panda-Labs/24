@@ -7,7 +7,7 @@ Requirements: Node.js 24, Java JDK 21+ (Firestore emulator), `firebase-tools` (i
 ## Quick start
 
 ```bash
-npm install
+npm install && npm --prefix functions install
 cp .env.emulator.example .env.local
 
 npm run emulators    # terminal 1
@@ -23,6 +23,10 @@ Project ID is `demo-24`, so no `.firebaserc` is needed and nothing reaches a rea
 - Email links appear in the `npm run emulators` output instead of being sent.
 
 Ports (set in [`firebase.json`](../firebase.json), wired in [`src/services/firebase.ts`](../src/services/firebase.ts)): UI 4000, Auth 9099, Firestore 8080, Storage 9199.
+
+## Reminders
+
+The Functions emulator loads `sendReminders` but does not run it: scheduled functions need the Pub/Sub emulator, and FCM is not emulated. The reminder option in Settings appears when `VITE_FIREBASE_VAPID_KEY` is set, and says notifications are unsupported in `npm run dev`, which has no service worker. Test push against a real project with a build (`npm run build && npm run preview`).
 
 ## Rules tests
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.7.0] - 2026-11-08
+
+### Added
+
+- Optional reminder notifications: on Sunday evenings, from November to Christmas, what is left to buy, wrap and fill. Turned on per device, in Settings.
+
 ## [0.6.0] - 2026-11-08
 
 ### Added

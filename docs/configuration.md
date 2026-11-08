@@ -10,6 +10,7 @@ Copy [`.env.example`](../.env.example) to `.env.local`. For emulator-only develo
 |----------|----------|-------------|
 | `VITE_FIREBASE_API_KEY`, `_PROJECT_ID`, `_STORAGE_BUCKET`, `_MESSAGING_SENDER_ID`, `_APP_ID` | Yes | Fields of the Web App `firebaseConfig` |
 | `VITE_FIREBASE_AUTH_DOMAIN` | Yes | The domain the app is served from, see [below](#authdomain-and-safariios) |
+| `VITE_FIREBASE_VAPID_KEY` | No | Web Push key for reminders: Firebase Console → Project settings → Cloud Messaging → Web Push certificates. Without it the reminders option is hidden |
 | `VITE_USE_FIREBASE_EMULATORS` | No | `true` connects Auth, Firestore and Storage to the emulators, see [`emulators.md`](./emulators.md). Ignored in production builds |
 
 The app throws on start when a required variable is missing.

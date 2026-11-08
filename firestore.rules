@@ -37,6 +37,19 @@ service cloud.firestore {
         && member.email is string && member.email.size() <= 200;
     }
 
+    // Push tokens of the user's devices and the language for reminders. Only
+    // the user reads or writes it; the reminder function uses the Admin SDK.
+    match /users/{uid} {
+      function validUser(data) {
+        return data.keys().hasOnly(['fcmTokens', 'language'])
+          && data.fcmTokens is list && data.fcmTokens.size() <= 10
+          && data.language is string && data.language.size() <= 10;
+      }
+
+      allow read, delete: if signedIn() && request.auth.uid == uid;
+      allow create, update: if signedIn() && request.auth.uid == uid && validUser(request.resource.data);
+    }
+
     match /workspaces/{wid} {
       function invited() {
         return signedIn() && verified() && email() in resource.data.invitedEmails;
