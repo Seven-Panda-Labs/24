@@ -1,5 +1,12 @@
 # Registo de alterações
 
+## [0.14.1] - 2026-11-08
+
+### Corrigido
+
+- No telemóvel com rede fraca, a app abre logo com os dados guardados, em vez de ficar no ecrã inicial à espera dos serviços de login da Google.
+- A página de entrada aparece mais depressa no telemóvel.
+
 ## [0.14.0] - 2026-11-08
 
 ### Adicionado
