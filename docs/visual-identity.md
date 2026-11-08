@@ -2,7 +2,7 @@
 
 Modern 2D illustration with paper and jute textures: a full jute sack with **24** on the front, tied with a gold bow. Source: [`project_brief.md`](./project_brief.md), section 7, and the [moodboard](./visual_moodboard.html). Logo files: [`assets/Logo/`](./assets/Logo/).
 
-Tokens live in `src/styles/globals.css`. Use the Tailwind tokens (`bg-primary`, `text-foreground`, `bg-surface`, …), never hard-coded hex. Dark mode follows the system.
+Tokens live in `src/styles/globals.css`. Use the Tailwind tokens (`bg-primary`, `text-foreground`, `bg-surface`, …), never hard-coded hex. Dark mode follows the system unless Settings sets a theme for the device (`src/theme.ts`, `data-theme` on `<html>`). Use the `dark:` variant, not `prefers-color-scheme`, so both apply.
 
 ## Typography
 
