@@ -25,7 +25,7 @@ export default function OnboardingPage({ invites }: { invites: Workspace[] }) {
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center gap-6 p-6">
       <div className="flex flex-col items-center gap-2 text-center">
-        <img src="/illustrations/cocoa.webp" alt="" className="h-28 w-auto" />
+        <img src="/illustrations/cocoa.webp" alt="" width={160} height={160} />
         <h1 className="font-display text-3xl font-bold text-primary">{t('onboarding.title')}</h1>
         <p className="text-foreground/70">{t('onboarding.intro')}</p>
       </div>

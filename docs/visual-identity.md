@@ -25,6 +25,14 @@ Tokens live in `src/styles/globals.css`. Use the Tailwind tokens (`bg-primary`, 
 
 `carvao` is Carvão Doce in both themes, for text on the light tag colours and the gold of the seal.
 
-## Icons
+## Logo
 
-`public/` holds the favicon, Apple touch icon and PWA icons, cropped from `docs/assets/Logo/logo.jpeg`. The maskable icon keeps the full canvas so the sack stays inside the safe zone. No text other than the numeral in any icon.
+The logo is the sack on a circle, cropped from `docs/assets/Logo/Individual.jpeg`. The navy circle (`public/logo.webp`) goes on the light theme and the white circle (`public/logo-dark.webp`) on the dark theme, for contrast. `src/components/Logo.tsx` picks one with the `dark:` variant.
+
+## Illustrations
+
+`public/illustrations/` holds the empty-state figures, cut out of the sheets in `docs/assets/` and set on a cream disc of the same size (320 px, shown at 160 px), like the logo. Each figure fits whole inside the disc with the same margin; nothing else from the sheet (speech bubbles, labels, other panels) comes along. The disc stays cream in dark mode, so the art keeps its own colours.
+
+## App icons
+
+The favicon and PWA icons can't follow the theme, so they use the navy circle. The Apple touch icon and the maskable icon fill the whole square with the same navy, because iOS and Android cut their own shape; the maskable icon keeps the sack inside the safe zone. No text other than the numeral in any icon.
