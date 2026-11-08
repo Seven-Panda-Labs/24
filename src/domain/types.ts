@@ -1,8 +1,9 @@
 export const STATUSES = ['planned', 'bought', 'wrapped'] as const
 export type Status = (typeof STATUSES)[number]
 
-/** A gift, on a day of the calendar or in its sack. */
+/** A gift, on a day of the calendar or in its sack. It has a name, a photo or both. */
 export interface Day {
+  /** Empty when the gift is only a photo. */
   gift: string
   status: Status
   tagIds: string[]
@@ -13,6 +14,8 @@ export interface Day {
   photoPath?: string
   /** Download URL, stored so the photo shows offline from the service worker cache. */
   photoUrl?: string
+  /** A small copy for doors and lists; photos from before thumbnails have none. */
+  thumbUrl?: string
 }
 
 export interface CalendarFields {

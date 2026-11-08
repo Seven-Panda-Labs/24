@@ -1,52 +1,47 @@
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { setGiftPhoto } from '../data/calendars.ts'
-import { deletePhoto, uploadPhoto } from '../data/photos.ts'
+import { setGiftPhoto, updateGift } from '../data/calendars.ts'
+import { deletePhoto } from '../data/photos.ts'
 import type { Day, Slot } from '../domain/types.ts'
 import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
+import { usePhotoUpload } from './usePhotoUpload.ts'
 
-/** Uploads straight away, outside the editor's Save: Storage has no offline queue to wait in. */
-export default function PhotoField({ calendarId, slot, value }: { calendarId: string; slot: Slot; value: Day }) {
+/**
+ * The gift's photo. A photo for a gift not saved yet creates it, with `draft`
+ * (what the editor has so far), so a photo alone is enough for a gift.
+ */
+export default function PhotoField({ calendarId, slot, value, draft }: { calendarId: string; slot: Slot; value: Day | undefined; draft: Partial<Day> }) {
   const { t } = useTranslation()
   const { workspace } = useWorkspace()
-  const [busy, setBusy] = useState(false)
-  const [error, setError] = useState('')
+  const { busy, error, upload } = usePhotoUpload(calendarId)
 
   async function choose(file: File | undefined) {
-    if (!file) return
-    if (!navigator.onLine) {
-      setError(t('photo.offline'))
+    const photo = await upload(slot, file)
+    if (!photo) return
+    if (!value) {
+      updateGift(workspace.id, calendarId, slot, { ...draft, ...photo })
       return
     }
-    setBusy(true)
-    setError('')
-    try {
-      setGiftPhoto(workspace.id, calendarId, slot, await uploadPhoto(workspace.id, calendarId, slot, file))
-      if (value.photoPath) deletePhoto(value.photoPath)
-    } catch (cause) {
-      console.error(cause)
-      setError(navigator.onLine ? t('photo.failed') : t('photo.offline'))
-    } finally {
-      setBusy(false)
-    }
+    setGiftPhoto(workspace.id, calendarId, slot, photo)
+    deletePhoto(value)
   }
 
   function remove() {
-    if (!value.photoPath) return
-    deletePhoto(value.photoPath)
+    if (!value) return
+    deletePhoto(value)
     setGiftPhoto(workspace.id, calendarId, slot, null)
   }
 
   return (
     <div className="flex flex-col gap-2">
       <span className="text-sm font-semibold">{t('photo.label')}</span>
-      {value.photoUrl && <img src={value.photoUrl} alt={value.gift} className="max-h-48 w-fit rounded-2xl object-cover" />}
+      {value?.photoUrl && <img src={value.photoUrl} alt={value.gift || t('photo.untitled')} className="max-h-72 w-full rounded-2xl object-cover" />}
       <div className="flex flex-wrap items-center gap-2">
         <label className={`btn-secondary cursor-pointer ${busy ? 'pointer-events-none opacity-50' : ''}`}>
-          {busy ? t('photo.uploading') : value.photoUrl ? t('photo.replace') : t('photo.add')}
+          {busy ? t('photo.uploading') : value?.photoUrl ? t('photo.replace') : `📷 ${t('photo.add')}`}
           <input type="file" accept="image/*" className="sr-only" disabled={busy} onChange={(event) => void choose(event.target.files?.[0])} />
         </label>
-        {value.photoUrl && (
+        {/* A gift that is only a photo is deleted as a whole, from the editor's footer. */}
+        {value?.photoUrl && value.gift && (
           <button type="button" onClick={remove} className="btn-ghost text-secondary">
             {t('photo.remove')}
           </button>

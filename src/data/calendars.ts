@@ -1,6 +1,7 @@
 import { collection, deleteDoc, deleteField, doc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore'
 import type { CalendarFields, Day, Slot } from '../domain/types.ts'
 import { db } from '../services/firestore.ts'
+import type { Photo } from './photos.ts'
 import { report } from './report.ts'
 
 const calendarRef = (wid: string, id: string) => doc(db, 'workspaces', wid, 'calendars', id)
@@ -46,10 +47,11 @@ export function moveGifts(wid: string, id: string, moves: Move[]): void {
   void updateDoc(calendarRef(wid, id), { ...fields, updatedAt: serverTimestamp() }).catch(report)
 }
 
-export function setGiftPhoto(wid: string, id: string, slot: Slot, photo: { path: string; url: string } | null): void {
+export function setGiftPhoto(wid: string, id: string, slot: Slot, photo: Photo | null): void {
   void updateDoc(calendarRef(wid, id), {
-    [`${pathOf(slot)}.photoPath`]: photo?.path ?? deleteField(),
-    [`${pathOf(slot)}.photoUrl`]: photo?.url ?? deleteField(),
+    [`${pathOf(slot)}.photoPath`]: photo?.photoPath ?? deleteField(),
+    [`${pathOf(slot)}.photoUrl`]: photo?.photoUrl ?? deleteField(),
+    [`${pathOf(slot)}.thumbUrl`]: photo?.thumbUrl ?? deleteField(),
     updatedAt: serverTimestamp(),
   }).catch(report)
 }

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import EmptyState from '../components/EmptyState.tsx'
+import { GiftName, GiftThumb } from '../components/Gift.tsx'
 import TagChip from '../components/TagChip.tsx'
 import { currentYear, dayNumbers, dayOf } from '../domain/days.ts'
 import { normalize } from '../domain/text.ts'
@@ -90,14 +91,19 @@ export default function HistoryPage() {
                 .filter((entry) => entry.calendar.year === year)
                 .map(({ calendar, day, value }) => (
                   <li key={`${calendar.id}-${day}`}>
-                    <Link to={`/calendars/${calendar.id}?day=${day}`} className="flex flex-col gap-1 py-2">
-                      <span className="font-semibold">{value.gift}</span>
-                      <span className="flex flex-wrap items-center gap-1 text-xs text-foreground/70">
-                        {calendar.person} · {t('day.number', { number: day })}
-                        {value.tagIds.flatMap((id) => tagsById.get(id) ?? []).map((tag) => (
-                          <TagChip key={tag.id} tag={tag} />
-                        ))}
+                    <Link to={`/calendars/${calendar.id}?day=${day}`} className="flex items-center gap-3 py-2">
+                      <span className="flex flex-1 flex-col gap-1">
+                        <span className="font-semibold">
+                          <GiftName value={value} />
+                        </span>
+                        <span className="flex flex-wrap items-center gap-1 text-xs text-foreground/70">
+                          {calendar.person} · {t('day.number', { number: day })}
+                          {value.tagIds.flatMap((id) => tagsById.get(id) ?? []).map((tag) => (
+                            <TagChip key={tag.id} tag={tag} />
+                          ))}
+                        </span>
                       </span>
+                      <GiftThumb value={value} />
                     </Link>
                   </li>
                 ))}

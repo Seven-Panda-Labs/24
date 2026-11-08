@@ -7,7 +7,7 @@ import StatusBanner from './StatusBanner.tsx'
 
 const NAV = [
   { to: '/', key: 'calendars', icon: '🎄', end: true },
-  { to: '/shopping', key: 'shopping', icon: '🛍️', end: false },
+  { to: '/todo', key: 'shopping', icon: '📝', end: false },
   { to: '/history', key: 'history', icon: '📜', end: false },
   { to: '/settings', key: 'settings', icon: '⚙️', end: false },
 ] as const

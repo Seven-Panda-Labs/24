@@ -21,7 +21,7 @@
   "nav": {
     "label": "Navigation principale",
     "calendars": "Calendriers",
-    "shopping": "Achats",
+    "shopping": "À faire",
     "history": "Historique",
     "settings": "Paramètres"
   },
@@ -116,7 +116,7 @@
   },
   "sack": {
     "title": "Hotte",
-    "intro": "Les cadeaux et les idées qui n’ont pas encore de jour. Ils comptent dans la progression tant qu’il reste des jours vides.",
+    "intro": "Les cadeaux et les idées qui n’ont pas encore de jour, en texte ou en photo. Ils comptent dans la progression tant qu’il reste des jours vides.",
     "add": "Mettre dans la hotte",
     "noDay": "Pas encore de jour",
     "fromSack": "De la hotte",
@@ -133,10 +133,13 @@
     "staysEmpty": "Reste vide",
     "kept_one": "{{count}} cadeau reste dans la hotte.",
     "kept_other": "{{count}} cadeaux restent dans la hotte.",
-    "apply": "Répartir"
+    "apply": "Répartir",
+    "addPhoto": "Mettre dans la hotte avec une photo",
+    "showMore": "Voir plus ({{count}})",
+    "showLess": "Voir moins"
   },
   "shopping": {
-    "title": "Achats",
+    "title": "À faire",
     "buyTab": "Acheter ({{count}})",
     "wrapTab": "Emballer ({{count}})",
     "buyEmpty": "Tout est acheté !",
@@ -268,7 +271,8 @@
     "remove": "Retirer la photo",
     "uploading": "Envoi…",
     "failed": "Impossible d’envoyer la photo.",
-    "offline": "Hors ligne : les photos ne s’envoient qu’avec une connexion."
+    "offline": "Hors ligne : les photos ne s’envoient qu’avec une connexion.",
+    "untitled": "Cadeau en photo"
   },
   "celebration": {
     "title": "Tout est emballé !",

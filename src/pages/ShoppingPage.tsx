@@ -2,13 +2,14 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useSearchParams } from 'react-router-dom'
 import EmptyState from '../components/EmptyState.tsx'
+import { GiftName, GiftThumb } from '../components/Gift.tsx'
 import TagChip from '../components/TagChip.tsx'
 import { updateGift } from '../data/calendars.ts'
 import { currentYear, giftsWithStatus, type GiftRef } from '../domain/days.ts'
 import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
 
 /**
- * The shopping list: every planned gift of the year, on a day or in the sack,
+ * The To do page. Its buy tab is the shopping list: every planned gift of the year, on a day or in the sack,
  * grouped by person, to tick off in the shop. A second tab lists bought gifts
  * for whoever wraps them.
  * Both read from the local cache, so they work without signal.
@@ -68,7 +69,9 @@ export default function ShoppingPage() {
                       onChange={() => updateGift(workspace.id, calendar.id, slot, { status: tab === 'buy' ? 'bought' : 'wrapped' })}
                     />
                     <span className="flex flex-1 flex-col gap-1">
-                      <span className="font-semibold">{value.gift}</span>
+                      <span className="font-semibold">
+                        <GiftName value={value} />
+                      </span>
                       {value.notes && <span className="text-sm text-foreground/70">{value.notes}</span>}
                       <span className="flex flex-wrap gap-1">
                         <span className="text-xs text-foreground/70">
@@ -79,6 +82,7 @@ export default function ShoppingPage() {
                         ))}
                       </span>
                     </span>
+                    <GiftThumb value={value} />
                   </label>
                 </li>
               ))}

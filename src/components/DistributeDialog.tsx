@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { dayNumbers, dayOf } from '../domain/days.ts'
 import { distribute, type Placement } from '../domain/distribute.ts'
 import type { Calendar, Tag } from '../domain/types.ts'
+import { GiftName } from './Gift.tsx'
 
 /** What distributing the sack would do, day by day, before it does it. */
 export default function DistributeDialog({
@@ -51,7 +52,7 @@ export default function DistributeDialog({
             return (
               <li key={day} className={`flex items-center gap-2 px-3 py-1.5 text-sm ${fromSack ? 'bg-accent/15 font-semibold' : 'text-foreground/70'}`}>
                 <span className="w-6 font-display font-bold text-primary">{String(day).padStart(2, '0')}</span>
-                <span className="min-w-0 flex-1 truncate">{value?.gift ?? <i>{t('sack.staysEmpty')}</i>}</span>
+                <span className="min-w-0 flex-1 truncate">{value ? <GiftName value={value} /> : <i>{t('sack.staysEmpty')}</i>}</span>
                 <span aria-hidden>{value?.tagIds.map((id) => tags.get(id)?.emoji).join('')}</span>
                 {fromSack && <span className="text-xs font-normal">{t('sack.fromSack')}</span>}
               </li>

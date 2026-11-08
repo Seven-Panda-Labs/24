@@ -65,7 +65,7 @@ export default function CalendarFormPage() {
 
   function remove() {
     if (!existing || !window.confirm(t('calendarForm.confirmDelete', { person: existing.person, year: existing.year }))) return
-    for (const gift of [...Object.values(existing.days), ...Object.values(existing.sack)]) if (gift.photoPath) deletePhoto(gift.photoPath)
+    for (const gift of [...Object.values(existing.days), ...Object.values(existing.sack)]) deletePhoto(gift)
     deleteCalendar(workspace.id, existing.id)
     navigate(`/?year=${existing.year}`)
   }
