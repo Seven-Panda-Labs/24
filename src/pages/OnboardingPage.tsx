@@ -42,7 +42,7 @@ export default function OnboardingPage({ invites }: { invites: Workspace[] }) {
       <form onSubmit={create} className="card flex flex-col gap-3">
         <label className="flex flex-col gap-1 text-sm font-semibold">
           {t('onboarding.nameLabel')}
-          <input required maxLength={60} value={name} onChange={(event) => setName(event.target.value)} className="input" />
+          <input required maxLength={60} pattern=".*\S.*" value={name} onChange={(event) => setName(event.target.value)} className="input" />
         </label>
         <button type="submit" className={invites.length ? 'btn-secondary' : 'btn-primary'}>
           {t('onboarding.create')}

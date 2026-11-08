@@ -14,6 +14,12 @@
 - Cores do modo escuro com mais contraste.
 - A página de entrada abre mais depressa e o texto secundário tem mais contraste.
 
+### Corrigido
+
+- Quem ainda não tinha espaço da família ficava preso no ecrã de carregamento ao voltar à app.
+- Guardar um dia já não desfaz nem apaga o que outra pessoa mudou entretanto.
+- Enviar uma foto sem rede avisa logo, em vez de ficar a carregar.
+
 ## [0.4.0] - 2026-11-08
 
 ### Adicionado

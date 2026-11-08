@@ -7,7 +7,7 @@ import ProgressBar from '../components/ProgressBar.tsx'
 import Celebration from '../components/Celebration.tsx'
 import TagChip from '../components/TagChip.tsx'
 import { query, where } from 'firebase/firestore'
-import { saveDay, setDayStatus } from '../data/calendars.ts'
+import { clearDay, updateDay } from '../data/calendars.ts'
 import { feedbackOf, recordFeedback, type Feedback } from '../data/feedback.ts'
 import { deletePhoto } from '../data/photos.ts'
 import { useDocs } from '../data/useDocs.ts'
@@ -45,12 +45,17 @@ export default function CalendarPage() {
   const days = dayNumbers(calendar)
 
   const open = (day: number | null) => setParams(day ? { day: String(day) } : {}, { replace: openDay !== null })
-  const save = (day: number, value: Day | null) => {
-    const photoPath = dayOf(calendar, day)?.photoPath
-    if (!value && photoPath) deletePhoto(photoPath)
-    saveDay(workspace.id, calendar.id, day, value)
-    if (value?.fromSuggestion && !dayOf(calendar, day)?.fromSuggestion) {
-      recordFeedback(workspace.id, calendar.id, value.gift, 'accepted')
+  const save = (day: number, changes: Partial<Day> | null) => {
+    const current = dayOf(calendar, day)
+    if (changes === null) {
+      if (current?.photoPath) deletePhoto(current.photoPath)
+      clearDay(workspace.id, calendar.id, day)
+      return
+    }
+    if (Object.keys(changes).length === 0) return
+    updateDay(workspace.id, calendar.id, day, changes)
+    if (changes.fromSuggestion) {
+      recordFeedback(workspace.id, calendar.id, changes.gift ?? current?.gift ?? '', 'accepted')
     }
   }
 
@@ -160,7 +165,7 @@ export default function CalendarPage() {
                 day={dayOf(calendar, day)}
                 tags={tagsById}
                 onSave={(value) => save(day, value)}
-                onAdvance={(value) => setDayStatus(workspace.id, calendar.id, day, nextStatus(value.status))}
+                onAdvance={(value) => updateDay(workspace.id, calendar.id, day, { status: nextStatus(value.status) })}
                 onOpen={() => open(day)}
               />
             ))}
@@ -208,7 +213,7 @@ function ListRow({
   number: number
   day: Day | undefined
   tags: Map<string, Tag>
-  onSave: (value: Day | null) => void
+  onSave: (changes: Partial<Day> | null) => void
   onAdvance: (value: Day) => void
   onOpen: () => void
 }) {
@@ -217,7 +222,8 @@ function ListRow({
   function commit(gift: string) {
     const trimmed = gift.trim()
     if (trimmed === (day?.gift ?? '')) return
-    onSave(trimmed ? { ...(day ?? { status: 'planned', tagIds: [], notes: '' }), gift: trimmed } : null)
+    if (!trimmed) onSave(null)
+    else onSave(day ? { gift: trimmed } : { gift: trimmed, status: 'planned', tagIds: [], notes: '' })
   }
 
   return (

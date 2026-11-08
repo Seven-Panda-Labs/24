@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Link, useSearchParams } from 'react-router-dom'
 import EmptyState from '../components/EmptyState.tsx'
 import TagChip from '../components/TagChip.tsx'
-import { setDayStatus } from '../data/calendars.ts'
+import { updateDay } from '../data/calendars.ts'
 import { currentYear, daysWithStatus, type DayRef } from '../domain/days.ts'
 import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
 
@@ -64,7 +64,7 @@ export default function ShoppingPage() {
                     <input
                       type="checkbox"
                       className="mt-1 h-5 w-5 accent-primary"
-                      onChange={() => setDayStatus(workspace.id, calendar.id, day, tab === 'buy' ? 'bought' : 'wrapped')}
+                      onChange={() => updateDay(workspace.id, calendar.id, day, { status: tab === 'buy' ? 'bought' : 'wrapped' })}
                     />
                     <span className="flex flex-1 flex-col gap-1">
                       <span className="font-semibold">{value.gift}</span>

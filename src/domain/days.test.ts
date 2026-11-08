@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { dateOfDay, daysWithStatus, matchesFilter, progressOf } from './days.ts'
+import { cleanDays, dateOfDay, dayChanges, daysWithStatus, matchesFilter, progressOf } from './days.ts'
 import type { Calendar, Day } from './types.ts'
 
 function calendar(days: Calendar['days'], overrides: Partial<Calendar> = {}): Calendar {
@@ -65,5 +65,44 @@ describe('daysWithStatus', () => {
       'c1:3',
       'c2:1',
     ])
+  })
+})
+
+describe('dayChanges', () => {
+  const before = day('Meias', 'bought', ['clothes'])
+  const draft = { gift: 'Meias', status: 'bought' as const, tagIds: ['clothes'], notes: '', fromSuggestion: false }
+
+  it('writes nothing when nothing changed, so a day saved without edits keeps what others wrote', () => {
+    expect(dayChanges(before, draft)).toEqual({})
+    expect(dayChanges(undefined, { ...draft, gift: '  ' })).toEqual({})
+  })
+
+  it('writes only the edited fields', () => {
+    expect(dayChanges(before, { ...draft, notes: ' tamanho 38 ' })).toEqual({ notes: 'tamanho 38' })
+    expect(dayChanges(before, { ...draft, tagIds: ['clothes', 'sweets'], status: 'wrapped' })).toEqual({
+      tagIds: ['clothes', 'sweets'],
+      status: 'wrapped',
+    })
+  })
+
+  it('writes every field for a new day and empties a day whose gift was cleared', () => {
+    expect(dayChanges(undefined, { ...draft, status: 'planned', fromSuggestion: true })).toEqual({
+      gift: 'Meias',
+      status: 'planned',
+      tagIds: ['clothes'],
+      notes: '',
+      fromSuggestion: true,
+    })
+    expect(dayChanges(before, { ...draft, gift: '' })).toBeNull()
+  })
+})
+
+describe('cleanDays', () => {
+  it('repairs malformed days and drops ones without a gift', () => {
+    expect(cleanDays({ '1': { gift: 'Meias' }, '2': { gift: 5 }, '3': null, '4': { gift: 'Vela', status: 'lost', tagIds: ['home', 3], notes: 'x' } })).toEqual({
+      '1': { gift: 'Meias', status: 'planned', tagIds: [], notes: '' },
+      '4': { gift: 'Vela', status: 'planned', tagIds: ['home'], notes: 'x' },
+    })
+    expect(cleanDays(undefined)).toEqual({})
   })
 })

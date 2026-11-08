@@ -14,6 +14,10 @@ export default function PhotoField({ calendarId, day, value }: { calendarId: str
 
   async function choose(file: File | undefined) {
     if (!file) return
+    if (!navigator.onLine) {
+      setError(t('photo.offline'))
+      return
+    }
     setBusy(true)
     setError('')
     try {

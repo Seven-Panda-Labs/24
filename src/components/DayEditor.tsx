@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { dateOfDay, dayOf } from '../domain/days.ts'
+import { dateOfDay, dayChanges, dayOf } from '../domain/days.ts'
 import { TAG_STYLES } from '../domain/tags.ts'
 import { STATUSES, type Calendar, type Day, type Tag } from '../domain/types.ts'
 import type { Suggestion } from '../suggestions/engine.ts'
@@ -11,7 +11,8 @@ export interface DayEditorProps {
   calendar: Calendar
   number: number
   tags: Tag[]
-  onSave: (value: Day | null) => void
+  /** The fields to write (see dayChanges), or `null` to empty the day. */
+  onSave: (changes: Partial<Day> | null) => void
   onClose: () => void
   onNext?: () => void
   /** Shown while the gift is empty. */
@@ -22,11 +23,13 @@ export interface DayEditorProps {
 export default function DayEditor({ calendar, number, tags, onSave, onClose, onNext, suggestions = [], onDismiss }: DayEditorProps) {
   const { t, i18n } = useTranslation()
   const saved = dayOf(calendar, number)
-  const [gift, setGift] = useState(saved?.gift ?? '')
-  const [status, setStatus] = useState(saved?.status ?? 'planned')
-  const [tagIds, setTagIds] = useState(saved?.tagIds ?? [])
-  const [notes, setNotes] = useState(saved?.notes ?? '')
-  const [fromSuggestion, setFromSuggestion] = useState(saved?.fromSuggestion ?? false)
+  // The day as it was when the editor opened: saving writes only what differs from it.
+  const [before] = useState(saved)
+  const [gift, setGift] = useState(before?.gift ?? '')
+  const [status, setStatus] = useState(before?.status ?? 'planned')
+  const [tagIds, setTagIds] = useState(before?.tagIds ?? [])
+  const [notes, setNotes] = useState(before?.notes ?? '')
+  const [fromSuggestion, setFromSuggestion] = useState(before?.fromSuggestion ?? false)
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => event.key === 'Escape' && onClose()
@@ -34,22 +37,11 @@ export default function DayEditor({ calendar, number, tags, onSave, onClose, onN
     return () => window.removeEventListener('keydown', onKey)
   }, [onClose])
 
-  function value(): Day | null {
-    if (!gift.trim()) return null
-    return {
-      gift: gift.trim(),
-      status,
-      tagIds,
-      notes: notes.trim(),
-      ...(fromSuggestion && { fromSuggestion }),
-      // The photo is written on its own (PhotoField); keep whatever is saved.
-      ...(saved?.photoPath && { photoPath: saved.photoPath, photoUrl: saved.photoUrl }),
-    }
-  }
+  const changes = () => dayChanges(before, { gift, status, tagIds, notes, fromSuggestion })
 
   function submit(event: FormEvent) {
     event.preventDefault()
-    onSave(value())
+    onSave(changes())
     onClose()
   }
 
@@ -174,7 +166,7 @@ export default function DayEditor({ calendar, number, tags, onSave, onClose, onN
               type="button"
               className="btn-secondary"
               onClick={() => {
-                onSave(value())
+                onSave(changes())
                 onNext()
               }}
             >

@@ -100,7 +100,8 @@ export default function SettingsPage() {
               className="input"
             />
           </label>
-          <button type="submit" className="btn-secondary">
+          {/* The rules cap pending invites at 20. */}
+          <button type="submit" disabled={workspace.invitedEmails.length >= 20} className="btn-secondary">
             {t('settings.invite')}
           </button>
         </form>

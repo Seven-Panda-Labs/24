@@ -6,7 +6,9 @@ import { useEffect, useState } from 'react'
  * `undefined` until the first snapshot for `key`. `key` names the query: a new
  * key resubscribes. A `null` key subscribes to nothing and gives `[]`. With
  * `waitForServer`, an empty snapshot from the local cache does not count: on a
- * fresh install it says nothing about what the server has.
+ * fresh install it says nothing about what the server has. The listener then
+ * also takes metadata-only changes, because when the server confirms that a
+ * cached empty result is still empty, nothing but the metadata changes.
  *
  * A listener the server refuses is dead for good, so it resubscribes with
  * backoff. That happens right after creating a workspace: the listen on its
@@ -21,6 +23,7 @@ export function useDocs<T>(key: string | null, build: () => Query, waitForServer
     let retry: ReturnType<typeof setTimeout> | undefined
     const unsubscribe = onSnapshot(
       build(),
+      { includeMetadataChanges: waitForServer },
       (snapshot) => {
         if (waitForServer && snapshot.empty && snapshot.metadata.fromCache) return
         setState({ key, docs: snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as T) })

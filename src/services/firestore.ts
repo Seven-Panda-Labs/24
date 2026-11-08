@@ -12,6 +12,8 @@ export const db = initializeFirestore(app, {
 })
 
 export const storage = getStorage(app)
+// The SDK retries a failing upload for ten minutes, with the button spinning.
+storage.maxUploadRetryTime = 60_000
 
 if (useEmulators) {
   connectFirestoreEmulator(db, '127.0.0.1', 8080)
