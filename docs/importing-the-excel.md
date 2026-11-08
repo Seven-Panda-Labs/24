@@ -10,10 +10,10 @@ Keep the file in `private/`, which is gitignored. Never commit it.
 |-------|-----|
 | A sheet named after a year (`2024`) | A calendar for that year, starting 1 December |
 | Row N, column A | Day N, the gift |
-| Column C fill colour | A tag: yellow `FFE599` → `sweets`, grey `CCCCCC` → `clothes`, blue `4A86E8` → `home` |
+| Column C fill colour | The bag the gift goes in, as a tag: grey `CCCCCC` → Saco Cinza, yellow `FFE599` → Saco Amarelo, blue `4A86E8` → Saco Azul |
 | A comment on column A | The day's notes |
 
-Other sheets, empty rows and the `Em falta:` total are ignored. The colour mapping is `COLOR_TAGS` in [`scripts/excel.ts`](../scripts/excel.ts), taken from the brief. In the original file, column C cycles grey, yellow, blue every three rows regardless of the gift, so check a few days after importing and rename or retag in the app if the colours meant something else.
+Other sheets, empty rows and the `Em falta:` total are ignored. The colours are bags, not gift categories: they alternate grey, yellow, blue by day so neighbouring gifts look different. The mapping is `BAG_TAGS` in [`scripts/excel.ts`](../scripts/excel.ts). The script creates the three bag tags in the workspace when they are missing and leaves existing ones alone, so renaming them in the app is safe.
 
 Comments exported by Google Sheets have no rich-text runs, and exceljs reads them as empty. The script lists those days so you can copy the notes by hand.
 
