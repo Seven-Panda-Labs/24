@@ -30,6 +30,8 @@ describe('reminderFor', () => {
       url: '/shopping',
     })
     expect(reminderFor({ toBuy: 0, toWrap: 0, empty: 2 }, 'en')).toMatchObject({ body: 'Days to fill: 2', url: '/' })
+    expect(reminderFor({ toBuy: 0, toWrap: 1, empty: 0 }, 'de')).toMatchObject({ body: 'Zu verpacken: 1' })
+    expect(reminderFor({ toBuy: 2, toWrap: 0, empty: 0 }, 'fr')).toMatchObject({ body: 'À acheter: 2' })
   })
 
   it('stays quiet when everything is wrapped', () => {

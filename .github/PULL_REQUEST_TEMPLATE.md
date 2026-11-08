@@ -10,7 +10,7 @@
 
 - [ ] `npm run check`
 - [ ] Manually tested: …
-- [ ] Visible change: version bumped (minor for features, patch for fixes) and entry added to `change-log.md` and `change-log.en.md`
+- [ ] Visible change: version bumped (minor for features, patch for fixes) and entry added to every changelog (`change-log.md`, `.en`, `.de`, `.fr`)
 
 ## Issues
 

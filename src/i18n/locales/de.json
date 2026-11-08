@@ -1,0 +1,298 @@
+{
+  "tagline": "Das organisierte Chaos im Dezember",
+  "language": {
+    "label": "Sprache",
+    "pt-PT": "Português",
+    "en": "English",
+    "de": "Deutsch",
+    "fr": "Français"
+  },
+  "theme": {
+    "label": "Design",
+    "system": "System",
+    "light": "Hell",
+    "dark": "Dunkel"
+  },
+  "common": {
+    "close": "Schließen",
+    "save": "Speichern",
+    "cancel": "Abbrechen"
+  },
+  "nav": {
+    "label": "Hauptnavigation",
+    "calendars": "Kalender",
+    "shopping": "Einkäufe",
+    "history": "Verlauf",
+    "settings": "Einstellungen"
+  },
+  "login": {
+    "google": "Mit Google anmelden",
+    "googleFailed": "Die Anmeldung mit Google hat nicht geklappt."
+  },
+  "onboarding": {
+    "title": "Willkommen bei 24",
+    "intro": "Die Kalender liegen in einem Familienbereich, den du mit allen teilst, die du einlädst.",
+    "defaultName": "Familie von {{name}}",
+    "nameLabel": "Name des Bereichs",
+    "create": "Familienbereich erstellen",
+    "invited": "Du wurdest zu „{{name}}“ eingeladen.",
+    "join": "Beitreten",
+    "waitingForInvite": "Wartest du auf eine Einladung? Bitte darum, dass {{email}} eingeladen wird."
+  },
+  "home": {
+    "title": "Kalender",
+    "year": "Jahr",
+    "archived": "Archiviertes Jahr. Weiterhin bearbeitbar.",
+    "archivedShort": "Archiv",
+    "toBuy_one": "Noch {{count}} zu kaufen",
+    "toBuy_other": "Noch {{count}} zu kaufen",
+    "toWrap_one": "Noch {{count}} zu verpacken",
+    "toWrap_other": "Noch {{count}} zu verpacken",
+    "emptyTitle": "Hier ist nichts… nicht mal die Rentiere waren da!",
+    "emptyText": "Noch keine Kalender für {{year}}. Warum nicht gleich anfangen?",
+    "newCalendar": "Neuer Kalender",
+    "filled": "{{count}} von {{total}} Tagen"
+  },
+  "progress": {
+    "summary": "{{wrapped}} verpackt, {{bought}} gekauft, {{planned}} geplant, {{empty}} leer",
+    "wrapped_one": "{{count}} verpackt",
+    "wrapped_other": "{{count}} verpackt",
+    "bought_one": "{{count}} gekauft",
+    "bought_other": "{{count}} gekauft",
+    "planned_one": "{{count}} geplant",
+    "planned_other": "{{count}} geplant",
+    "empty_one": "{{count}} leer",
+    "empty_other": "{{count}} leer"
+  },
+  "status": {
+    "planned": "Geplant",
+    "bought": "Gekauft",
+    "wrapped": "Verpackt"
+  },
+  "calendar": {
+    "notFound": "Diesen Kalender gibt es nicht oder er wurde gelöscht.",
+    "edit": "Kalender bearbeiten",
+    "view": "Ansicht",
+    "grid": "Raster",
+    "list": "Liste"
+  },
+  "calendarForm": {
+    "newTitle": "Neuer Kalender",
+    "editTitle": "Kalender bearbeiten",
+    "person": "Für wen",
+    "name": "Name des Kalenders (optional)",
+    "year": "Jahr",
+    "startDate": "Beginnt am",
+    "dayCount": "Tage",
+    "suggestions": "Vorschläge",
+    "allowRepeats": "Geschenke dürfen sich in diesem Kalender wiederholen",
+    "originality": "Welche Vorschläge magst du lieber?",
+    "traditional": "Traditionell",
+    "original": "Originell",
+    "delete": "Kalender löschen",
+    "confirmDelete": "Den Kalender von {{person}} ({{year}}) löschen? Das lässt sich nicht rückgängig machen."
+  },
+  "filters": {
+    "label": "Tage filtern",
+    "all": "Alle",
+    "empty": "Leer ({{count}})",
+    "toBuy": "Zu kaufen ({{count}})",
+    "toWrap": "Zu verpacken ({{count}})"
+  },
+  "day": {
+    "number": "Tag {{number}}",
+    "emptyLabel": "Tag {{number}}, leer",
+    "open": "Tag {{number}} öffnen",
+    "gift": "Geschenk",
+    "giftFor": "Geschenk für Tag {{number}}",
+    "giftPlaceholder": "Z. B. Wollsocken + Schokolade",
+    "status": "Status",
+    "tags": "Etiketten",
+    "notes": "Notizen",
+    "notesPlaceholder": "Z. B. Größe M, auf dem Weihnachtsmarkt kaufen",
+    "clear": "Tag leeren",
+    "saveAndNext": "Speichern und weiter",
+    "advance": "Nächster Status"
+  },
+  "sack": {
+    "title": "Sack",
+    "intro": "Geschenke und Ideen, die noch keinen Tag haben. Sie zählen zum Fortschritt, solange es leere Tage gibt.",
+    "add": "In den Sack",
+    "noDay": "Noch kein Tag",
+    "fromSack": "Aus dem Sack",
+    "putOnDay": "Auf einen Tag legen",
+    "keepInSack": "Im Sack lassen",
+    "remove": "Geschenk löschen",
+    "backToSack": "Zurück in den Sack",
+    "inSack": "Im Sack",
+    "spare_one": "{{count}} Geschenk mehr als leere Tage.",
+    "spare_other": "{{count}} Geschenke mehr als leere Tage.",
+    "distribute": "Auf die Tage verteilen",
+    "distributeTitle": "Den Sack verteilen",
+    "distributeIntro": "Jedes Geschenk kommt auf einen leeren Tag, und Geschenke mit demselben Etikett liegen so weit auseinander wie möglich. Bereits gefüllte Tage bleiben, wie sie sind.",
+    "staysEmpty": "Bleibt leer",
+    "kept_one": "{{count}} Geschenk bleibt im Sack.",
+    "kept_other": "{{count}} Geschenke bleiben im Sack.",
+    "apply": "Verteilen"
+  },
+  "shopping": {
+    "title": "Einkäufe",
+    "buyTab": "Kaufen ({{count}})",
+    "wrapTab": "Verpacken ({{count}})",
+    "buyEmpty": "Alles gekauft!",
+    "wrapEmpty": "Nichts wartet auf Papier und Schleife."
+  },
+  "tags": {
+    "title": "Etiketten",
+    "intro": "Etiketten ersetzen die Farben der Tabelle. Jedes Geschenk kann mehrere haben.",
+    "add": "Neues Etikett",
+    "newName": "Neues Etikett",
+    "name": "Name",
+    "emoji": "Emoji",
+    "color": "Farbe",
+    "delete": "Löschen",
+    "confirmDelete": "Das Etikett „{{name}}“ löschen? Die Geschenke bleiben, nur ohne dieses Etikett.",
+    "defaults": {
+      "sweets": "Süßes",
+      "clothes": "Kleidung",
+      "home": "Deko",
+      "experiences": "Erlebnisse",
+      "books": "Bücher und Schreibwaren"
+    },
+    "colors": {
+      "amber": "Gelb",
+      "slate": "Grau",
+      "sky": "Blau",
+      "emerald": "Grün",
+      "purple": "Lila",
+      "red": "Rot",
+      "pink": "Rosa",
+      "orange": "Orange"
+    }
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "workspace": "Familienbereich",
+    "switchWorkspace": "Aktiver Bereich",
+    "workspaceName": "Name",
+    "members": "Mitglieder",
+    "owner": "Besitzer",
+    "pending": "Einladung offen",
+    "remove": "Entfernen",
+    "confirmRemove": "{{name}} aus dem Bereich entfernen?",
+    "cancelInvite": "Zurückziehen",
+    "inviteEmail": "E-Mail-Adresse",
+    "invite": "Einladen",
+    "inviteHelp": "Die Person sieht die Einladung, wenn sie sich bei 24 mit dem Google-Konto dieser E-Mail-Adresse anmeldet.",
+    "tagsHelp": "Name, Emoji und Farbe der Etiketten für Geschenke.",
+    "manageTags": "Etiketten verwalten",
+    "signedInAs": "Angemeldet als {{email}}",
+    "signOut": "Abmelden"
+  },
+  "history": {
+    "title": "Verlauf",
+    "search": "Geschenke und Notizen suchen",
+    "person": "Person",
+    "everyone": "Alle",
+    "count_one": "{{count}} Geschenk",
+    "count_other": "{{count}} Geschenke",
+    "noMatch": "Kein Geschenk mit diesem Namen. Nicht mal im Nikolausstiefel.",
+    "empty": "Noch kein Verlauf. Die Kalender jedes Jahres landen hier.",
+    "suggestionShare": "{{percent}} % der Tage, die {{year}} gefüllt wurden, kamen aus Vorschlägen."
+  },
+  "suggestions": {
+    "title": "Vorschläge",
+    "tradition_one": "Tradition: {{count}} Jahr, zuletzt {{year}}",
+    "tradition_other": "Tradition: {{count}} Jahre, zuletzt {{year}}",
+    "forgotten": "Seit {{year}} nicht mehr dabei",
+    "family": "Hat schon jemand anderes in der Familie bekommen",
+    "idea": "Neue Idee",
+    "dismiss": "„{{gift}}“ für diesen Kalender nicht mehr vorschlagen"
+  },
+  "ideas": {
+    "sweets": [
+      "Trinkschokolade",
+      "Lebkuchen",
+      "Schoko-Weihnachtsmann",
+      "Salzkaramell",
+      "Zuckerstangen",
+      "Marshmallows",
+      "Gebrannte Mandeln",
+      "Aromatisierter Honig"
+    ],
+    "clothes": [
+      "Weihnachtssocken",
+      "Wollmütze",
+      "Touchscreen-Handschuhe",
+      "Hausschuhe",
+      "Schal",
+      "Haargummis",
+      "Haarband",
+      "Stofftaschentuch"
+    ],
+    "home": [
+      "Duftkerze",
+      "Christbaumschmuck",
+      "Lichterkette mit Batterie",
+      "Untersetzer",
+      "Kräutersamen",
+      "Geschirrtuch",
+      "Kühlschrankmagnet",
+      "Mini-Sukkulente"
+    ],
+    "experiences": [
+      "Gutschein für Frühstück im Bett",
+      "Kinokarten",
+      "Gutschein für einen Spieleabend",
+      "Spaziergang zu den Weihnachtslichtern",
+      "Massagegutschein",
+      "Kochkurs",
+      "Museumsbesuch",
+      "Eislaufen"
+    ],
+    "books": [
+      "Lesezeichen",
+      "Washi-Tape",
+      "Schöner Stift",
+      "Weihnachtskarten",
+      "Sticker",
+      "Mini-Notizbuch",
+      "Taschenbuch",
+      "Buntstifte"
+    ]
+  },
+  "photo": {
+    "label": "Foto",
+    "add": "Foto hinzufügen",
+    "replace": "Foto ändern",
+    "remove": "Foto entfernen",
+    "uploading": "Wird hochgeladen…",
+    "failed": "Das Foto konnte nicht hochgeladen werden.",
+    "offline": "Offline: Fotos werden nur mit Verbindung hochgeladen."
+  },
+  "celebration": {
+    "title": "Alles verpackt!",
+    "text": "Alle {{days}} Tage für {{person}} sind fertig. Jetzt heißt es nur noch auf Dezember warten.",
+    "seal": "Siegel: geprüft von der Wichtelwerkstatt",
+    "sealText": "GEPRÜFT VON DER WICHTELWERKSTATT ★ "
+  },
+  "connection": {
+    "offline": "Offline. Deine Änderungen bleiben gespeichert und werden synchronisiert, sobald du wieder online bist.",
+    "refused": "Der Server hat eine Änderung abgelehnt, sie wurde rückgängig gemacht. Wenn das öfter passiert, lade die App neu."
+  },
+  "reminders": {
+    "title": "Erinnerungen",
+    "help": "Sonntagabends, von November bis Weihnachten, eine Benachrichtigung mit dem, was noch zu kaufen, zu verpacken und zu füllen ist. Wird auf jedem Gerät einzeln eingeschaltet. Auf dem iPhone füge die App zuerst zum Home-Bildschirm hinzu.",
+    "enable": "Auf diesem Gerät einschalten",
+    "disable": "Auf diesem Gerät ausschalten",
+    "unsupported": "Dieser Browser unterstützt keine Benachrichtigungen.",
+    "denied": "Benachrichtigungen sind blockiert. Erlaube sie in den Browser-Einstellungen und versuche es noch einmal.",
+    "failed": "Die Erinnerungen konnten nicht geändert werden. Versuche es mit Verbindung noch einmal."
+  },
+  "footer": {
+    "changelog": "Neuigkeiten in Version {{version}} ansehen"
+  },
+  "changelog": {
+    "title": "Neuigkeiten"
+  }
+}

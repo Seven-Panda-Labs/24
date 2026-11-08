@@ -30,7 +30,7 @@ O caos organizado de Dezembro. PWA para planear calendários de advento: 24 dias
 - Sugestões a partir do histórico: tradições, prendas esquecidas e ideias novas
 - Histórico pesquisável e importação do Excel antigo
 - Lembretes opcionais ao domingo, de Novembro ao Natal
-- Português e inglês, modo claro e escuro
+- Português, inglês, alemão e francês, modo claro e escuro
 
 O produto e o plano estão em [`docs/project_brief.md`](docs/project_brief.md).
 
@@ -71,7 +71,7 @@ December's organized chaos. A PWA to plan advent calendars: 24 days, 24 small gi
 - Suggestions from history: traditions, forgotten gifts and new ideas
 - Searchable history and an import for the old spreadsheet
 - Optional Sunday reminders from November to Christmas
-- Portuguese and English, light and dark mode
+- Portuguese, English, German and French, light and dark mode
 
 The product and the plan are in [`docs/project_brief.md`](docs/project_brief.md) (Portuguese).
 

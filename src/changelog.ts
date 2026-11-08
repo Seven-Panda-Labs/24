@@ -17,7 +17,13 @@ export function parseChangelog(markdown: string): Release[] {
   return releases
 }
 
+const CHANGELOGS: Record<string, () => Promise<{ default: string }>> = {
+  'pt-PT': () => import('../change-log.md?raw'),
+  en: () => import('../change-log.en.md?raw'),
+  de: () => import('../change-log.de.md?raw'),
+  fr: () => import('../change-log.fr.md?raw'),
+}
+
 export function loadChangelog(language: string): Promise<string> {
-  const file = language === 'en' ? import('../change-log.en.md?raw') : import('../change-log.md?raw')
-  return file.then((module) => module.default)
+  return (CHANGELOGS[language] ?? CHANGELOGS['pt-PT'])().then((module) => module.default)
 }

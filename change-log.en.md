@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.15.0] - 2026-11-08
+
+### Added
+
+- The whole app in German and French, including the suggested ideas, this What's new page and the weekly reminders. Choose the language in Settings; the first time, it follows the browser.
+
 ## [0.14.1] - 2026-11-08
 
 ### Fixed

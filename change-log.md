@@ -1,5 +1,11 @@
 # Registo de alterações
 
+## [0.15.0] - 2026-11-08
+
+### Adicionado
+
+- Toda a app em alemão e francês, incluindo as ideias sugeridas, esta página de novidades e os lembretes semanais. O idioma escolhe-se nas Definições e, da primeira vez, segue o do browser.
+
 ## [0.14.1] - 2026-11-08
 
 ### Corrigido
