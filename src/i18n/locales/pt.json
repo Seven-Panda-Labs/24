@@ -286,5 +286,11 @@
     "unsupported": "Este browser não suporta notificações.",
     "denied": "As notificações estão bloqueadas. Ativa-as nas definições do browser e tenta outra vez.",
     "failed": "Não foi possível mudar os lembretes. Tenta outra vez com rede."
+  },
+  "footer": {
+    "changelog": "Ver as novidades da versão {{version}}"
+  },
+  "changelog": {
+    "title": "Novidades"
   }
 }

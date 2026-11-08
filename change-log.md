@@ -1,10 +1,16 @@
 # Registo de alterações
 
-## [0.13.0] - 2026-11-08
+## [0.14.0] - 2026-11-08
 
 ### Adicionado
 
 - Distribuir o saco pelos dias vazios: mostra primeiro como fica cada dia e só depois aplica. As prendas com a mesma etiqueta ficam o mais afastadas possível, e os dias já preenchidos não mudam.
+
+## [0.13.0] - 2026-11-08
+
+### Adicionado
+
+- Rodapé com a versão da app, que abre a página de novidades com este registo de alterações.
 
 ## [0.12.0] - 2026-11-08
 

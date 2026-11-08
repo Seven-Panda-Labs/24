@@ -28,9 +28,11 @@ Details: [docs/emulators.md](docs/emulators.md). Using your own Firebase project
 
 `npm run check` is what CI runs: functions build, app build (with typecheck), lint, tests, Firestore and Storage rules tests and the changelog check. If you change dependencies, also run `npm run check:licenses`. CI additionally runs Gitleaks.
 
-## Changelog
+## Version and changelog
 
-Needed only when bumping `version` in `package.json` (docs, tests and refactors usually don't). Add a section at the top of `change-log.md` (Portuguese) and `change-log.en.md`:
+Every PR that changes what users see or get (the app, the rules, the functions) bumps the version: minor for features and visible changes, patch for fixes. `npm version minor --no-git-tag-version` (or `patch`) updates `package.json` and `package-lock.json`. Docs, tests, CI and refactors with no visible effect don't bump. The app shows the version in its footer and this changelog on its What's new page.
+
+With the bump, add a section at the top of `change-log.md` (Portuguese) and `change-log.en.md`:
 
 ```markdown
 ## [0.2.0] - 2026-11-20

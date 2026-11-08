@@ -1,10 +1,16 @@
 # Changelog
 
-## [0.13.0] - 2026-11-08
+## [0.14.0] - 2026-11-08
 
 ### Added
 
 - Spread the sack over the empty days: a preview shows each day first, then it applies. Gifts with the same tag end up as far apart as they can, and days already filled stay as they are.
+
+## [0.13.0] - 2026-11-08
+
+### Added
+
+- A footer with the app version, which opens a What's new page with this changelog.
 
 ## [0.12.0] - 2026-11-08
 

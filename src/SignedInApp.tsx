@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout.tsx'
 import CalendarFormPage from './pages/CalendarFormPage.tsx'
 import CalendarPage from './pages/CalendarPage.tsx'
+import ChangelogPage from './pages/ChangelogPage.tsx'
 import HistoryPage from './pages/HistoryPage.tsx'
 import HomePage from './pages/HomePage.tsx'
 import SettingsPage from './pages/SettingsPage.tsx'
@@ -22,6 +23,7 @@ export default function SignedInApp() {
           <Route path="history" element={<HistoryPage />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="tags" element={<TagsPage />} />
+          <Route path="changelog" element={<ChangelogPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>

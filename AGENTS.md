@@ -59,8 +59,18 @@ Enforced by hooks, see [Enforcement](#enforcement).
 | No real personal data | Fixtures, tests and screenshots use fictional people and gifts (e.g. «Zé Ninguém») |
 | Private files | Real source data (e.g. the original Excel calendars) lives in `private/`, which is gitignored. Scripts read it from there; never copy it into the repo |
 | Firestore and Storage rules | Every new collection or path gets rules and a case in `firestore.rules.test.ts` in the same PR |
-| Changelog (on version bump) | `package.json` + `change-log.md` and `change-log.en.md` (`## [X.Y.Z] - YYYY-MM-DD`) |
+| Version and changelog | Required for every change users see or get, see [Versions and changelog](#versions-and-changelog) |
 | Scope | One topic per PR |
+
+## Versions and changelog
+
+Users see the version in the app's footer and read the changelog on its What's new page, so they must stay current.
+
+- **Every PR that changes what users see or get** (the app, the Firestore or Storage rules, the functions) bumps the version and adds an entry at the top of **both** `change-log.md` (pt-PT) and `change-log.en.md`, as `## [X.Y.Z] - YYYY-MM-DD`.
+- **Minor** for features and visible changes, **patch** for fixes: `npm version minor --no-git-tag-version` (or `patch`) updates `package.json` and `package-lock.json` together.
+- Docs, tests, CI and refactors with no visible effect don't bump.
+- If `main` reaches your version before your PR merges, bump again when you update the branch.
+- Write entries for users, not about the implementation. Format and sections: [CONTRIBUTING.md](CONTRIBUTING.md#version-and-changelog).
 
 ## What agents must **not** do
 
