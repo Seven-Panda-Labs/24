@@ -1,5 +1,11 @@
 # Registo de alterações
 
+## [0.8.0] - 2026-11-08
+
+### Alterado
+
+- As etiquetas parecem etiquetas de prenda antigas, com ponta cortada e furo. A etiqueta escolhida no editor fica a negrito e com contorno.
+
 ## [0.7.0] - 2026-11-08
 
 ### Adicionado

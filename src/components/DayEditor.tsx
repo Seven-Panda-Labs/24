@@ -124,7 +124,7 @@ export default function DayEditor({ calendar, number, tags, onSave, onClose, onN
                     type="button"
                     aria-pressed={selected}
                     onClick={() => setTagIds(selected ? tagIds.filter((id) => id !== tag.id) : [...tagIds, tag.id])}
-                    className={`chip py-1 ${TAG_STYLES[tag.color].chip} ${selected ? 'ring-2 ring-primary' : 'opacity-60'}`}
+                    className={`chip py-1 ${TAG_STYLES[tag.color].chip} ${selected ? 'font-bold ring-2 ring-primary ring-inset' : 'opacity-60'}`}
                   >
                     {tag.emoji} {tag.name}
                   </button>

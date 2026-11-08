@@ -61,8 +61,23 @@
     @apply rounded-3xl border border-foreground/10 bg-surface p-5;
   }
 
+  /* A gift tag: angled end with a punched hole, as in the moodboard. */
   .chip {
-    @apply inline-flex items-center gap-1 rounded-lg border px-2 py-0.5 text-xs font-medium;
+    @apply relative inline-flex items-center gap-1 rounded-r-md border py-0.5 pr-2 pl-4 text-xs font-medium;
+    clip-path: polygon(0.55rem 0, 100% 0, 100% 100%, 0.55rem 100%, 0 50%);
+  }
+
+  .chip::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0.45rem;
+    width: 0.32rem;
+    height: 0.32rem;
+    translate: 0 -50%;
+    border-radius: 9999px;
+    background: var(--color-background);
+    box-shadow: inset 0 0 0 1px currentColor;
   }
 
   /* Jute and paper, from the moodboard. */
