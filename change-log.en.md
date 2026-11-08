@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.13.0] - 2026-11-08
+
+### Added
+
+- A footer with the app version, which opens a What's new page with this changelog.
+
 ## [0.12.0] - 2026-11-08
 
 ### Added

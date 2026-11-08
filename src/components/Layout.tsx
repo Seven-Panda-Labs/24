@@ -1,5 +1,6 @@
-import { NavLink, Outlet } from 'react-router-dom'
+import { Link, NavLink, Outlet } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { version } from '../../package.json'
 import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
 import Logo from './Logo.tsx'
 import StatusBanner from './StatusBanner.tsx'
@@ -33,9 +34,16 @@ export default function Layout() {
 
       <StatusBanner />
 
-      <main className="flex-1 px-4 pt-2 pb-28 sm:pb-10">
+      <main className="flex-1 px-4 pt-2 pb-6">
         <Outlet />
       </main>
+
+      <footer className="px-4 pb-28 text-center text-xs text-foreground/70 sm:pb-8">
+        24 ·{' '}
+        <Link to="/changelog" aria-label={t('footer.changelog', { version })} className="font-semibold underline-offset-2 hover:underline">
+          v{version}
+        </Link>
+      </footer>
 
       <nav
         aria-label={t('nav.label')}
