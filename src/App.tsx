@@ -1,27 +1,35 @@
-import { useTranslation } from 'react-i18next'
-import { LANGUAGES } from './i18n/index.ts'
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { useAuth } from './auth/AuthContext.tsx'
+import Layout from './components/Layout.tsx'
+import Splash from './components/Splash.tsx'
+import CalendarFormPage from './pages/CalendarFormPage.tsx'
+import CalendarPage from './pages/CalendarPage.tsx'
+import HomePage from './pages/HomePage.tsx'
+import LoginPage from './pages/LoginPage.tsx'
+import SettingsPage from './pages/SettingsPage.tsx'
+import ShoppingPage from './pages/ShoppingPage.tsx'
+import TagsPage from './pages/TagsPage.tsx'
+import { WorkspaceGate } from './workspace/WorkspaceContext.tsx'
 
 export default function App() {
-  const { t, i18n } = useTranslation()
+  const user = useAuth()
+  if (user === undefined) return <Splash />
+  if (user === null) return <LoginPage />
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-6 p-6 text-center">
-      <img src="/pwa-192x192.png" alt="" width={144} height={144} className="rounded-3xl" />
-      <h1 className="font-display text-6xl font-bold text-primary">24</h1>
-      <p className="text-lg">{t('tagline')}</p>
-      <div role="group" aria-label={t('language.label')} className="flex gap-2">
-        {LANGUAGES.map((language) => (
-          <button
-            key={language}
-            type="button"
-            aria-pressed={i18n.resolvedLanguage === language}
-            onClick={() => void i18n.changeLanguage(language)}
-            className="rounded-2xl border border-primary px-4 py-2 text-sm font-semibold text-primary aria-pressed:bg-primary aria-pressed:text-background"
-          >
-            {t(`language.${language}`)}
-          </button>
-        ))}
-      </div>
-    </main>
+    <WorkspaceGate>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="calendars/new" element={<CalendarFormPage />} />
+          <Route path="calendars/:id" element={<CalendarPage />} />
+          <Route path="calendars/:id/edit" element={<CalendarFormPage />} />
+          <Route path="shopping" element={<ShoppingPage />} />
+          <Route path="settings" element={<SettingsPage />} />
+          <Route path="tags" element={<TagsPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Route>
+      </Routes>
+    </WorkspaceGate>
   )
 }

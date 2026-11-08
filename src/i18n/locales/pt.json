@@ -4,5 +4,167 @@
     "label": "Idioma",
     "pt": "Português",
     "en": "English"
+  },
+  "common": {
+    "close": "Fechar",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "nav": {
+    "label": "Navegação principal",
+    "calendars": "Calendários",
+    "shopping": "Compras",
+    "settings": "Definições"
+  },
+  "login": {
+    "google": "Entrar com Google",
+    "or": "ou",
+    "email": "Email",
+    "sendLink": "Enviar link de entrada",
+    "linkSent": "Enviámos um link para {{email}}. Abre-o neste dispositivo para entrar.",
+    "confirmEmail": "Confirma o teu email para entrar",
+    "linkFailed": "Este link já não é válido. Pede um novo.",
+    "sendFailed": "Não foi possível enviar o link. Tenta outra vez.",
+    "googleFailed": "Não foi possível entrar com Google.",
+    "emulator": "Entrar (emulador)"
+  },
+  "onboarding": {
+    "title": "Bem-vindo ao 24",
+    "intro": "Os calendários vivem num espaço da família, partilhado com quem convidares.",
+    "defaultName": "Família de {{name}}",
+    "nameLabel": "Nome do espaço",
+    "create": "Criar espaço da família",
+    "invited": "Foste convidado para «{{name}}».",
+    "join": "Entrar",
+    "waitingForInvite": "À espera de um convite? Pede que convidem {{email}}."
+  },
+  "home": {
+    "title": "Calendários",
+    "year": "Ano",
+    "archived": "Ano arquivado. Continua editável.",
+    "archivedShort": "arquivo",
+    "toBuy_one": "Falta {{count}} por comprar",
+    "toBuy_other": "Faltam {{count}} por comprar",
+    "toWrap_one": "Falta {{count}} por embrulhar",
+    "toWrap_other": "Faltam {{count}} por embrulhar",
+    "emptyTitle": "Nada por aqui… nem as renas passaram!",
+    "emptyText": "Ainda não há calendários para {{year}}. Que tal começar já?",
+    "newCalendar": "Novo calendário",
+    "filled": "{{count}} de {{total}} dias"
+  },
+  "progress": {
+    "summary": "{{wrapped}} embrulhados, {{bought}} comprados, {{planned}} planeados, {{empty}} vazios",
+    "wrapped_one": "{{count}} embrulhado",
+    "wrapped_other": "{{count}} embrulhados",
+    "bought_one": "{{count}} comprado",
+    "bought_other": "{{count}} comprados",
+    "planned_one": "{{count}} planeado",
+    "planned_other": "{{count}} planeados",
+    "empty_one": "{{count}} vazio",
+    "empty_other": "{{count}} vazios"
+  },
+  "status": {
+    "planned": "Planeado",
+    "bought": "Comprado",
+    "wrapped": "Embrulhado"
+  },
+  "calendar": {
+    "notFound": "Este calendário não existe ou foi apagado.",
+    "edit": "Editar calendário",
+    "view": "Vista",
+    "grid": "Grelha",
+    "list": "Lista"
+  },
+  "calendarForm": {
+    "newTitle": "Novo calendário",
+    "editTitle": "Editar calendário",
+    "person": "Para quem",
+    "name": "Nome do calendário (opcional)",
+    "year": "Ano",
+    "startDate": "Começa a",
+    "dayCount": "Dias",
+    "suggestions": "Sugestões",
+    "allowRepeats": "Permitir repetir prendas neste calendário",
+    "originality": "Que sugestões preferes?",
+    "traditional": "Tradicionais",
+    "original": "Originais",
+    "delete": "Apagar calendário",
+    "confirmDelete": "Apagar o calendário de {{person}} ({{year}})? Não dá para desfazer."
+  },
+  "filters": {
+    "label": "Filtrar dias",
+    "all": "Todos",
+    "empty": "Vazios ({{count}})",
+    "toBuy": "Por comprar ({{count}})",
+    "toWrap": "Por embrulhar ({{count}})"
+  },
+  "day": {
+    "number": "Dia {{number}}",
+    "emptyLabel": "Dia {{number}}, vazio",
+    "open": "Abrir dia {{number}}",
+    "gift": "Prenda",
+    "giftFor": "Prenda do dia {{number}}",
+    "giftPlaceholder": "Ex.: meias de lã + chocolate",
+    "status": "Estado",
+    "tags": "Etiquetas",
+    "notes": "Notas",
+    "notesPlaceholder": "Ex.: tamanho M, comprar no Lidl",
+    "clear": "Esvaziar dia",
+    "saveAndNext": "Guardar e seguinte",
+    "advance": "Avançar estado"
+  },
+  "shopping": {
+    "title": "Compras",
+    "buyTab": "Comprar ({{count}})",
+    "wrapTab": "Embrulhar ({{count}})",
+    "buyEmpty": "Está tudo comprado!",
+    "wrapEmpty": "Nada à espera de papel e fita."
+  },
+  "tags": {
+    "title": "Etiquetas",
+    "intro": "As etiquetas substituem as cores do Excel. Cada prenda pode ter várias.",
+    "add": "Nova etiqueta",
+    "newName": "Nova etiqueta",
+    "name": "Nome",
+    "emoji": "Emoji",
+    "color": "Cor",
+    "delete": "Apagar",
+    "confirmDelete": "Apagar a etiqueta «{{name}}»? As prendas ficam, sem esta etiqueta.",
+    "defaults": {
+      "sweets": "Doces",
+      "clothes": "Roupa",
+      "home": "Deco",
+      "experiences": "Experiências",
+      "books": "Livros e papelaria"
+    },
+    "colors": {
+      "amber": "Amarelo",
+      "slate": "Cinza",
+      "sky": "Azul",
+      "emerald": "Verde",
+      "purple": "Roxo",
+      "red": "Vermelho",
+      "pink": "Rosa",
+      "orange": "Laranja"
+    }
+  },
+  "settings": {
+    "title": "Definições",
+    "workspace": "Espaço da família",
+    "switchWorkspace": "Espaço ativo",
+    "workspaceName": "Nome",
+    "members": "Membros",
+    "owner": "dono",
+    "pending": "convite pendente",
+    "remove": "Remover",
+    "confirmRemove": "Remover {{name}} do espaço?",
+    "cancelInvite": "Cancelar",
+    "inviteEmail": "Email a convidar",
+    "invite": "Convidar",
+    "inviteHelp": "A pessoa vê o convite ao entrar no 24 com este email.",
+    "tagsHelp": "Nome, emoji e cor das etiquetas das prendas.",
+    "manageTags": "Gerir etiquetas",
+    "signedInAs": "Entraste como {{email}}",
+    "signOut": "Sair"
   }
 }

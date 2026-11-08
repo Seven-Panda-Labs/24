@@ -1,11 +1,125 @@
 rules_version = '2';
 
-// Closed until the data model lands (epic E2, calendars and days). Every new
-// collection gets its rules and a case in firestore.rules.test.ts in the same PR.
+// Data model: docs/architecture.md. Every collection here has cases in
+// firestore.rules.test.ts.
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if false;
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function email() {
+      return request.auth.token.email.lower();
+    }
+
+    // Google and email-link sign-in both verify the address. Without this check
+    // anyone could claim an invite by registering someone else's email.
+    function verified() {
+      return request.auth.token.email_verified == true;
+    }
+
+    function isMember(wid) {
+      return signedIn()
+        && request.auth.uid in get(/databases/$(database)/documents/workspaces/$(wid)).data.memberIds;
+    }
+
+    function changed() {
+      return request.resource.data.diff(resource.data).affectedKeys();
+    }
+
+    function validName(name, max) {
+      return name is string && name.size() > 0 && name.size() <= max;
+    }
+
+    function validMember(member) {
+      return member.keys().hasOnly(['name', 'email'])
+        && member.name is string && member.name.size() <= 80
+        && member.email is string && member.email.size() <= 200;
+    }
+
+    match /workspaces/{wid} {
+      function invited() {
+        return signedIn() && verified() && email() in resource.data.invitedEmails;
+      }
+
+      function validInvites(data) {
+        return data.invitedEmails is list && data.invitedEmails.size() <= 20;
+      }
+
+      function memberUpdate() {
+        return request.auth.uid in resource.data.memberIds
+          && changed().hasOnly(['name', 'invitedEmails'])
+          && validName(request.resource.data.name, 60)
+          && validInvites(request.resource.data);
+      }
+
+      // The owner can also remove members. memberIds (for queries) and the
+      // members map (for display) must keep naming the same people.
+      function ownerUpdate() {
+        let data = request.resource.data;
+        return resource.data.ownerId == request.auth.uid
+          && changed().hasOnly(['name', 'invitedEmails', 'memberIds', 'members'])
+          && request.auth.uid in data.memberIds
+          && data.members.keys().toSet() == data.memberIds.toSet()
+          && validName(data.name, 60)
+          && validInvites(data);
+      }
+
+      // An invited person adds themselves and removes their own invite, nothing else.
+      function acceptInvite() {
+        let data = request.resource.data;
+        return invited()
+          && !(request.auth.uid in resource.data.memberIds)
+          && changed().hasOnly(['memberIds', 'members', 'invitedEmails'])
+          && data.memberIds == resource.data.memberIds.concat([request.auth.uid])
+          && data.members.diff(resource.data.members).affectedKeys().hasOnly([request.auth.uid])
+          && validMember(data.members[request.auth.uid])
+          && data.invitedEmails.toSet() == resource.data.invitedEmails.toSet().difference([email()].toSet());
+      }
+
+      allow read: if signedIn() && (request.auth.uid in resource.data.memberIds || invited());
+
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['name', 'ownerId', 'memberIds', 'members', 'invitedEmails', 'createdAt'])
+        && request.resource.data.ownerId == request.auth.uid
+        && request.resource.data.memberIds == [request.auth.uid]
+        && request.resource.data.members.keys().hasOnly([request.auth.uid])
+        && validMember(request.resource.data.members[request.auth.uid])
+        && validName(request.resource.data.name, 60)
+        && validInvites(request.resource.data);
+
+      allow update: if signedIn() && (memberUpdate() || ownerUpdate() || acceptInvite());
+
+      allow delete: if signedIn() && resource.data.ownerId == request.auth.uid;
+
+      match /calendars/{cid} {
+        function validCalendar(c) {
+          return c.keys().hasOnly(['year', 'person', 'name', 'startDate', 'dayCount', 'allowRepeats', 'originality', 'days', 'createdAt', 'updatedAt'])
+            && c.year is int && c.year >= 2000 && c.year <= 2100
+            && validName(c.person, 80)
+            && c.name is string && c.name.size() <= 80
+            && c.startDate is string && c.startDate.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+            && c.dayCount is int && c.dayCount >= 1 && c.dayCount <= 31
+            && c.allowRepeats is bool
+            && c.originality is number && c.originality >= 0 && c.originality <= 1
+            && c.days is map && c.days.size() <= 31;
+        }
+
+        allow read, delete: if isMember(wid);
+        allow create, update: if isMember(wid) && validCalendar(request.resource.data);
+      }
+
+      match /tags/{tid} {
+        function validTag(t) {
+          return t.keys().hasOnly(['name', 'color', 'emoji'])
+            && validName(t.name, 40)
+            && t.color in ['amber', 'slate', 'sky', 'emerald', 'purple', 'red', 'pink', 'orange']
+            && t.emoji is string && t.emoji.size() <= 16;
+        }
+
+        allow read, delete: if isMember(wid);
+        allow create, update: if isMember(wid) && validTag(request.resource.data);
+      }
     }
   }
 }
