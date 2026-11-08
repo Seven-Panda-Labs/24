@@ -21,7 +21,7 @@
   "nav": {
     "label": "Main navigation",
     "calendars": "Calendars",
-    "shopping": "Shopping",
+    "shopping": "To do",
     "history": "History",
     "settings": "Settings"
   },
@@ -116,7 +116,7 @@
   },
   "sack": {
     "title": "Sack",
-    "intro": "Gifts and ideas without a day yet. They count towards progress while there are empty days.",
+    "intro": "Gifts and ideas without a day yet, as text or a photo. They count towards progress while there are empty days.",
     "add": "Add to sack",
     "noDay": "No day yet",
     "fromSack": "From the sack",
@@ -133,10 +133,13 @@
     "staysEmpty": "Stays empty",
     "kept_one": "{{count}} gift stays in the sack.",
     "kept_other": "{{count}} gifts stay in the sack.",
-    "apply": "Spread"
+    "apply": "Spread",
+    "addPhoto": "Add to sack with a photo",
+    "showMore": "Show more ({{count}})",
+    "showLess": "Show less"
   },
   "shopping": {
-    "title": "Shopping",
+    "title": "To do",
     "buyTab": "Buy ({{count}})",
     "wrapTab": "Wrap ({{count}})",
     "buyEmpty": "Everything is bought!",
@@ -268,7 +271,8 @@
     "remove": "Remove photo",
     "uploading": "Uploading…",
     "failed": "Could not upload the photo.",
-    "offline": "Offline: photos upload only with a connection."
+    "offline": "Offline: photos upload only with a connection.",
+    "untitled": "Gift with a photo"
   },
   "celebration": {
     "title": "All wrapped!",

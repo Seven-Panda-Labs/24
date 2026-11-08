@@ -49,7 +49,7 @@ The PWA reads and writes Firestore and Storage directly, guarded by `firestore.r
 ```
 workspaces/{wid}                 name, ownerId, memberIds[], members{uid: {name, email}}, invitedEmails[]
   calendars/{cid}                year, person, name, startDate, dayCount, allowRepeats, originality,
-                                 days{"1": {gift, status, tagIds[], notes, fromSuggestion?, photoPath?, photoUrl?}, ...},
+                                 days{"1": {gift, status, tagIds[], notes, fromSuggestion?, photoPath?, photoUrl?, thumbUrl?}, ...},
                                  sack{"<id>": {the same fields as a day}}
   tags/{tid}                     name, color, emoji
   feedback/{fid}                 calendarId, gift, action (accepted | dismissed), at
@@ -70,7 +70,9 @@ The **sack** holds a calendar's gifts without a day yet, in the same document, k
 
 **Feedback** is append-only: a row each time a suggestion is picked or dismissed. Dismissed gifts stop being suggested for that calendar. A day filled from a suggestion also carries `fromSuggestion: true`, which feeds the share shown on the History page.
 
-**Photos** live in Storage at `workspaces/{wid}/photos/{cid}/{day}-{timestamp}.jpg` (`sack-{id}-{timestamp}.jpg` for a gift in the sack, a name it keeps when it moves), shrunk in the browser to a JPEG of at most 1280px a side. The day keeps the path, to delete the file, and the download URL, so the photo shows offline from the service worker cache. Uploads need a connection: Storage has no offline queue. Emptying a day or deleting a calendar deletes its photos.
+**Photos** live in Storage at `workspaces/{wid}/photos/{cid}/{day}-{timestamp}.jpg` (`sack-{id}-{timestamp}.jpg` for a gift in the sack, a name it keeps when it moves), shrunk in the browser to a JPEG of at most 1280px a side, next to a 320px copy (`…-thumb.jpg`) for grid doors and list rows. The day keeps the path, to delete the files, and both download URLs, so the photo shows offline from the service worker cache. Uploads need a connection: Storage has no offline queue. Emptying a day or deleting a calendar deletes its photos.
+
+A gift has a name, a photo or both: `gift` is empty for a gift that is only a photo, and such a gift counts as filled everywhere a named one does (progress, filters, the reminder). Choosing a photo for an empty day or in the sack creates the gift straight away.
 
 Rules: [`firestore.rules`](../firestore.rules) and [`storage.rules`](../storage.rules), tested together in [`firestore.rules.test.ts`](../firestore.rules.test.ts) against the emulators. Storage rules read workspace membership from Firestore. Indexes: [`firestore.indexes.json`](../firestore.indexes.json).
 
@@ -88,7 +90,7 @@ Rules: [`firestore.rules`](../firestore.rules) and [`storage.rules`](../storage.
 
 Opt-in per device, in Settings, shown only when `VITE_FIREBASE_VAPID_KEY` is set. Turning it on asks for notification permission, gets an FCM token for the app's service worker ([`src/services/push.ts`](../src/services/push.ts)) and adds it to `users/{uid}.fcmTokens`, with the interface language.
 
-[`functions/src/index.ts`](../functions/src/index.ts) runs on Sundays at 18:00 Lisbon time and does nothing outside 1 November to 24 December. For each workspace it counts what is left in the year's calendars (to buy, to wrap, days to fill) and sends each member who has tokens a data message: title, body, link to the shopping list. [`public/push-sw.js`](../public/push-sw.js), loaded into the generated service worker, shows it. Tokens FCM reports as gone are removed. The counting and the text are in [`functions/src/reminders.ts`](../functions/src/reminders.ts), tested from the root suite.
+[`functions/src/index.ts`](../functions/src/index.ts) runs on Sundays at 18:00 Lisbon time and does nothing outside 1 November to 24 December. For each workspace it counts what is left in the year's calendars (to buy, to wrap, days to fill) and sends each member who has tokens a data message: title, body, link to the To do page (`/todo`; `/shopping`, its old path, redirects there). [`public/push-sw.js`](../public/push-sw.js), loaded into the generated service worker, shows it. Tokens FCM reports as gone are removed. The counting and the text are in [`functions/src/reminders.ts`](../functions/src/reminders.ts), tested from the root suite.
 
 ## Offline
 

@@ -21,7 +21,7 @@
   "nav": {
     "label": "Navegação principal",
     "calendars": "Calendários",
-    "shopping": "Compras",
+    "shopping": "Por fazer",
     "history": "Histórico",
     "settings": "Definições"
   },
@@ -116,7 +116,7 @@
   },
   "sack": {
     "title": "Saco",
-    "intro": "Prendas e ideias ainda sem dia. Contam para o progresso enquanto houver dias vazios.",
+    "intro": "Prendas e ideias ainda sem dia, escritas ou em foto. Contam para o progresso enquanto houver dias vazios.",
     "add": "Pôr no saco",
     "noDay": "Ainda sem dia",
     "fromSack": "Do saco",
@@ -133,10 +133,13 @@
     "staysEmpty": "Fica vazio",
     "kept_one": "{{count}} prenda fica no saco.",
     "kept_other": "{{count}} prendas ficam no saco.",
-    "apply": "Distribuir"
+    "apply": "Distribuir",
+    "addPhoto": "Pôr no saco com uma foto",
+    "showMore": "Ver mais ({{count}})",
+    "showLess": "Ver menos"
   },
   "shopping": {
-    "title": "Compras",
+    "title": "Por fazer",
     "buyTab": "Comprar ({{count}})",
     "wrapTab": "Embrulhar ({{count}})",
     "buyEmpty": "Está tudo comprado!",
@@ -268,7 +271,8 @@
     "remove": "Remover foto",
     "uploading": "A enviar…",
     "failed": "Não foi possível enviar a foto.",
-    "offline": "Sem rede: as fotos só se enviam com ligação."
+    "offline": "Sem rede: as fotos só se enviam com ligação.",
+    "untitled": "Prenda com foto"
   },
   "celebration": {
     "title": "Tudo embrulhado!",

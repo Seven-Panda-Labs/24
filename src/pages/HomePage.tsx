@@ -61,7 +61,7 @@ export default function HomePage() {
       {archived && <p className="text-sm text-foreground/70">📦 {t('home.archived')}</p>}
 
       {ofYear.length > 0 && (totals.planned > 0 || totals.bought > 0) && (
-        <Link to={year === currentYear() ? '/shopping' : `/shopping?year=${year}`} className="card flex flex-wrap gap-x-4 gap-y-1 py-3 text-sm font-semibold">
+        <Link to={year === currentYear() ? '/todo' : `/todo?year=${year}`} className="card flex flex-wrap gap-x-4 gap-y-1 py-3 text-sm font-semibold">
           <span>🛍️ {t('home.toBuy', { count: totals.planned })}</span>
           <span>🎁 {t('home.toWrap', { count: totals.bought })}</span>
         </Link>

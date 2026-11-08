@@ -6,8 +6,9 @@ describe('countsFor', () => {
     const counts = countsFor([
       { dayCount: 4, days: { '1': { gift: 'Meias', status: 'planned' }, '2': { gift: 'Vela', status: 'bought' }, '3': { gift: 'Doces', status: 'wrapped' } } },
       { dayCount: 2, days: { '1': { gift: '', status: 'planned' }, '2': null } },
+      { dayCount: 1, days: { '1': { gift: '', photoUrl: 'https://example.com/1.jpg', status: 'planned' } } },
     ])
-    expect(counts).toEqual({ toBuy: 1, toWrap: 1, empty: 3 })
+    expect(counts).toEqual({ toBuy: 2, toWrap: 1, empty: 3 })
   })
 
   it('counts the sack towards the empty days, the furthest along first', () => {
@@ -27,7 +28,7 @@ describe('reminderFor', () => {
     expect(reminderFor({ toBuy: 3, toWrap: 0, empty: 5 }, 'pt-PT')).toEqual({
       title: '24 · Ponto da situação',
       body: 'Por comprar: 3 · Dias por preencher: 5',
-      url: '/shopping',
+      url: '/todo',
     })
     expect(reminderFor({ toBuy: 0, toWrap: 0, empty: 2 }, 'en')).toMatchObject({ body: 'Days to fill: 2', url: '/' })
     expect(reminderFor({ toBuy: 0, toWrap: 1, empty: 0 }, 'de')).toMatchObject({ body: 'Zu verpacken: 1' })

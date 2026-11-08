@@ -1,5 +1,17 @@
 # Registo de alterações
 
+## [0.16.0] - 2026-11-08
+
+### Adicionado
+
+- Prendas por foto: no saco ou num dia vazio, tirar ou escolher uma foto cria logo a prenda, e o nome passa a ser opcional.
+
+### Alterado
+
+- O saco passa para o topo do calendário, antes dos dias. Mostra as 3 prendas mais recentes e um botão "Ver mais" para as restantes.
+- As fotos ficam bem visíveis: ocupam a porta inteira na grelha e aparecem em miniatura na lista, no saco, em Por fazer e no histórico.
+- Compras passa a chamar-se Por fazer, porque tem o que falta comprar e o que falta embrulhar.
+
 ## [0.15.0] - 2026-11-08
 
 ### Adicionado

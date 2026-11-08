@@ -1,5 +1,17 @@
 # Änderungsprotokoll
 
+## [0.16.0] - 2026-11-08
+
+### Hinzugefügt
+
+- Geschenke per Foto: Im Sack oder an einem leeren Tag legt ein aufgenommenes oder ausgewähltes Foto das Geschenk sofort an, der Name ist dann optional.
+
+### Geändert
+
+- Der Sack steht jetzt oben im Kalender, vor den Tagen. Er zeigt die 3 neuesten Geschenke und „Mehr anzeigen“ für den Rest.
+- Fotos sind gut sichtbar: Im Raster füllen sie das ganze Türchen, in der Liste, im Sack, unter „Zu erledigen“ und im Verlauf erscheinen sie als Miniatur.
+- „Einkäufe“ heißt jetzt „Zu erledigen“, weil dort steht, was noch zu kaufen und was noch zu verpacken ist.
+
 ## [0.15.0] - 2026-11-08
 
 ### Hinzugefügt

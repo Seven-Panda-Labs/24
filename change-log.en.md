@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.16.0] - 2026-11-08
+
+### Added
+
+- Gifts from a photo: in the sack or on an empty day, taking or choosing a photo creates the gift straight away, and the name becomes optional.
+
+### Changed
+
+- The sack moves to the top of the calendar, before the days. It shows the 3 newest gifts and a "Show more" button for the rest.
+- Photos stand out: they fill the whole door on the grid and show as thumbnails in the list, the sack, To do and History.
+- Shopping is now called To do, since it holds what is left to buy and what is left to wrap.
+
 ## [0.15.0] - 2026-11-08
 
 ### Added

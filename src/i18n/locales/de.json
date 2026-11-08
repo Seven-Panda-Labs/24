@@ -21,7 +21,7 @@
   "nav": {
     "label": "Hauptnavigation",
     "calendars": "Kalender",
-    "shopping": "Einkäufe",
+    "shopping": "Zu erledigen",
     "history": "Verlauf",
     "settings": "Einstellungen"
   },
@@ -116,7 +116,7 @@
   },
   "sack": {
     "title": "Sack",
-    "intro": "Geschenke und Ideen, die noch keinen Tag haben. Sie zählen zum Fortschritt, solange es leere Tage gibt.",
+    "intro": "Geschenke und Ideen, die noch keinen Tag haben, als Text oder Foto. Sie zählen zum Fortschritt, solange es leere Tage gibt.",
     "add": "In den Sack",
     "noDay": "Noch kein Tag",
     "fromSack": "Aus dem Sack",
@@ -133,10 +133,13 @@
     "staysEmpty": "Bleibt leer",
     "kept_one": "{{count}} Geschenk bleibt im Sack.",
     "kept_other": "{{count}} Geschenke bleiben im Sack.",
-    "apply": "Verteilen"
+    "apply": "Verteilen",
+    "addPhoto": "Mit Foto in den Sack",
+    "showMore": "Mehr anzeigen ({{count}})",
+    "showLess": "Weniger anzeigen"
   },
   "shopping": {
-    "title": "Einkäufe",
+    "title": "Zu erledigen",
     "buyTab": "Kaufen ({{count}})",
     "wrapTab": "Verpacken ({{count}})",
     "buyEmpty": "Alles gekauft!",
@@ -268,7 +271,8 @@
     "remove": "Foto entfernen",
     "uploading": "Wird hochgeladen…",
     "failed": "Das Foto konnte nicht hochgeladen werden.",
-    "offline": "Offline: Fotos werden nur mit Verbindung hochgeladen."
+    "offline": "Offline: Fotos werden nur mit Verbindung hochgeladen.",
+    "untitled": "Geschenk mit Foto"
   },
   "celebration": {
     "title": "Alles verpackt!",

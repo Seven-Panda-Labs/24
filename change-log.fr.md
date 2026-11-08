@@ -1,5 +1,17 @@
 # Journal des modifications
 
+## [0.16.0] - 2026-11-08
+
+### Ajouté
+
+- Des cadeaux en photo : dans la hotte ou sur un jour vide, prendre ou choisir une photo crée tout de suite le cadeau, et le nom devient facultatif.
+
+### Modifié
+
+- La hotte passe en haut du calendrier, avant les jours. Elle montre les 3 cadeaux les plus récents et « Voir plus » pour les autres.
+- Les photos se voient bien : elles remplissent toute la porte dans la grille et apparaissent en miniature dans la liste, la hotte, « À faire » et l’historique.
+- « Achats » s’appelle maintenant « À faire », parce qu’on y trouve ce qu’il reste à acheter et à emballer.
+
 ## [0.15.0] - 2026-11-08
 
 ### Ajouté

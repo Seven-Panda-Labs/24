@@ -110,13 +110,32 @@ describe('dayChanges', () => {
     })
     expect(dayChanges(before, { ...draft, gift: '' })).toBeNull()
   })
+
+  it('keeps a gift with a photo when its name is cleared or was never typed', () => {
+    expect(dayChanges(before, { ...draft, gift: '' }, true)).toEqual({ gift: '' })
+    expect(dayChanges(undefined, { ...draft, gift: ' ', status: 'planned' }, true)).toEqual({
+      gift: '',
+      status: 'planned',
+      tagIds: ['clothes'],
+      notes: '',
+    })
+  })
 })
 
 describe('cleanDays', () => {
-  it('repairs malformed days and drops ones without a gift', () => {
-    expect(cleanDays({ '1': { gift: 'Meias' }, '2': { gift: 5 }, '3': null, '4': { gift: 'Vela', status: 'lost', tagIds: ['home', 3], notes: 'x' } })).toEqual({
+  it('repairs malformed days and drops ones with neither a name nor a photo', () => {
+    expect(
+      cleanDays({
+        '1': { gift: 'Meias' },
+        '2': { gift: 5 },
+        '3': null,
+        '4': { gift: 'Vela', status: 'lost', tagIds: ['home', 3], notes: 'x' },
+        '5': { photoUrl: 'https://example.com/5.jpg' },
+      }),
+    ).toEqual({
       '1': { gift: 'Meias', status: 'planned', tagIds: [], notes: '' },
       '4': { gift: 'Vela', status: 'planned', tagIds: ['home'], notes: 'x' },
+      '5': { gift: '', photoUrl: 'https://example.com/5.jpg', status: 'planned', tagIds: [], notes: '' },
     })
     expect(cleanDays(undefined)).toEqual({})
   })

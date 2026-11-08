@@ -1,6 +1,6 @@
 // No Firebase imports here: the root Vitest suite tests this file directly.
 
-type GiftDoc = { gift?: unknown; status?: unknown } | null
+type GiftDoc = { gift?: unknown; photoUrl?: unknown; status?: unknown } | null
 
 export interface CalendarDoc {
   dayCount: number
@@ -14,7 +14,9 @@ export interface Counts {
   empty: number
 }
 
-const hasGift = (value: GiftDoc | undefined) => typeof value?.gift === 'string' && value.gift !== ''
+// A name, a photo or both, as in the app.
+const hasGift = (value: GiftDoc | undefined) =>
+  (typeof value?.gift === 'string' && value.gift !== '') || typeof value?.photoUrl === 'string'
 const FURTHEST_FIRST: Record<string, number> = { wrapped: 0, bought: 1 }
 
 /**
@@ -62,5 +64,5 @@ export function reminderFor(counts: Counts, language: unknown): { title: string;
   const text = TEXT[language as keyof typeof TEXT] ?? TEXT['pt-PT']
   const parts = (['toBuy', 'toWrap', 'empty'] as const).filter((key) => counts[key] > 0).map((key) => `${text[key]}: ${counts[key]}`)
   if (!parts.length) return null
-  return { title: text.title, body: parts.join(' · '), url: counts.toBuy + counts.toWrap > 0 ? '/shopping' : '/' }
+  return { title: text.title, body: parts.join(' · '), url: counts.toBuy + counts.toWrap > 0 ? '/todo' : '/' }
 }

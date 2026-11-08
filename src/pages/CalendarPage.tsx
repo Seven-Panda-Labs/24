@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import DayCard from '../components/DayCard.tsx'
 import DayEditor from '../components/DayEditor.tsx'
+import { GiftThumb } from '../components/Gift.tsx'
 import ProgressBar from '../components/ProgressBar.tsx'
 import Celebration from '../components/Celebration.tsx'
 import Sack from '../components/Sack.tsx'
@@ -19,7 +20,6 @@ import {
   dayOf,
   giftAt,
   matchesFilter,
-  newSackId,
   nextStatus,
   progressOf,
   sackOf,
@@ -65,7 +65,7 @@ export default function CalendarPage() {
   const save = (slot: Slot, changes: Partial<Day> | null) => {
     const current = giftAt(calendar, slot)
     if (changes === null) {
-      if (current?.photoPath) deletePhoto(current.photoPath)
+      if (current) deletePhoto(current)
       clearGift(workspace.id, calendar.id, slot)
       return
     }
@@ -136,6 +136,21 @@ export default function CalendarPage() {
         complete={days.every((day) => dayOf(calendar, day)?.status === 'wrapped')}
       />
 
+      <Sack
+        calendar={calendar}
+        tags={tagsById}
+        onAdd={(id, value) => updateGift(workspace.id, calendar.id, { sack: id }, value)}
+        onAdvance={(id, value) => updateGift(workspace.id, calendar.id, { sack: id }, { status: nextStatus(value.status) })}
+        onOpen={(id) => open({ sack: id })}
+        onDistribute={(plan) =>
+          moveGifts(
+            workspace.id,
+            calendar.id,
+            plan.map(({ id, day }) => ({ from: { sack: id }, to: { day }, value: calendar.sack[id] })),
+          )
+        }
+      />
+
       <div className="flex flex-wrap items-center gap-2">
         <div role="group" aria-label={t('filters.label')} className="flex flex-wrap gap-1.5">
           {filters.map((option) => (
@@ -199,21 +214,6 @@ export default function CalendarPage() {
         </ol>
       )}
 
-      <Sack
-        calendar={calendar}
-        tags={tagsById}
-        onAdd={(gift) => updateGift(workspace.id, calendar.id, { sack: newSackId() }, { gift, status: 'planned', tagIds: [], notes: '' })}
-        onAdvance={(id, value) => updateGift(workspace.id, calendar.id, { sack: id }, { status: nextStatus(value.status) })}
-        onOpen={(id) => open({ sack: id })}
-        onDistribute={(plan) =>
-          moveGifts(
-            workspace.id,
-            calendar.id,
-            plan.map(({ id, day }) => ({ from: { sack: id }, to: { day }, value: calendar.sack[id] })),
-          )
-        }
-      />
-
       {openSlot && (
         <DayEditor
           key={'day' in openSlot ? openSlot.day : openSlot.sack}
@@ -265,7 +265,7 @@ function ListRow({
   function commit(gift: string) {
     const trimmed = gift.trim()
     if (trimmed === (day?.gift ?? '')) return
-    if (!trimmed) onSave(null)
+    if (!trimmed && !day?.photoUrl) onSave(null)
     else onSave(day ? { gift: trimmed } : { gift: trimmed, status: 'planned', tagIds: [], notes: '' })
   }
 
@@ -274,11 +274,12 @@ function ListRow({
       <button type="button" onClick={onOpen} className="w-8 font-display font-bold text-primary" aria-label={t('day.open', { number })}>
         {String(number).padStart(2, '0')}
       </button>
+      {day && <GiftThumb value={day} />}
       <input
         key={day?.gift ?? ''}
         defaultValue={day?.gift ?? ''}
         aria-label={t('day.giftFor', { number })}
-        placeholder={t('day.giftPlaceholder')}
+        placeholder={day && !day.gift ? t('photo.untitled') : t('day.giftPlaceholder')}
         onBlur={(event) => commit(event.target.value)}
         onKeyDown={(event) => {
           if (event.key !== 'Enter') return

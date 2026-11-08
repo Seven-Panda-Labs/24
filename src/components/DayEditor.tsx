@@ -4,6 +4,7 @@ import { dateOfDay, dayChanges, dayNumbers, dayOf, giftAt, newSackId, sackOf } f
 import { TAG_STYLES } from '../domain/tags.ts'
 import { STATUSES, type Calendar, type Day, type Slot, type Tag } from '../domain/types.ts'
 import type { Suggestion } from '../suggestions/engine.ts'
+import { GiftName, GiftThumb } from './Gift.tsx'
 import PhotoField from './PhotoField.tsx'
 import SuggestionList from './SuggestionList.tsx'
 
@@ -40,7 +41,9 @@ export default function DayEditor({ calendar, slot, tags, onSave, onMove, onClos
     return () => window.removeEventListener('keydown', onKey)
   }, [onClose])
 
-  const changes = () => dayChanges(before, { gift, status, tagIds, notes, fromSuggestion })
+  const draft = { gift, status, tagIds, notes, fromSuggestion }
+  const hasPhoto = Boolean(saved?.photoUrl)
+  const changes = () => dayChanges(before, draft, hasPhoto)
 
   function submit(event: FormEvent) {
     event.preventDefault()
@@ -92,6 +95,8 @@ export default function DayEditor({ calendar, slot, tags, onSave, onMove, onClos
           />
         </label>
 
+        <PhotoField calendarId={calendar.id} slot={slot} value={saved} draft={dayChanges(undefined, draft, true) ?? {}} />
+
         {!gift.trim() && sack.length > 0 && (
           <section aria-labelledby="from-sack-title" className="flex flex-col gap-2 rounded-2xl bg-foreground/5 p-3">
             <h3 id="from-sack-title" className="text-sm font-bold">
@@ -106,9 +111,12 @@ export default function DayEditor({ calendar, slot, tags, onSave, onMove, onClos
                       onMove({ sack: id }, slot, {})
                       onClose()
                     }}
-                    className="flex w-full items-center justify-between gap-2 rounded-xl bg-background px-3 py-2 text-left"
+                    className="flex w-full items-center gap-2 rounded-xl bg-background px-3 py-2 text-left"
                   >
-                    <span className="font-semibold">{value.gift}</span>
+                    <GiftThumb value={value} />
+                    <span className="flex-1 font-semibold">
+                      <GiftName value={value} />
+                    </span>
                     <span className="text-xs text-foreground/70">{t(`status.${value.status}`)}</span>
                   </button>
                 </li>
@@ -129,7 +137,7 @@ export default function DayEditor({ calendar, slot, tags, onSave, onMove, onClos
           />
         )}
 
-        <fieldset className="flex flex-col gap-1" disabled={!gift.trim()}>
+        <fieldset className="flex flex-col gap-1" disabled={!gift.trim() && !hasPhoto}>
           <legend className="mb-1 text-sm font-semibold">{t('day.status')}</legend>
           <div className="grid grid-cols-3 gap-1 rounded-2xl bg-foreground/5 p-1">
             {STATUSES.map((option) => (
@@ -178,8 +186,6 @@ export default function DayEditor({ calendar, slot, tags, onSave, onMove, onClos
             className="input"
           />
         </label>
-
-        {saved && <PhotoField calendarId={calendar.id} slot={slot} value={saved} />}
 
         {'sack' in slot && emptyDays.length > 0 && (
           <label className="flex flex-col gap-1 text-sm font-semibold">

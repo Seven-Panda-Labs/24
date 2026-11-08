@@ -138,12 +138,12 @@ function jitter(text: string): number {
   return (hash >>> 0) / 2 ** 32
 }
 
-/** Every filled day of the given calendars, as suggestion history. */
+/** Every named gift on the days of the given calendars, as suggestion history. */
 export function historyOf(calendars: Calendar[]): HistoryGift[] {
   return calendars.flatMap((calendar) =>
     dayNumbers(calendar).flatMap((day) => {
       const value = dayOf(calendar, day)
-      return value ? [{ gift: value.gift, person: calendar.person, year: calendar.year, tagIds: value.tagIds }] : []
+      return value?.gift ? [{ gift: value.gift, person: calendar.person, year: calendar.year, tagIds: value.tagIds }] : []
     }),
   )
 }
