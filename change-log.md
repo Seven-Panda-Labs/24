@@ -1,5 +1,14 @@
 # Registo de alterações
 
+## [0.4.0] - 2026-11-08
+
+### Adicionado
+
+- Sugestões num dia vazio: tradições da pessoa, prendas esquecidas há anos e ideias novas, sem repetir o que deu nos últimos dois anos.
+- Em cada calendário, escolher entre sugestões tradicionais e originais, e se pode repetir prendas.
+- Dispensar uma sugestão deixa de a mostrar nesse calendário.
+- O histórico mostra que parte dos dias deste ano veio de sugestões.
+
 ## [0.3.0] - 2026-11-08
 
 ### Adicionado

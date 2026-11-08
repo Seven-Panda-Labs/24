@@ -176,6 +176,68 @@
     "count_one": "{{count}} prenda",
     "count_other": "{{count}} prendas",
     "noMatch": "Nenhuma prenda com esse nome. Nem no sapatinho.",
-    "empty": "Ainda não há histórico. Os calendários de cada ano ficam aqui."
+    "empty": "Ainda não há histórico. Os calendários de cada ano ficam aqui.",
+    "suggestionShare": "{{percent}}% dos dias preenchidos em {{year}} vieram de sugestões."
+  },
+  "suggestions": {
+    "title": "Sugestões",
+    "tradition_one": "Tradição: {{count}} ano, o último em {{year}}",
+    "tradition_other": "Tradição: {{count}} anos, o último em {{year}}",
+    "forgotten": "Não aparece desde {{year}}",
+    "family": "Já foi para outra pessoa da família",
+    "idea": "Ideia nova",
+    "dismiss": "Não sugerir «{{gift}}» neste calendário"
+  },
+  "ideas": {
+    "sweets": [
+      "Chocolate quente em pó",
+      "Bolachas de gengibre",
+      "Pai Natal de chocolate",
+      "Caramelos salgados",
+      "Bengalas de açúcar",
+      "Marshmallows",
+      "Amêndoas cobertas",
+      "Mel aromatizado"
+    ],
+    "clothes": [
+      "Meias de Natal",
+      "Gorro de lã",
+      "Luvas para ecrã tátil",
+      "Pantufas",
+      "Cachecol",
+      "Elásticos de cabelo",
+      "Bandolete",
+      "Lenço de bolso"
+    ],
+    "home": [
+      "Vela aromática",
+      "Enfeite para a árvore",
+      "Luzes LED a pilhas",
+      "Bases para copos",
+      "Sementes de ervas aromáticas",
+      "Pano de cozinha",
+      "Íman de frigorífico",
+      "Mini suculenta"
+    ],
+    "experiences": [
+      "Vale para pequeno-almoço na cama",
+      "Bilhetes de cinema",
+      "Vale para uma noite de jogos",
+      "Passeio para ver as luzes de Natal",
+      "Vale para uma massagem",
+      "Aula de culinária",
+      "Visita a um museu",
+      "Patinagem no gelo"
+    ],
+    "books": [
+      "Marcador de livros",
+      "Washi tape",
+      "Caneta bonita",
+      "Postais de Natal",
+      "Autocolantes",
+      "Mini caderno",
+      "Livro de bolso",
+      "Lápis de cor"
+    ]
   }
 }

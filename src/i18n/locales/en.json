@@ -176,6 +176,68 @@
     "count_one": "{{count}} gift",
     "count_other": "{{count}} gifts",
     "noMatch": "No gift by that name. Not even in the stocking.",
-    "empty": "No history yet. Every year's calendars end up here."
+    "empty": "No history yet. Every year's calendars end up here.",
+    "suggestionShare": "{{percent}}% of the days filled in {{year}} came from suggestions."
+  },
+  "suggestions": {
+    "title": "Suggestions",
+    "tradition_one": "Tradition: {{count}} year, last in {{year}}",
+    "tradition_other": "Tradition: {{count}} years, last in {{year}}",
+    "forgotten": "Not seen since {{year}}",
+    "family": "Already given to someone else in the family",
+    "idea": "New idea",
+    "dismiss": "Stop suggesting “{{gift}}” for this calendar"
+  },
+  "ideas": {
+    "sweets": [
+      "Hot chocolate mix",
+      "Gingerbread biscuits",
+      "Chocolate Santa",
+      "Salted caramels",
+      "Candy canes",
+      "Marshmallows",
+      "Sugared almonds",
+      "Flavoured honey"
+    ],
+    "clothes": [
+      "Christmas socks",
+      "Wool beanie",
+      "Touchscreen gloves",
+      "Slippers",
+      "Scarf",
+      "Hair ties",
+      "Headband",
+      "Handkerchief"
+    ],
+    "home": [
+      "Scented candle",
+      "Tree ornament",
+      "Battery fairy lights",
+      "Coasters",
+      "Herb seeds",
+      "Tea towel",
+      "Fridge magnet",
+      "Mini succulent"
+    ],
+    "experiences": [
+      "Voucher for breakfast in bed",
+      "Cinema tickets",
+      "Voucher for a games night",
+      "Walk to see the Christmas lights",
+      "Massage voucher",
+      "Cooking class",
+      "Museum visit",
+      "Ice skating"
+    ],
+    "books": [
+      "Bookmark",
+      "Washi tape",
+      "Nice pen",
+      "Christmas cards",
+      "Stickers",
+      "Mini notebook",
+      "Pocket book",
+      "Coloured pencils"
+    ]
   }
 }

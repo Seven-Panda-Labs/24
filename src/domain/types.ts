@@ -6,6 +6,8 @@ export interface Day {
   status: Status
   tagIds: string[]
   notes: string
+  /** The gift was picked from a suggestion. */
+  fromSuggestion?: boolean
 }
 
 export interface CalendarFields {

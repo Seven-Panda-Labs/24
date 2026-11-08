@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.4.0] - 2026-11-08
+
+### Added
+
+- Suggestions on an empty day: the person's traditions, gifts forgotten for years and new ideas, avoiding what they got in the last two years.
+- Each calendar chooses between traditional and original suggestions, and whether gifts can repeat.
+- Dismissing a suggestion stops showing it for that calendar.
+- History shows how many of this year's days came from suggestions.
+
 ## [0.3.0] - 2026-11-08
 
 ### Added

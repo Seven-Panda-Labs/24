@@ -5,9 +5,13 @@ import DayCard from '../components/DayCard.tsx'
 import DayEditor from '../components/DayEditor.tsx'
 import ProgressBar from '../components/ProgressBar.tsx'
 import TagChip from '../components/TagChip.tsx'
+import { query, where } from 'firebase/firestore'
 import { saveDay, setDayStatus } from '../data/calendars.ts'
+import { feedbackOf, recordFeedback, type Feedback } from '../data/feedback.ts'
+import { useDocs } from '../data/useDocs.ts'
 import { currentYear, dayNumbers, dayOf, matchesFilter, nextStatus, progressOf, type DayFilter } from '../domain/days.ts'
 import type { Day, Tag } from '../domain/types.ts'
+import { historyOf, suggest, type Idea } from '../suggestions/engine.ts'
 import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
 
 const VIEW_KEY = '24:calendar-view'
@@ -20,6 +24,10 @@ export default function CalendarPage() {
   const [view, setView] = useState<'grid' | 'list'>(() => (localStorage.getItem(VIEW_KEY) === 'list' ? 'list' : 'grid'))
   const [filter, setFilter] = useState<DayFilter>('all')
   const calendar = calendars.find((candidate) => candidate.id === id)
+  const feedback =
+    useDocs<Feedback>(id ? `feedback:${workspace.id}:${id}` : null, () =>
+      query(feedbackOf(workspace.id), where('calendarId', '==', id)),
+    ) ?? []
 
   if (!calendar) {
     return (
@@ -35,7 +43,27 @@ export default function CalendarPage() {
   const days = dayNumbers(calendar)
 
   const open = (day: number | null) => setParams(day ? { day: String(day) } : {}, { replace: openDay !== null })
-  const save = (day: number, value: Day | null) => saveDay(workspace.id, calendar.id, day, value)
+  const save = (day: number, value: Day | null) => {
+    saveDay(workspace.id, calendar.id, day, value)
+    if (value?.fromSuggestion && !dayOf(calendar, day)?.fromSuggestion) {
+      recordFeedback(workspace.id, calendar.id, value.gift, 'accepted')
+    }
+  }
+
+  const ideas: Idea[] = Object.entries(t('ideas', { returnObjects: true }) as Record<string, string[]>).flatMap(
+    ([category, gifts]) => gifts.map((gift) => ({ gift, tagIds: [category] })),
+  )
+  const suggestions =
+    openDay !== null && !dayOf(calendar, openDay)
+      ? suggest({
+          history: historyOf(calendars.filter((other) => other.id !== calendar.id)),
+          calendar,
+          current: days.flatMap((day) => dayOf(calendar, day)?.gift ?? []),
+          ideas,
+          dismissed: feedback.filter((entry) => entry.action === 'dismissed').map((entry) => entry.gift),
+          seed: `${calendar.id}:${openDay}`,
+        })
+      : []
   const nextEmpty = (after: number) => days.find((day) => day > after && !dayOf(calendar, day)) ?? null
 
   function changeView(next: 'grid' | 'list') {
@@ -142,6 +170,8 @@ export default function CalendarPage() {
           onSave={(value) => save(openDay, value)}
           onClose={() => open(null)}
           onNext={nextEmpty(openDay) === null ? undefined : () => open(nextEmpty(openDay))}
+          suggestions={suggestions}
+          onDismiss={(suggestion) => recordFeedback(workspace.id, calendar.id, suggestion.gift, 'dismissed')}
         />
       )}
     </div>

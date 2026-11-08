@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import EmptyState from '../components/EmptyState.tsx'
 import TagChip from '../components/TagChip.tsx'
-import { dayNumbers, dayOf } from '../domain/days.ts'
+import { currentYear, dayNumbers, dayOf } from '../domain/days.ts'
 import { normalize } from '../domain/text.ts'
 import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
 
@@ -29,6 +29,12 @@ export default function HistoryPage() {
     )
 
   const years = [...new Set(entries.map((entry) => entry.calendar.year))].sort((a, b) => b - a)
+
+  // The brief's success measure: suggestions used for at least 30% of the days.
+  const filledThisYear = calendars
+    .filter((calendar) => calendar.year === currentYear())
+    .flatMap((calendar) => dayNumbers(calendar).flatMap((day) => dayOf(calendar, day) ?? []))
+  const fromSuggestions = filledThisYear.filter((day) => day.fromSuggestion).length
 
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-4">
@@ -61,6 +67,15 @@ export default function HistoryPage() {
       <p className="text-sm text-foreground/60" role="status">
         {t('history.count', { count: entries.length })}
       </p>
+      {filledThisYear.length > 0 && (
+        <p className="text-sm text-foreground/60">
+          ✨{' '}
+          {t('history.suggestionShare', {
+            percent: Math.round((100 * fromSuggestions) / filledThisYear.length),
+            year: currentYear(),
+          })}
+        </p>
+      )}
 
       {entries.length === 0 ? (
         <EmptyState illustration="cocoa" title={t(calendars.length ? 'history.noMatch' : 'history.empty')} />

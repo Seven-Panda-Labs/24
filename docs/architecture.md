@@ -45,6 +45,7 @@ workspaces/{wid}                 name, ownerId, memberIds[], members{uid: {name,
   calendars/{cid}                year, person, name, startDate, dayCount, allowRepeats, originality,
                                  days{"1": {gift, status, tagIds[], notes}, ...}
   tags/{tid}                     name, color, emoji
+  feedback/{fid}                 calendarId, gift, action (accepted | dismissed), at
 ```
 
 A **workspace** is the family space. `memberIds` is there for the "my workspaces" query, `members` for showing names; the rules keep them in step. Any member can rename it and invite; only the owner removes members.
@@ -55,7 +56,19 @@ A **calendar** keeps its days in a map keyed by day number, so a year of history
 
 **Tags** start as the five defaults in `src/domain/tags.ts`; their ids are stable and other code refers to them.
 
+**Feedback** is append-only: a row each time a suggestion is picked or dismissed. Dismissed gifts stop being suggested for that calendar. A day filled from a suggestion also carries `fromSuggestion: true`, which feeds the share shown on the History page.
+
 Rules: [`firestore.rules`](../firestore.rules), tested in [`firestore.rules.test.ts`](../firestore.rules.test.ts) against the emulator. Indexes: [`firestore.indexes.json`](../firestore.indexes.json). Storage rules deny everything until gift photos land.
+
+## Suggestions
+
+[`src/suggestions/engine.ts`](../src/suggestions/engine.ts) scores candidates in the browser, from the workspace's other calendars and the idea catalog (`ideas.*` in the locales, one list per default tag):
+
+- **Traditions:** gifts this person got before, weighted by how many years they got them.
+- **Recent:** anything this person got in the last two years scores 30% of its tradition weight.
+- **New:** gifts they never got (from the catalog, or given to someone else in the family) score 1 for novelty; gifts they last got three or more years ago score 0.5.
+- The calendar's slider mixes the two: `(1 - originality) × tradition + originality × novelty`. Between the extremes, the five picks always include at least one of each.
+- With repeats off, gifts already in the calendar are left out. A small hash of calendar, day and gift breaks ties, so each day shows a different order but the same day always shows the same one.
 
 ## Offline
 

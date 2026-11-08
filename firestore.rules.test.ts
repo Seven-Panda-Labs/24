@@ -6,6 +6,7 @@ import {
   initializeTestEnvironment,
   type RulesTestEnvironment,
 } from '@firebase/rules-unit-testing'
+import { collection, deleteDoc, doc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
 import { afterAll, beforeAll, beforeEach, describe, it } from 'vitest'
 
 let testEnv: RulesTestEnvironment
@@ -148,5 +149,23 @@ describe('tags', () => {
     await assertSucceeds(as('bob').doc('workspaces/w1/tags/sweets').set({ name: 'Doces', color: 'amber', emoji: '🍬' }))
     await assertFails(as('bob').doc('workspaces/w1/tags/x').set({ name: 'Doces', color: 'gold', emoji: '🍬' }))
     await assertFails(as('eve').doc('workspaces/w1/tags/y').set({ name: 'Doces', color: 'amber', emoji: '🍬' }))
+  })
+})
+
+describe('feedback', () => {
+  const feedback = () => ({ calendarId: 'c1', gift: 'Doces', action: 'dismissed', at: serverTimestamp() })
+
+  it('lets members add feedback and read it, but never change it', async () => {
+    const bob = as('bob')
+    await assertSucceeds(setDoc(doc(bob, 'workspaces/w1/feedback/f1'), feedback()))
+    await assertSucceeds(getDocs(query(collection(bob, 'workspaces/w1/feedback'), where('calendarId', '==', 'c1'))))
+    await assertFails(updateDoc(doc(bob, 'workspaces/w1/feedback/f1'), { action: 'accepted' }))
+    await assertFails(deleteDoc(doc(bob, 'workspaces/w1/feedback/f1')))
+  })
+
+  it('refuses unknown actions, client timestamps and outsiders', async () => {
+    await assertFails(setDoc(doc(as('bob'), 'workspaces/w1/feedback/f2'), { ...feedback(), action: 'loved' }))
+    await assertFails(setDoc(doc(as('bob'), 'workspaces/w1/feedback/f3'), { ...feedback(), at: new Date() }))
+    await assertFails(setDoc(doc(as('eve'), 'workspaces/w1/feedback/f4'), feedback()))
   })
 })
