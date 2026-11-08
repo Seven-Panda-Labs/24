@@ -1,14 +1,15 @@
 import type { Cell, Workbook } from 'exceljs'
+import type { TagColor } from '../src/domain/types.ts'
 
 /**
- * Fill colour of column C to tag id, as described in the brief (yellow =
- * sweets, grey = clothes, blue = home). The ids are the default tags of
- * src/domain/tags.ts.
+ * Column C is the colour of the bag each gift goes in. Bags alternate by day so
+ * neighbouring gifts look different; they are not gift categories. The import
+ * script creates these tags in the workspace when they are missing.
  */
-export const COLOR_TAGS: Record<string, string> = {
-  FFE599: 'sweets',
-  CCCCCC: 'clothes',
-  '4A86E8': 'home',
+export const BAG_TAGS: Record<string, { id: string; name: string; color: TagColor }> = {
+  CCCCCC: { id: 'bag-grey', name: 'Saco Cinza', color: 'slate' },
+  FFE599: { id: 'bag-yellow', name: 'Saco Amarelo', color: 'amber' },
+  '4A86E8': { id: 'bag-blue', name: 'Saco Azul', color: 'sky' },
 }
 
 export interface ImportedDay {
@@ -31,7 +32,7 @@ export interface ImportedCalendar {
 
 /**
  * One sheet per year, named after it. Row N is day N: the gift in column A,
- * a colour in column C, a note on A. Rows past 31, empty rows and the
+ * the bag colour in column C, a note on A. Rows past 31, empty rows and the
  * "Em falta:" total at the bottom are skipped.
  */
 export function parseWorkbook(workbook: Workbook): ImportedCalendar[] {
@@ -44,10 +45,10 @@ export function parseWorkbook(workbook: Workbook): ImportedCalendar[] {
         const giftCell = sheet.getCell(row, 1)
         const gift = giftCell.text.trim()
         if (!gift || /^em falta/i.test(gift)) continue
-        const tag = COLOR_TAGS[fillColor(sheet.getCell(row, 3))]
+        const bag = BAG_TAGS[fillColor(sheet.getCell(row, 3))]
         const notes = noteText(giftCell)
         if (giftCell.note && !notes) unreadNotes.push(row)
-        days.push({ day: row, gift, tagIds: tag ? [tag] : [], notes })
+        days.push({ day: row, gift, tagIds: bag ? [bag.id] : [], notes })
       }
       return { year: Number(sheet.name.trim()), days, unreadNotes }
     })

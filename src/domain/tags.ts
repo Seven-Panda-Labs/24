@@ -14,8 +14,7 @@ export const TAG_STYLES: Record<TagColor, { chip: string; soft: string }> = {
 
 /**
  * Tags every new workspace starts with. The ids double as the categories of the
- * idea catalog (`ideas.*` in the locales) and as the targets of the Excel colour
- * mapping in scripts/excel.ts, so keep them stable.
+ * idea catalog (`ideas.*` in the locales), so keep them stable.
  */
 export const DEFAULT_TAGS: { id: string; color: TagColor; emoji: string }[] = [
   { id: 'sweets', color: 'amber', emoji: '🍬' },

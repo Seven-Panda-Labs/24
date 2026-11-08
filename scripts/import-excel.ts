@@ -9,7 +9,7 @@ import { parseArgs } from 'node:util'
 import ExcelJS from 'exceljs'
 import { initializeApp } from 'firebase-admin/app'
 import { FieldValue, getFirestore } from 'firebase-admin/firestore'
-import { parseWorkbook } from './excel.ts'
+import { BAG_TAGS, parseWorkbook } from './excel.ts'
 
 const { values } = parseArgs({
   options: {
@@ -56,8 +56,9 @@ for (const calendar of calendars) {
     console.warn(`    unreadable comments on day ${calendar.unreadNotes.join(', ')}: copy them into the app by hand`)
   }
 }
-const missing = new Set(calendars.flatMap((calendar) => calendar.days.flatMap((day) => day.tagIds)).filter((id) => !tags.has(id)))
-if (missing.size) console.warn(`Tags missing from the workspace, days keep the ids: ${[...missing].join(', ')}`)
+const usedTags = new Set(pending.flatMap((calendar) => calendar.days.flatMap((day) => day.tagIds)))
+const newBags = Object.values(BAG_TAGS).filter((bag) => usedTags.has(bag.id) && !tags.has(bag.id))
+if (newBags.length) console.log(`  tags to create: ${newBags.map((bag) => bag.name).join(', ')}`)
 
 if (!values.confirm) {
   console.log(`Dry run: ${pending.length} calendars to write. Add --confirm to write them.`)
@@ -65,6 +66,9 @@ if (!values.confirm) {
 }
 
 const batch = workspace.firestore.batch()
+for (const bag of newBags) {
+  batch.set(workspace.collection('tags').doc(bag.id), { name: bag.name, color: bag.color, emoji: '🛍️' })
+}
 for (const calendar of pending) {
   batch.set(workspace.collection('calendars').doc(), {
     year: calendar.year,
@@ -82,4 +86,4 @@ for (const calendar of pending) {
   })
 }
 await batch.commit()
-console.log(`Wrote ${pending.length} calendars.`)
+console.log(`Wrote ${pending.length} calendars and ${newBags.length} tags.`)

@@ -6,7 +6,7 @@ function fill(argb: string): ExcelJS.Fill {
   return { type: 'pattern', pattern: 'solid', fgColor: { argb } }
 }
 
-it('reads one calendar per year sheet with gifts, colour tags and notes', async () => {
+it('reads one calendar per year sheet with gifts, bag tags and notes', async () => {
   const source = new ExcelJS.Workbook()
   const sheet = source.addWorksheet('2023')
   sheet.getCell('A1').value = 'Meias de lã '
@@ -29,8 +29,8 @@ it('reads one calendar per year sheet with gifts, colour tags and notes', async 
     {
       year: 2023,
       days: [
-        { day: 1, gift: 'Meias de lã', tagIds: ['clothes'], notes: '' },
-        { day: 2, gift: 'Chocolate', tagIds: ['sweets'], notes: 'comprar no mercado' },
+        { day: 1, gift: 'Meias de lã', tagIds: ['bag-grey'], notes: '' },
+        { day: 2, gift: 'Chocolate', tagIds: ['bag-yellow'], notes: 'comprar no mercado' },
         { day: 4, gift: 'Vela', tagIds: [], notes: '' },
       ],
       unreadNotes: [],
