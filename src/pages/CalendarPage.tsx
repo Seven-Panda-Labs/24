@@ -4,10 +4,12 @@ import { Link, useParams, useSearchParams } from 'react-router-dom'
 import DayCard from '../components/DayCard.tsx'
 import DayEditor from '../components/DayEditor.tsx'
 import ProgressBar from '../components/ProgressBar.tsx'
+import Celebration from '../components/Celebration.tsx'
 import TagChip from '../components/TagChip.tsx'
 import { query, where } from 'firebase/firestore'
 import { saveDay, setDayStatus } from '../data/calendars.ts'
 import { feedbackOf, recordFeedback, type Feedback } from '../data/feedback.ts'
+import { deletePhoto } from '../data/photos.ts'
 import { useDocs } from '../data/useDocs.ts'
 import { currentYear, dayNumbers, dayOf, matchesFilter, nextStatus, progressOf, type DayFilter } from '../domain/days.ts'
 import type { Day, Tag } from '../domain/types.ts'
@@ -44,6 +46,8 @@ export default function CalendarPage() {
 
   const open = (day: number | null) => setParams(day ? { day: String(day) } : {}, { replace: openDay !== null })
   const save = (day: number, value: Day | null) => {
+    const photoPath = dayOf(calendar, day)?.photoPath
+    if (!value && photoPath) deletePhoto(photoPath)
     saveDay(workspace.id, calendar.id, day, value)
     if (value?.fromSuggestion && !dayOf(calendar, day)?.fromSuggestion) {
       recordFeedback(workspace.id, calendar.id, value.gift, 'accepted')
@@ -97,6 +101,8 @@ export default function CalendarPage() {
       </header>
 
       <ProgressBar progress={progress} showLegend />
+
+      <Celebration person={calendar.person} days={progress.total} complete={progress.total > 0 && progress.wrapped === progress.total} />
 
       <div className="flex flex-wrap items-center gap-2">
         <div role="group" aria-label={t('filters.label')} className="flex flex-wrap gap-1.5">

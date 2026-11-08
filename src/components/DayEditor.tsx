@@ -4,6 +4,7 @@ import { dateOfDay, dayOf } from '../domain/days.ts'
 import { TAG_STYLES } from '../domain/tags.ts'
 import { STATUSES, type Calendar, type Day, type Tag } from '../domain/types.ts'
 import type { Suggestion } from '../suggestions/engine.ts'
+import PhotoField from './PhotoField.tsx'
 import SuggestionList from './SuggestionList.tsx'
 
 export interface DayEditorProps {
@@ -41,6 +42,8 @@ export default function DayEditor({ calendar, number, tags, onSave, onClose, onN
       tagIds,
       notes: notes.trim(),
       ...(fromSuggestion && { fromSuggestion }),
+      // The photo is written on its own (PhotoField); keep whatever is saved.
+      ...(saved?.photoPath && { photoPath: saved.photoPath, photoUrl: saved.photoUrl }),
     }
   }
 
@@ -149,6 +152,8 @@ export default function DayEditor({ calendar, number, tags, onSave, onClose, onN
             className="input"
           />
         </label>
+
+        {saved && <PhotoField calendarId={calendar.id} day={number} value={saved} />}
 
         <footer className="flex flex-wrap items-center gap-2 pt-2">
           {saved && (

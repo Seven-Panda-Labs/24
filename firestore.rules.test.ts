@@ -7,6 +7,7 @@ import {
   type RulesTestEnvironment,
 } from '@firebase/rules-unit-testing'
 import { collection, deleteDoc, doc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
+import { deleteObject, getBytes, ref, uploadBytes } from 'firebase/storage'
 import { afterAll, beforeAll, beforeEach, describe, it } from 'vitest'
 
 let testEnv: RulesTestEnvironment
@@ -39,12 +40,20 @@ function as(uid: string, email = `${uid}@example.com`, verified = true) {
 
 beforeAll(async () => {
   const [host, port] = (process.env.FIRESTORE_EMULATOR_HOST ?? '127.0.0.1:8080').split(':')
+  const [storageHost, storagePort] = (process.env.FIREBASE_STORAGE_EMULATOR_HOST ?? '127.0.0.1:9199').split(':')
   testEnv = await initializeTestEnvironment({
-    projectId: 'demo-24-rules-test',
+    // The project npm run test:rules starts the emulators with: Storage rules
+    // read memberships from the Firestore of the emulator's own project.
+    projectId: 'demo-24',
     firestore: {
       rules: readFileSync(resolve(import.meta.dirname, 'firestore.rules'), 'utf8'),
       host,
       port: Number(port),
+    },
+    storage: {
+      rules: readFileSync(resolve(import.meta.dirname, 'storage.rules'), 'utf8'),
+      host: storageHost,
+      port: Number(storagePort),
     },
   })
 })
@@ -167,5 +176,23 @@ describe('feedback', () => {
     await assertFails(setDoc(doc(as('bob'), 'workspaces/w1/feedback/f2'), { ...feedback(), action: 'loved' }))
     await assertFails(setDoc(doc(as('bob'), 'workspaces/w1/feedback/f3'), { ...feedback(), at: new Date() }))
     await assertFails(setDoc(doc(as('eve'), 'workspaces/w1/feedback/f4'), feedback()))
+  })
+})
+
+describe('gift photos', () => {
+  const storage = (uid: string) => testEnv.authenticatedContext(uid, { email: `${uid}@example.com`, email_verified: true }).storage()
+  const photo = new Uint8Array([0xff, 0xd8, 0xff])
+  const path = 'workspaces/w1/photos/c1/1-1.jpg'
+
+  it('lets members upload, read and delete images', async () => {
+    await assertSucceeds(uploadBytes(ref(storage('bob'), path), photo, { contentType: 'image/jpeg' }))
+    await assertSucceeds(getBytes(ref(storage('alice'), path)))
+    await assertSucceeds(deleteObject(ref(storage('bob'), path)))
+  })
+
+  it('refuses other files and outsiders', async () => {
+    await assertFails(uploadBytes(ref(storage('bob'), 'workspaces/w1/photos/c1/notes.txt'), photo, { contentType: 'text/plain' }))
+    await assertFails(uploadBytes(ref(storage('eve'), path), photo, { contentType: 'image/jpeg' }))
+    await assertFails(getBytes(ref(storage('eve'), path)))
   })
 })

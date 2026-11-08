@@ -13,15 +13,17 @@ Tokens live in `src/styles/globals.css`. Use the Tailwind tokens (`bg-primary`, 
 
 | Token | Light | Dark | Brief name | Use |
 |-------|-------|------|------------|-----|
-| `primary` | `#1D6B4F` | `#1D6B4F` | Verde Abeto | Structure, buttons, titles |
-| `primary-hover` | `#16543E` | `#16543E` | | Primary button hover |
-| `secondary` | `#C8353F` | `#C8353F` | Vermelho Baga | Alerts, the outline of the 24 |
+| `primary` | `#1D6B4F` | `#5FBF94` | Verde Abeto | Structure, buttons, titles |
+| `primary-hover` | `#16543E` | `#4AA97F` | | Primary button hover |
+| `secondary` | `#C8353F` | `#EF7A80` | Vermelho Baga | Alerts, the outline of the 24 |
 | `accent` | `#E3A82B` | `#E3A82B` | Dourado Warm | Seals, bows, celebration |
 | `background` | `#FAF6EF` | `#1E2A44` | Creme Inverno / Noite de Consoada | App background |
 | `surface` | `#F2EBDC` | `#2A3858` | Creme card | Cards |
 | `foreground` | `#2E2A26` | `#FAF6EF` | Carvão Doce | Text |
 
-`theme-color` is `#1D6B4F` in light and `#1E2A44` in dark. The dark `surface` is not in the brief; revisit it with the first dark-mode screens.
+`theme-color` is `#1D6B4F` in light and `#1E2A44` in dark. The dark values of `primary`, `secondary` and `surface` are not in the brief: Verde Abeto and Vermelho Baga fall under 3:1 against Noite de Consoada, so dark mode uses lighter tints of both.
+
+`carvao` is Carvão Doce in both themes, for text on the light tag colours and the gold of the seal.
 
 ## Icons
 

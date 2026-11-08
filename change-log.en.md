@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.5.0] - 2026-11-08
+
+### Added
+
+- A photo of the gift on each day.
+- The Santa's Workshop seal and confetti when a calendar is fully wrapped.
+- Fonts and photos already seen are available offline.
+
+### Changed
+
+- Grid doors show more of the gift name.
+- Dark mode colours with more contrast.
+
 ## [0.4.0] - 2026-11-08
 
 ### Added

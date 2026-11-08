@@ -1,5 +1,18 @@
 # Registo de alterações
 
+## [0.5.0] - 2026-11-08
+
+### Adicionado
+
+- Foto da prenda em cada dia.
+- Selo da Oficina do Pai Natal e confetti quando um calendário fica todo embrulhado.
+- Fontes e fotos já vistas ficam disponíveis sem rede.
+
+### Alterado
+
+- As portas da grelha mostram mais do nome da prenda.
+- Cores do modo escuro com mais contraste.
+
 ## [0.4.0] - 2026-11-08
 
 ### Adicionado

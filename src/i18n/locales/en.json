@@ -239,5 +239,20 @@
       "Pocket book",
       "Coloured pencils"
     ]
+  },
+  "photo": {
+    "label": "Photo",
+    "add": "Add photo",
+    "replace": "Change photo",
+    "remove": "Remove photo",
+    "uploading": "Uploading…",
+    "failed": "Could not upload the photo.",
+    "offline": "Offline: photos upload only with a connection."
+  },
+  "celebration": {
+    "title": "All wrapped!",
+    "text": "All {{days}} days for {{person}} are ready. Now it is just waiting for December.",
+    "seal": "Seal: approved by Santa's Workshop",
+    "sealText": "APPROVED BY SANTA'S WORKSHOP ★ "
   }
 }

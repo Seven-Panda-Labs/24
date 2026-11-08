@@ -239,5 +239,20 @@
       "Livro de bolso",
       "Lápis de cor"
     ]
+  },
+  "photo": {
+    "label": "Foto",
+    "add": "Adicionar foto",
+    "replace": "Trocar foto",
+    "remove": "Remover foto",
+    "uploading": "A enviar…",
+    "failed": "Não foi possível enviar a foto.",
+    "offline": "Sem rede: as fotos só se enviam com ligação."
+  },
+  "celebration": {
+    "title": "Tudo embrulhado!",
+    "text": "Os {{days}} dias de {{person}} estão prontos. Agora é só esperar por Dezembro.",
+    "seal": "Selo: aprovado pela Oficina do Pai Natal",
+    "sealText": "APROVADO PELA OFICINA DO PAI NATAL ★ "
   }
 }
