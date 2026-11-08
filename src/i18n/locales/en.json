@@ -279,5 +279,11 @@
     "unsupported": "This browser does not support notifications.",
     "denied": "Notifications are blocked. Allow them in the browser settings and try again.",
     "failed": "Could not change reminders. Try again with a connection."
+  },
+  "footer": {
+    "changelog": "See what's new in version {{version}}"
+  },
+  "changelog": {
+    "title": "What's new"
   }
 }
