@@ -25,15 +25,7 @@
   },
   "login": {
     "google": "Entrar com Google",
-    "or": "ou",
-    "email": "Email",
-    "sendLink": "Enviar link de entrada",
-    "linkSent": "Enviámos um link para {{email}}. Abre-o neste dispositivo para entrar.",
-    "confirmEmail": "Confirma o teu email para entrar",
-    "linkFailed": "Este link já não é válido. Pede um novo.",
-    "sendFailed": "Não foi possível enviar o link. Tenta outra vez.",
-    "googleFailed": "Não foi possível entrar com Google.",
-    "emulator": "Entrar (emulador)"
+    "googleFailed": "Não foi possível entrar com Google."
   },
   "onboarding": {
     "title": "Bem-vindo ao 24",
@@ -168,7 +160,7 @@
     "cancelInvite": "Cancelar",
     "inviteEmail": "Email a convidar",
     "invite": "Convidar",
-    "inviteHelp": "A pessoa vê o convite ao entrar no 24 com este email.",
+    "inviteHelp": "A pessoa vê o convite ao entrar no 24 com a conta Google deste email.",
     "tagsHelp": "Nome, emoji e cor das etiquetas das prendas.",
     "manageTags": "Gerir etiquetas",
     "signedInAs": "Entraste como {{email}}",

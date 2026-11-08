@@ -4,16 +4,19 @@ rules_version = '2';
 // firestore.rules.test.ts.
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Google is the only sign-in method. Checking the provider here too means an
+    // account from any other provider gets nothing, even if one is enabled in
+    // the console by mistake.
     function signedIn() {
-      return request.auth != null;
+      return request.auth != null && request.auth.token.firebase.sign_in_provider == 'google.com';
     }
 
     function email() {
       return request.auth.token.email.lower();
     }
 
-    // Google and email-link sign-in both verify the address. Without this check
-    // anyone could claim an invite by registering someone else's email.
+    // Google accounts come verified. Without this check anyone could claim an
+    // invite with an unverified account that uses someone else's email.
     function verified() {
       return request.auth.token.email_verified == true;
     }
