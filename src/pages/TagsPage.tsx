@@ -17,7 +17,7 @@ export default function TagsPage() {
 
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-4">
-      <Link to="/settings" className="text-sm text-foreground/60">
+      <Link to="/settings" className="text-sm text-foreground/70">
         ← {t('settings.title')}
       </Link>
       <h1 className="font-display text-3xl font-bold text-primary">{t('tags.title')}</h1>

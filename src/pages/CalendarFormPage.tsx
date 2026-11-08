@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { createCalendar, deleteCalendar, updateCalendar } from '../data/calendars.ts'
+import { deletePhoto } from '../data/photos.ts'
 import { currentYear } from '../domain/days.ts'
 import type { CalendarFields } from '../domain/types.ts'
 import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
@@ -64,6 +65,7 @@ export default function CalendarFormPage() {
 
   function remove() {
     if (!existing || !window.confirm(t('calendarForm.confirmDelete', { person: existing.person, year: existing.year }))) return
+    for (const day of Object.values(existing.days)) if (day.photoPath) deletePhoto(day.photoPath)
     deleteCalendar(workspace.id, existing.id)
     navigate(`/?year=${existing.year}`)
   }
@@ -156,7 +158,7 @@ export default function CalendarFormPage() {
             onChange={(event) => set('originality', Number(event.target.value))}
             className="accent-primary"
           />
-          <span className="flex justify-between text-xs text-foreground/60">
+          <span className="flex justify-between text-xs text-foreground/70">
             <span>{t('calendarForm.traditional')}</span>
             <span>{t('calendarForm.original')}</span>
           </span>

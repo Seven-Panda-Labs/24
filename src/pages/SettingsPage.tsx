@@ -61,8 +61,8 @@ export default function SettingsPage() {
               <li key={uid} className="flex items-center gap-2 text-sm">
                 <span className="flex-1">
                   {member?.name || member?.email}
-                  {member?.name && <span className="text-foreground/50"> · {member.email}</span>}
-                  {uid === workspace.ownerId && <span className="text-foreground/50"> · {t('settings.owner')}</span>}
+                  {member?.name && <span className="text-foreground/70"> · {member.email}</span>}
+                  {uid === workspace.ownerId && <span className="text-foreground/70"> · {t('settings.owner')}</span>}
                 </span>
                 {isOwner && uid !== user.uid && (
                   <button
@@ -77,7 +77,7 @@ export default function SettingsPage() {
             )
           })}
           {workspace.invitedEmails.map((invited) => (
-            <li key={invited} className="flex items-center gap-2 text-sm text-foreground/60">
+            <li key={invited} className="flex items-center gap-2 text-sm text-foreground/70">
               <span className="flex-1">
                 {invited} · {t('settings.pending')}
               </span>
@@ -104,7 +104,7 @@ export default function SettingsPage() {
             {t('settings.invite')}
           </button>
         </form>
-        <p className="text-xs text-foreground/60">{t('settings.inviteHelp')}</p>
+        <p className="text-xs text-foreground/70">{t('settings.inviteHelp')}</p>
       </section>
 
       <section className="card flex flex-col gap-3">

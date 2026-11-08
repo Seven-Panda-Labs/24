@@ -18,7 +18,20 @@
 
 O caos organizado de Dezembro. PWA para planear calendários de advento: 24 dias, 24 pequenas prendas, por pessoa e por ano. Funciona offline e sincroniza via Firebase.
 
-O que a v1 vai fazer está em [`docs/project_brief.md`](docs/project_brief.md).
+<p align="center">
+  <img src="docs/screenshots/calendar.webp" alt="Grelha de 24 portas com prendas planeadas, compradas e embrulhadas" width="30%" />
+  <img src="docs/screenshots/suggestions.webp" alt="Sugestões para um dia vazio" width="30%" />
+  <img src="docs/screenshots/wrapped.webp" alt="Calendário todo embrulhado, com o selo da Oficina do Pai Natal" width="30%" />
+</p>
+
+- Vários calendários por ano, um por pessoa, num espaço da família partilhado por convite
+- Grelha de 24 portas e vista em lista; cada dia com prenda, estado, etiquetas, notas e foto
+- Lista de compras e lista do que falta embrulhar, mesmo sem rede
+- Sugestões a partir do histórico: tradições, prendas esquecidas e ideias novas
+- Histórico pesquisável e importação do Excel antigo
+- Português e inglês, modo claro e escuro
+
+O produto e o plano estão em [`docs/project_brief.md`](docs/project_brief.md).
 
 **Arrancar** (Node.js 24, Java 21+ para os emuladores):
 
@@ -38,6 +51,7 @@ Com um projeto Firebase teu: [`docs/self-hosting.md`](docs/self-hosting.md). Par
 | [`configuration.md`](docs/configuration.md) | Variáveis de ambiente |
 | [`emulators.md`](docs/emulators.md) | Desenvolvimento local sem cloud |
 | [`self-hosting.md`](docs/self-hosting.md) | Deploy num projeto Firebase teu |
+| [`importing-the-excel.md`](docs/importing-the-excel.md) | Importar o Excel original |
 | [`visual-identity.md`](docs/visual-identity.md) | Paleta, tipografia e tokens |
 
 Licença [AGPL-3.0](LICENSE). Segurança: [`SECURITY.md`](SECURITY.md).
@@ -50,7 +64,14 @@ Licença [AGPL-3.0](LICENSE). Segurança: [`SECURITY.md`](SECURITY.md).
 
 December's organized chaos. A PWA to plan advent calendars: 24 days, 24 small gifts, per person and per year. Works offline and syncs via Firebase.
 
-What v1 will do is in [`docs/project_brief.md`](docs/project_brief.md) (Portuguese).
+- Several calendars a year, one per person, in a family space shared by invite
+- A 24-door grid and a list view; each day has a gift, status, tags, notes and a photo
+- Shopping list and a list of what is left to wrap, even offline
+- Suggestions from history: traditions, forgotten gifts and new ideas
+- Searchable history and an import for the old spreadsheet
+- Portuguese and English, light and dark mode
+
+The product and the plan are in [`docs/project_brief.md`](docs/project_brief.md) (Portuguese).
 
 **Run it** (Node.js 24, Java 21+ for the emulators):
 
@@ -70,6 +91,7 @@ With your own Firebase project: [`docs/self-hosting.md`](docs/self-hosting.md). 
 | [`configuration.md`](docs/configuration.md) | Environment variables |
 | [`emulators.md`](docs/emulators.md) | Local development without the cloud |
 | [`self-hosting.md`](docs/self-hosting.md) | Deploy to your own Firebase project |
+| [`importing-the-excel.md`](docs/importing-the-excel.md) | Import the original Excel |
 | [`visual-identity.md`](docs/visual-identity.md) | Palette, typography and tokens |
 
 License [AGPL-3.0](LICENSE). Security: [`SECURITY.md`](SECURITY.md).

@@ -1,6 +1,6 @@
 import { collection, deleteDoc, doc, setDoc } from 'firebase/firestore'
 import type { Tag } from '../domain/types.ts'
-import { db } from '../services/firebase.ts'
+import { db } from '../services/firestore.ts'
 import { report } from './report.ts'
 
 export function saveTag(wid: string, { id, ...tag }: Tag): void {

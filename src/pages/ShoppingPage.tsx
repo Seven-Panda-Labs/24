@@ -31,7 +31,7 @@ export default function ShoppingPage() {
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-4">
       <h1 className="font-display text-3xl font-bold text-primary">
-        {t('shopping.title')} <span className="text-foreground/50">{year}</span>
+        {t('shopping.title')} <span className="text-foreground/70">{year}</span>
       </h1>
 
       <div role="tablist" className="grid grid-cols-2 gap-1 rounded-2xl bg-foreground/5 p-1">
@@ -68,9 +68,9 @@ export default function ShoppingPage() {
                     />
                     <span className="flex flex-1 flex-col gap-1">
                       <span className="font-semibold">{value.gift}</span>
-                      {value.notes && <span className="text-sm text-foreground/60">{value.notes}</span>}
+                      {value.notes && <span className="text-sm text-foreground/70">{value.notes}</span>}
                       <span className="flex flex-wrap gap-1">
-                        <span className="text-xs text-foreground/50">{t('day.number', { number: day })}</span>
+                        <span className="text-xs text-foreground/70">{t('day.number', { number: day })}</span>
                         {value.tagIds.flatMap((id) => tagsById.get(id) ?? []).map((tag) => (
                           <TagChip key={tag.id} tag={tag} />
                         ))}

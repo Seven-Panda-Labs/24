@@ -1,5 +1,39 @@
 # Registo de alterações
 
+## [0.5.0] - 2026-11-08
+
+### Adicionado
+
+- Foto da prenda em cada dia.
+- Selo da Oficina do Pai Natal e confetti quando um calendário fica todo embrulhado.
+- Fontes e fotos já vistas ficam disponíveis sem rede.
+
+### Alterado
+
+- As portas da grelha mostram mais do nome da prenda.
+- Cores do modo escuro com mais contraste.
+- A página de entrada abre mais depressa e o texto secundário tem mais contraste.
+
+## [0.4.0] - 2026-11-08
+
+### Adicionado
+
+- Sugestões num dia vazio: tradições da pessoa, prendas esquecidas há anos e ideias novas, sem repetir o que deu nos últimos dois anos.
+- Em cada calendário, escolher entre sugestões tradicionais e originais, e se pode repetir prendas.
+- Dispensar uma sugestão deixa de a mostrar nesse calendário.
+- O histórico mostra que parte dos dias deste ano veio de sugestões.
+
+## [0.3.0] - 2026-11-08
+
+### Adicionado
+
+- Histórico: procurar prendas de todos os anos, sem ligar a acentos nem maiúsculas, e filtrar por pessoa.
+- Script para importar o Excel original, um calendário por ano.
+
+### Corrigido
+
+- Plurais em português de Portugal: "0 comprados" em vez de "0 comprado".
+
 ## [0.2.0] - 2026-11-08
 
 ### Adicionado

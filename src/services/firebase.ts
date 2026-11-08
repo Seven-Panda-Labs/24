@@ -1,12 +1,5 @@
 import { initializeApp } from 'firebase/app'
 import { connectAuthEmulator, getAuth } from 'firebase/auth'
-import {
-  connectFirestoreEmulator,
-  initializeFirestore,
-  persistentLocalCache,
-  persistentMultipleTabManager,
-} from 'firebase/firestore'
-import { connectStorageEmulator, getStorage } from 'firebase/storage'
 
 function requireEnv(name: keyof ImportMetaEnv): string {
   const value = import.meta.env[name]
@@ -28,16 +21,5 @@ export const app = initializeApp({
 })
 
 export const auth = getAuth(app)
-export const storage = getStorage(app)
 
-// Offline-first: reads and queued writes live in IndexedDB. The SDK falls back
-// to a memory cache on its own when IndexedDB is unavailable.
-export const db = initializeFirestore(app, {
-  localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }),
-})
-
-if (useEmulators) {
-  connectAuthEmulator(auth, 'http://127.0.0.1:9099', { disableWarnings: true })
-  connectFirestoreEmulator(db, '127.0.0.1', 8080)
-  connectStorageEmulator(storage, '127.0.0.1', 9199)
-}
+if (useEmulators) connectAuthEmulator(auth, 'http://127.0.0.1:9099', { disableWarnings: true })

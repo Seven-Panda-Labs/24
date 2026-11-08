@@ -26,7 +26,9 @@ Ports (set in [`firebase.json`](../firebase.json), wired in [`src/services/fireb
 
 ## Rules tests
 
-`npm run test:rules` runs [`firestore.rules.test.ts`](../firestore.rules.test.ts) against a Firestore emulator it starts and stops itself. Part of `npm run check` and CI.
+`npm run test:rules` runs [`firestore.rules.test.ts`](../firestore.rules.test.ts) against Firestore and Storage emulators it starts and stops itself, so stop `npm run emulators` first. Part of `npm run check` and CI.
+
+The tests use the `demo-24` project, because Storage rules read memberships from the Firestore of the emulator's own project, and they clear its data. Pointed at your running emulators (`FIRESTORE_EMULATOR_HOST`, `FIREBASE_STORAGE_EMULATOR_HOST`), they wipe what you were working on.
 
 ## Testing offline
 

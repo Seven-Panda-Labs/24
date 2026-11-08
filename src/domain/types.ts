@@ -6,6 +6,12 @@ export interface Day {
   status: Status
   tagIds: string[]
   notes: string
+  /** The gift was picked from a suggestion. */
+  fromSuggestion?: boolean
+  /** Storage path, to delete the photo. */
+  photoPath?: string
+  /** Download URL, stored so the photo shows offline from the service worker cache. */
+  photoUrl?: string
 }
 
 export interface CalendarFields {

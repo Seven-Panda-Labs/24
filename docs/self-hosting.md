@@ -35,6 +35,8 @@ npm run deploy
 
 Builds and deploys Hosting, Firestore rules and indexes, and Storage rules. Hosting only: `npm run deploy:hosting`.
 
+The Storage rules check workspace membership in Firestore. On the first deploy the CLI asks to grant Storage access to Firestore for these cross-service rules; accept, or every photo upload is refused.
+
 ## 4. Post-deploy
 
 1. **Authentication → Settings → Authorized domains:** add `YOUR_PROJECT.web.app` and any custom domain.

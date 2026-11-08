@@ -120,6 +120,17 @@ service cloud.firestore {
         allow read, delete: if isMember(wid);
         allow create, update: if isMember(wid) && validTag(request.resource.data);
       }
+
+      // Implicit feedback on suggestions: append-only.
+      match /feedback/{fid} {
+        allow read: if isMember(wid);
+        allow create: if isMember(wid)
+          && request.resource.data.keys().hasOnly(['calendarId', 'gift', 'action', 'at'])
+          && request.resource.data.calendarId is string
+          && validName(request.resource.data.gift, 200)
+          && request.resource.data.action in ['accepted', 'dismissed']
+          && request.resource.data.at == request.time;
+      }
     }
   }
 }

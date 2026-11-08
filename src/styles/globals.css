@@ -18,6 +18,11 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    /* Lighter tints of Verde Abeto and Vermelho Baga: the brief's values fall
+       under 3:1 against Noite de Consoada. */
+    --color-primary: #5fbf94;
+    --color-primary-hover: #4aa97f;
+    --color-secondary: #ef7a80;
     --color-background: #1e2a44;
     --color-surface: #2a3858;
     --color-foreground: #faf6ef;

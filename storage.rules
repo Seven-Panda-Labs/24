@@ -1,10 +1,20 @@
 rules_version = '2';
 
-// Closed until gift photos land (epic E6).
+// Gift photos, readable and writable by members of the workspace. Membership
+// is read from Firestore; in production the first deploy asks to grant
+// Storage access to Firestore for these cross-service rules.
 service firebase.storage {
   match /b/{bucket}/o {
-    match /{allPaths=**} {
-      allow read, write: if false;
+    function isMember(wid) {
+      return request.auth != null
+        && request.auth.uid in firestore.get(/databases/(default)/documents/workspaces/$(wid)).data.memberIds;
+    }
+
+    match /workspaces/{wid}/photos/{cid}/{file} {
+      allow read, delete: if isMember(wid);
+      allow create: if isMember(wid)
+        && request.resource.contentType.matches('image/.*')
+        && request.resource.size <= 5 * 1024 * 1024;
     }
   }
 }

@@ -3,6 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { dateOfDay, dayOf } from '../domain/days.ts'
 import { TAG_STYLES } from '../domain/tags.ts'
 import { STATUSES, type Calendar, type Day, type Tag } from '../domain/types.ts'
+import type { Suggestion } from '../suggestions/engine.ts'
+import PhotoField from './PhotoField.tsx'
+import SuggestionList from './SuggestionList.tsx'
 
 export interface DayEditorProps {
   calendar: Calendar
@@ -11,15 +14,19 @@ export interface DayEditorProps {
   onSave: (value: Day | null) => void
   onClose: () => void
   onNext?: () => void
+  /** Shown while the gift is empty. */
+  suggestions?: Suggestion[]
+  onDismiss?: (suggestion: Suggestion) => void
 }
 
-export default function DayEditor({ calendar, number, tags, onSave, onClose, onNext }: DayEditorProps) {
+export default function DayEditor({ calendar, number, tags, onSave, onClose, onNext, suggestions = [], onDismiss }: DayEditorProps) {
   const { t, i18n } = useTranslation()
   const saved = dayOf(calendar, number)
   const [gift, setGift] = useState(saved?.gift ?? '')
   const [status, setStatus] = useState(saved?.status ?? 'planned')
   const [tagIds, setTagIds] = useState(saved?.tagIds ?? [])
   const [notes, setNotes] = useState(saved?.notes ?? '')
+  const [fromSuggestion, setFromSuggestion] = useState(saved?.fromSuggestion ?? false)
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => event.key === 'Escape' && onClose()
@@ -34,6 +41,9 @@ export default function DayEditor({ calendar, number, tags, onSave, onClose, onN
       status,
       tagIds,
       notes: notes.trim(),
+      ...(fromSuggestion && { fromSuggestion }),
+      // The photo is written on its own (PhotoField); keep whatever is saved.
+      ...(saved?.photoPath && { photoPath: saved.photoPath, photoUrl: saved.photoUrl }),
     }
   }
 
@@ -60,7 +70,7 @@ export default function DayEditor({ calendar, number, tags, onSave, onClose, onN
             <h2 id="day-editor-title" className="font-display text-2xl font-bold text-primary">
               {t('day.number', { number })}
             </h2>
-            <p className="text-sm text-foreground/60 first-letter:uppercase">{date}</p>
+            <p className="text-sm text-foreground/70 first-letter:uppercase">{date}</p>
           </div>
           <button type="button" onClick={onClose} className="btn-ghost" aria-label={t('common.close')}>
             ✕
@@ -72,11 +82,26 @@ export default function DayEditor({ calendar, number, tags, onSave, onClose, onN
           <input
             autoFocus
             value={gift}
-            onChange={(event) => setGift(event.target.value)}
+            onChange={(event) => {
+              setGift(event.target.value)
+              setFromSuggestion(false)
+            }}
             placeholder={t('day.giftPlaceholder')}
             className="input"
           />
         </label>
+
+        {!gift.trim() && suggestions.length > 0 && (
+          <SuggestionList
+            suggestions={suggestions}
+            onApply={(suggestion) => {
+              setGift(suggestion.gift)
+              setTagIds(suggestion.tagIds.filter((id) => tags.some((tag) => tag.id === id)))
+              setFromSuggestion(true)
+            }}
+            onDismiss={(suggestion) => onDismiss?.(suggestion)}
+          />
+        )}
 
         <fieldset className="flex flex-col gap-1" disabled={!gift.trim()}>
           <legend className="mb-1 text-sm font-semibold">{t('day.status')}</legend>
@@ -127,6 +152,8 @@ export default function DayEditor({ calendar, number, tags, onSave, onClose, onN
             className="input"
           />
         </label>
+
+        {saved && <PhotoField calendarId={calendar.id} day={number} value={saved} />}
 
         <footer className="flex flex-wrap items-center gap-2 pt-2">
           {saved && (

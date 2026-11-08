@@ -117,6 +117,7 @@ Deploy only when the user asks, after merge to `main` or from a branch if instru
 | Environment variables | [docs/configuration.md](docs/configuration.md) |
 | Emulators | [docs/emulators.md](docs/emulators.md) |
 | Self-hosting and deploy | [docs/self-hosting.md](docs/self-hosting.md) |
+| Importing the original Excel | [docs/importing-the-excel.md](docs/importing-the-excel.md) |
 | Palette and tokens | [docs/visual-identity.md](docs/visual-identity.md) |
 
 ## GitHub CI

@@ -11,7 +11,7 @@ import {
   writeBatch,
 } from 'firebase/firestore'
 import type { Member, Tag, Workspace } from '../domain/types.ts'
-import { db } from '../services/firebase.ts'
+import { db } from '../services/firestore.ts'
 import { report } from './report.ts'
 
 function memberOf(user: User): Member {
