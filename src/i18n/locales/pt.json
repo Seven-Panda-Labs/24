@@ -124,7 +124,14 @@
     "backToSack": "Devolver ao saco",
     "inSack": "No saco",
     "spare_one": "Há {{count}} prenda a mais do que dias vazios.",
-    "spare_other": "Há {{count}} prendas a mais do que dias vazios."
+    "spare_other": "Há {{count}} prendas a mais do que dias vazios.",
+    "distribute": "Distribuir pelos dias",
+    "distributeTitle": "Distribuir o saco",
+    "distributeIntro": "Cada prenda vai para um dia vazio, e as que têm a mesma etiqueta ficam o mais afastadas possível. Os dias já preenchidos não mudam.",
+    "staysEmpty": "Fica vazio",
+    "kept_one": "{{count}} prenda fica no saco.",
+    "kept_other": "{{count}} prendas ficam no saco.",
+    "apply": "Distribuir"
   },
   "shopping": {
     "title": "Compras",

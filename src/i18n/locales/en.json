@@ -124,7 +124,14 @@
     "backToSack": "Back to the sack",
     "inSack": "In the sack",
     "spare_one": "{{count}} more gift than empty days.",
-    "spare_other": "{{count}} more gifts than empty days."
+    "spare_other": "{{count}} more gifts than empty days.",
+    "distribute": "Spread over the days",
+    "distributeTitle": "Spread the sack",
+    "distributeIntro": "Each gift goes on an empty day, and gifts with the same tag end up as far apart as they can. Days already filled stay as they are.",
+    "staysEmpty": "Stays empty",
+    "kept_one": "{{count}} gift stays in the sack.",
+    "kept_other": "{{count}} gifts stay in the sack.",
+    "apply": "Spread"
   },
   "shopping": {
     "title": "Shopping",
