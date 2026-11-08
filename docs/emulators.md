@@ -18,9 +18,7 @@ Project ID is `demo-24`, so no `.firebaserc` is needed and nothing reaches a rea
 
 ## Signing in
 
-- **Entrar (emulador)** signs in as `dev@24.local` / `devpassword`, created on first use. Its email is not verified, so it cannot accept invites.
-- **Entrar com Google** opens the Auth emulator's account picker: "Add new account" creates a fake Google account with a verified email. Use it to test invites with a second browser profile.
-- Email links appear in the `npm run emulators` output instead of being sent.
+Google is the only sign-in method, and the rules refuse any other provider. **Entrar com Google** opens the Auth emulator's account picker: "Add new account" creates a fake Google account with a verified email. Use a second browser profile with another fake account to test invites.
 
 Ports (set in [`firebase.json`](../firebase.json), wired in [`src/services/firebase.ts`](../src/services/firebase.ts)): UI 4000, Auth 9099, Firestore 8080, Storage 9199.
 

@@ -1,5 +1,11 @@
 # Registo de alterações
 
+## [0.10.0] - 2026-11-08
+
+### Removido
+
+- Entrar com link de email. A única forma de entrar é com Google, e as regras do servidor recusam contas de outros métodos.
+
 ## [0.9.0] - 2026-11-08
 
 ### Adicionado
