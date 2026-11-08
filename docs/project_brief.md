@@ -84,7 +84,7 @@ Comportamento: **mistura de tradições + novidades, com controlo do utilizador.
 
 ### 4.5 Contas, partilha e sincronização
 
-- **Firebase:** Authentication (link mágico ou Google), Firestore, Storage.
+- **Firebase:** Authentication (exclusivamente Google), Firestore, Storage.
 - Espaço familiar comum (workspace). Convidar familiares por email.
 - **Offline-first:** Firestore local persistence + IndexDB; sincronização automática ao recuperar rede.
 

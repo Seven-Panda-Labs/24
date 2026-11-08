@@ -10,7 +10,7 @@ Deploy your own instance on your own Firebase project. Variables: [`configuratio
 ## 1. Firebase project
 
 1. Create the project.
-2. Enable **Authentication** (Google and Email link providers), **Firestore** (production mode, e.g. `europe-west1`), **Storage** and **Hosting**.
+2. Enable **Authentication** with the Google provider only, **Firestore** (production mode, e.g. `europe-west1`), **Storage** and **Hosting**.
 3. **Project settings → Your apps → Web**: register an app and copy `firebaseConfig` into `.env.local`. Set `VITE_FIREBASE_AUTH_DOMAIN` to the serving domain (`your-project.web.app`), not `firebaseapp.com`, or sign-in breaks on Safari/iOS.
 4. Optional, for reminders: **Project settings → Cloud Messaging → Web Push certificates**, generate a key pair and set `VITE_FIREBASE_VAPID_KEY`.
 

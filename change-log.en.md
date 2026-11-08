@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.10.0] - 2026-11-08
+
+### Removed
+
+- Signing in with an email link. Google is the only way to sign in, and the server rules refuse accounts from any other method.
+
 ## [0.9.0] - 2026-11-08
 
 ### Added

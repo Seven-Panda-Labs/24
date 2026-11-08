@@ -34,8 +34,14 @@ const CALENDAR = {
   days: {},
 }
 
-function as(uid: string, email = `${uid}@example.com`, verified = true) {
-  return testEnv.authenticatedContext(uid, { email, email_verified: verified }).firestore()
+type Provider = 'google.com' | 'password' | 'email'
+
+function token(uid: string, email = `${uid}@example.com`, verified = true, provider: Provider = 'google.com') {
+  return testEnv.authenticatedContext(uid, { email, email_verified: verified, firebase: { sign_in_provider: provider } })
+}
+
+function as(uid: string, email?: string, verified?: boolean, provider?: Provider) {
+  return token(uid, email, verified, provider).firestore()
 }
 
 beforeAll(async () => {
@@ -97,6 +103,11 @@ describe('workspaces', () => {
 
   it('keeps outsiders from adding themselves', async () => {
     await assertFails(as('eve').doc('workspaces/w1').update({ memberIds: [...WORKSPACE.memberIds, 'eve'] }))
+  })
+
+  it('refuses members signed in with anything but Google', async () => {
+    await assertFails(as('bob', undefined, true, 'password').doc('workspaces/w1').get())
+    await assertFails(as('bob', undefined, true, 'email').doc('workspaces/w1/calendars/c1').get())
   })
 })
 
@@ -185,7 +196,7 @@ describe('feedback', () => {
 })
 
 describe('gift photos', () => {
-  const storage = (uid: string) => testEnv.authenticatedContext(uid, { email: `${uid}@example.com`, email_verified: true }).storage()
+  const storage = (uid: string, provider?: Provider) => token(uid, undefined, true, provider).storage()
   const photo = new Uint8Array([0xff, 0xd8, 0xff])
   const path = 'workspaces/w1/photos/c1/1-1.jpg'
 
@@ -199,6 +210,7 @@ describe('gift photos', () => {
     await assertFails(uploadBytes(ref(storage('bob'), 'workspaces/w1/photos/c1/notes.txt'), photo, { contentType: 'text/plain' }))
     await assertFails(uploadBytes(ref(storage('eve'), path), photo, { contentType: 'image/jpeg' }))
     await assertFails(getBytes(ref(storage('eve'), path)))
+    await assertFails(uploadBytes(ref(storage('bob', 'password'), path), photo, { contentType: 'image/jpeg' }))
   })
 })
 

@@ -25,15 +25,7 @@
   },
   "login": {
     "google": "Sign in with Google",
-    "or": "or",
-    "email": "Email",
-    "sendLink": "Email me a sign-in link",
-    "linkSent": "We sent a link to {{email}}. Open it on this device to sign in.",
-    "confirmEmail": "Confirm your email to sign in",
-    "linkFailed": "This link is no longer valid. Ask for a new one.",
-    "sendFailed": "Could not send the link. Try again.",
-    "googleFailed": "Could not sign in with Google.",
-    "emulator": "Sign in (emulator)"
+    "googleFailed": "Could not sign in with Google."
   },
   "onboarding": {
     "title": "Welcome to 24",
@@ -168,7 +160,7 @@
     "cancelInvite": "Cancel",
     "inviteEmail": "Email to invite",
     "invite": "Invite",
-    "inviteHelp": "They see the invite when they sign in to 24 with this email.",
+    "inviteHelp": "They see the invite when they sign in to 24 with the Google account for this email.",
     "tagsHelp": "Name, emoji and colour of gift tags.",
     "manageTags": "Manage tags",
     "signedInAs": "Signed in as {{email}}",
