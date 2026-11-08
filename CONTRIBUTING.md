@@ -1,0 +1,51 @@
+# Contributing
+
+Thanks for helping. The project is [AGPL-3.0](LICENSE): by contributing you license your code under it. Follow the [Code of Conduct](CODE_OF_CONDUCT.md).
+
+The workflow and writing rules live in [AGENTS.md](AGENTS.md) and apply to humans too. This file covers setup and the essentials.
+
+## Before you start
+
+For anything larger than a small fix, open an [issue](https://github.com/Seven-Panda-Labs/24/issues) first ([templates](.github/ISSUE_TEMPLATE/)).
+
+## Setup
+
+Node.js 24. Java 21+ for the emulators and `npm run test:rules`.
+
+```bash
+git clone https://github.com/Seven-Panda-Labs/24.git
+cd 24
+npm install
+npm run setup:githooks                 # once per clone
+cp .env.emulator.example .env.local
+npm run emulators                      # terminal 1
+npm run dev                            # terminal 2, http://localhost:5173
+```
+
+Details: [docs/emulators.md](docs/emulators.md). Using your own Firebase project instead: [docs/self-hosting.md](docs/self-hosting.md) and [docs/configuration.md](docs/configuration.md).
+
+## Checks
+
+`npm run check` is what CI runs: build (with typecheck), lint, tests, Firestore rules tests and the changelog check. If you change dependencies, also run `npm run check:licenses`. CI additionally runs Gitleaks.
+
+## Changelog
+
+Needed only when bumping `version` in `package.json` (docs, tests and refactors usually don't). Add a section at the top of `change-log.md` (Portuguese) and `change-log.en.md`:
+
+```markdown
+## [0.2.0] - 2026-11-20
+
+### Added
+
+- Advent grid with 24 doors per calendar.
+```
+
+Sections: Added, Changed, Fixed, Removed (Adicionado, Alterado, Corrigido, Removido). Write for users, not about the implementation. `npm run check:changelog` verifies the versions match.
+
+## Pull requests
+
+- Branch from `main` (`feat/…`, `fix/…`, `docs/…`); `main` only changes through a reviewed PR with green CI.
+- One topic per PR, minimal diff. Follow the patterns of the file you edit.
+- English, imperative title and commits: `Add calendar grid view`.
+- Fill in the [PR template](.github/PULL_REQUEST_TEMPLATE.md); add screenshots for UI changes and `Fixes #NNN` where it applies.
+- No secrets (`.env.local`, `.firebaserc`, service accounts) and no real personal data in fixtures or screenshots (use names like «Zé Ninguém»).

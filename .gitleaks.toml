@@ -1,0 +1,12 @@
+title = "24 gitleaks"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Placeholder env templates and lockfiles"
+paths = [
+  '''(?i)\.env\.example$''',
+  '''(?i)\.env\.emulator\.example$''',
+  '''(?i)package-lock\.json$''',
+]
