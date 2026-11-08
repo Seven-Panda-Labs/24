@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.3.0] - 2026-11-08
+
+### Added
+
+- History: search gifts from every year, ignoring accents and case, and filter by person.
+- Script to import the original Excel, one calendar per year.
+
+### Fixed
+
+- European Portuguese plurals: "0 comprados" instead of "0 comprado".
+
 ## [0.2.0] - 2026-11-08
 
 ### Added

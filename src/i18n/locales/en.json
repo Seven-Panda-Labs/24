@@ -2,7 +2,7 @@
   "tagline": "December's organized chaos",
   "language": {
     "label": "Language",
-    "pt": "Português",
+    "pt-PT": "Português",
     "en": "English"
   },
   "common": {
@@ -14,6 +14,7 @@
     "label": "Main navigation",
     "calendars": "Calendars",
     "shopping": "Shopping",
+    "history": "History",
     "settings": "Settings"
   },
   "login": {
@@ -166,5 +167,15 @@
     "manageTags": "Manage tags",
     "signedInAs": "Signed in as {{email}}",
     "signOut": "Sign out"
+  },
+  "history": {
+    "title": "History",
+    "search": "Search gifts and notes",
+    "person": "Person",
+    "everyone": "Everyone",
+    "count_one": "{{count}} gift",
+    "count_other": "{{count}} gifts",
+    "noMatch": "No gift by that name. Not even in the stocking.",
+    "empty": "No history yet. Every year's calendars end up here."
   }
 }

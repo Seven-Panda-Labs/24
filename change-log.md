@@ -1,5 +1,16 @@
 # Registo de alterações
 
+## [0.3.0] - 2026-11-08
+
+### Adicionado
+
+- Histórico: procurar prendas de todos os anos, sem ligar a acentos nem maiúsculas, e filtrar por pessoa.
+- Script para importar o Excel original, um calendário por ano.
+
+### Corrigido
+
+- Plurais em português de Portugal: "0 comprados" em vez de "0 comprado".
+
 ## [0.2.0] - 2026-11-08
 
 ### Adicionado

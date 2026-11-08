@@ -38,6 +38,7 @@ Com um projeto Firebase teu: [`docs/self-hosting.md`](docs/self-hosting.md). Par
 | [`configuration.md`](docs/configuration.md) | Variáveis de ambiente |
 | [`emulators.md`](docs/emulators.md) | Desenvolvimento local sem cloud |
 | [`self-hosting.md`](docs/self-hosting.md) | Deploy num projeto Firebase teu |
+| [`importing-the-excel.md`](docs/importing-the-excel.md) | Importar o Excel original |
 | [`visual-identity.md`](docs/visual-identity.md) | Paleta, tipografia e tokens |
 
 Licença [AGPL-3.0](LICENSE). Segurança: [`SECURITY.md`](SECURITY.md).
@@ -70,6 +71,7 @@ With your own Firebase project: [`docs/self-hosting.md`](docs/self-hosting.md). 
 | [`configuration.md`](docs/configuration.md) | Environment variables |
 | [`emulators.md`](docs/emulators.md) | Local development without the cloud |
 | [`self-hosting.md`](docs/self-hosting.md) | Deploy to your own Firebase project |
+| [`importing-the-excel.md`](docs/importing-the-excel.md) | Import the original Excel |
 | [`visual-identity.md`](docs/visual-identity.md) | Palette, typography and tokens |
 
 License [AGPL-3.0](LICENSE). Security: [`SECURITY.md`](SECURITY.md).

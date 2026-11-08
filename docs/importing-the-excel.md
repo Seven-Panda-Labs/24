@@ -1,0 +1,32 @@
+# Importing the Excel
+
+`npm run import:excel` turns the original spreadsheet into calendars, one per year sheet, every day marked as wrapped. It runs once per person and skips years that person already has, so a second run writes nothing.
+
+Keep the file in `private/`, which is gitignored. Never commit it.
+
+## What it reads
+
+| Excel | App |
+|-------|-----|
+| A sheet named after a year (`2024`) | A calendar for that year, starting 1 December |
+| Row N, column A | Day N, the gift |
+| Column C fill colour | A tag: yellow `FFE599` → `sweets`, grey `CCCCCC` → `clothes`, blue `4A86E8` → `home` |
+| A comment on column A | The day's notes |
+
+Other sheets, empty rows and the `Em falta:` total are ignored. The colour mapping is `COLOR_TAGS` in [`scripts/excel.ts`](../scripts/excel.ts), taken from the brief. In the original file, column C cycles grey, yellow, blue every three rows regardless of the gift, so check a few days after importing and rename or retag in the app if the colours meant something else.
+
+Comments exported by Google Sheets have no rich-text runs, and exceljs reads them as empty. The script lists those days so you can copy the notes by hand.
+
+## Run it
+
+Dry run first: without `--confirm` it only prints what it would write.
+
+```bash
+npm run import:excel -- --file "private/Calendario de Natal.xlsx" --person "Ana" --workspace <workspace id> --project <project id>
+```
+
+Add `--confirm` to write. The workspace id is in the Firebase console (Firestore, `workspaces`) or in the browser's local storage under `24:workspace`.
+
+**Against the emulators:** `FIRESTORE_EMULATOR_HOST=127.0.0.1:8080` and `--project demo-24`.
+
+**Against the real project:** the script uses the Admin SDK with your Google credentials, so run `gcloud auth application-default login` once with an account that owns the project.

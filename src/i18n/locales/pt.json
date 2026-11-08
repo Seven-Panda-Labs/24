@@ -2,7 +2,7 @@
   "tagline": "O caos organizado de Dezembro",
   "language": {
     "label": "Idioma",
-    "pt": "Português",
+    "pt-PT": "Português",
     "en": "English"
   },
   "common": {
@@ -14,6 +14,7 @@
     "label": "Navegação principal",
     "calendars": "Calendários",
     "shopping": "Compras",
+    "history": "Histórico",
     "settings": "Definições"
   },
   "login": {
@@ -166,5 +167,15 @@
     "manageTags": "Gerir etiquetas",
     "signedInAs": "Entraste como {{email}}",
     "signOut": "Sair"
+  },
+  "history": {
+    "title": "Histórico",
+    "search": "Procurar prendas e notas",
+    "person": "Pessoa",
+    "everyone": "Toda a gente",
+    "count_one": "{{count}} prenda",
+    "count_other": "{{count}} prendas",
+    "noMatch": "Nenhuma prenda com esse nome. Nem no sapatinho.",
+    "empty": "Ainda não há histórico. Os calendários de cada ano ficam aqui."
   }
 }

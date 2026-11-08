@@ -5,6 +5,7 @@ import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
 const NAV = [
   { to: '/', key: 'calendars', icon: '🎄', end: true },
   { to: '/shopping', key: 'shopping', icon: '🛍️', end: false },
+  { to: '/history', key: 'history', icon: '📜', end: false },
   { to: '/settings', key: 'settings', icon: '⚙️', end: false },
 ] as const
 
@@ -35,7 +36,7 @@ export default function Layout() {
 
       <nav
         aria-label={t('nav.label')}
-        className="fixed inset-x-0 bottom-0 z-20 grid grid-cols-3 border-t border-foreground/10 bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur sm:hidden"
+        className="fixed inset-x-0 bottom-0 z-20 grid grid-cols-4 border-t border-foreground/10 bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur sm:hidden"
       >
         {NAV.map((item) => (
           <NavLink

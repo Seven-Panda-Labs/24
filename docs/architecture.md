@@ -36,6 +36,7 @@ The PWA reads and writes Firestore and Storage directly, guarded by `firestore.r
 | `src/i18n/` | i18next setup and the `pt` and `en` locales |
 | `src/styles/globals.css` | Tailwind theme tokens and base components, see [`visual-identity.md`](./visual-identity.md) |
 | `public/` | Icons and illustrations cropped from `docs/assets/` |
+| `scripts/` | Node scripts run with `tsx`: changelog check, Excel import ([`importing-the-excel.md`](./importing-the-excel.md)) |
 
 ## Data model
 
