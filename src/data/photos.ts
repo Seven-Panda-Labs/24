@@ -1,5 +1,5 @@
 import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage'
-import { storage } from '../services/firebase.ts'
+import { storage } from '../services/firestore.ts'
 import { report } from './report.ts'
 
 const MAX_SIDE = 1280

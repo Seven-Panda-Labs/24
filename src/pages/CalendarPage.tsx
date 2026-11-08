@@ -88,12 +88,12 @@ export default function CalendarPage() {
     <div className="flex flex-col gap-4">
       <header className="flex items-start gap-2">
         <div className="flex-1">
-          <Link to={calendar.year === currentYear() ? '/' : `/?year=${calendar.year}`} className="text-sm text-foreground/60">
+          <Link to={calendar.year === currentYear() ? '/' : `/?year=${calendar.year}`} className="text-sm text-foreground/70">
             ← {calendar.year}
             {calendar.year < currentYear() && ` · 📦 ${t('home.archivedShort')}`}
           </Link>
           <h1 className="font-display text-3xl font-bold text-primary">{calendar.person}</h1>
-          {calendar.name && <p className="text-sm text-foreground/60">{calendar.name}</p>}
+          {calendar.name && <p className="text-sm text-foreground/70">{calendar.name}</p>}
         </div>
         <Link to={`/calendars/${calendar.id}/edit`} className="btn-ghost" aria-label={t('calendar.edit')}>
           ⚙️

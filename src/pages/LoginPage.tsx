@@ -66,7 +66,7 @@ export default function LoginPage() {
   return (
     <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center gap-8 p-6">
       <div className="flex flex-col items-center gap-3 text-center">
-        <img src="/pwa-192x192.png" alt="" width={120} height={120} className="rounded-3xl" />
+        <img src="/logo.webp" alt="" width={120} height={120} className="rounded-3xl" />
         <h1 className="font-display text-5xl font-bold text-primary">24</h1>
         <p>{t('tagline')}</p>
       </div>
@@ -75,7 +75,7 @@ export default function LoginPage() {
         {t('login.google')}
       </button>
 
-      <div className="flex items-center gap-3 text-sm text-foreground/60">
+      <div className="flex items-center gap-3 text-sm text-foreground/70">
         <span className="h-px flex-1 bg-foreground/15" />
         {t('login.or')}
         <span className="h-px flex-1 bg-foreground/15" />

@@ -12,6 +12,7 @@
 
 - Grid doors show more of the gift name.
 - Dark mode colours with more contrast.
+- The sign-in page opens faster and secondary text has more contrast.
 
 ## [0.4.0] - 2026-11-08
 

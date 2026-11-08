@@ -158,7 +158,7 @@ export default function CalendarFormPage() {
             onChange={(event) => set('originality', Number(event.target.value))}
             className="accent-primary"
           />
-          <span className="flex justify-between text-xs text-foreground/60">
+          <span className="flex justify-between text-xs text-foreground/70">
             <span>{t('calendarForm.traditional')}</span>
             <span>{t('calendarForm.original')}</span>
           </span>

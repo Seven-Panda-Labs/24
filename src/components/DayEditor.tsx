@@ -70,7 +70,7 @@ export default function DayEditor({ calendar, number, tags, onSave, onClose, onN
             <h2 id="day-editor-title" className="font-display text-2xl font-bold text-primary">
               {t('day.number', { number })}
             </h2>
-            <p className="text-sm text-foreground/60 first-letter:uppercase">{date}</p>
+            <p className="text-sm text-foreground/70 first-letter:uppercase">{date}</p>
           </div>
           <button type="button" onClick={onClose} className="btn-ghost" aria-label={t('common.close')}>
             ✕

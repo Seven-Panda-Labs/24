@@ -1,5 +1,5 @@
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
-import { db } from '../services/firebase.ts'
+import { db } from '../services/firestore.ts'
 import { report } from './report.ts'
 
 export interface Feedback {

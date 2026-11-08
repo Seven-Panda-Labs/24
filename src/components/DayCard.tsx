@@ -22,7 +22,7 @@ export default function DayCard({
   const label = day ? `${t('day.number', { number })}: ${day.gift}, ${t(`status.${day.status}`)}` : t('day.emptyLabel', { number })
 
   const look = !day
-    ? 'border-2 border-dashed border-foreground/15 text-foreground/40'
+    ? 'border-2 border-dashed border-foreground/15 text-foreground/60'
     : day.status === 'planned'
       ? 'jute border-2 border-dashed border-foreground/25'
       : day.status === 'bought'

@@ -58,7 +58,7 @@ export default function HomePage() {
         </label>
       </div>
 
-      {archived && <p className="text-sm text-foreground/60">📦 {t('home.archived')}</p>}
+      {archived && <p className="text-sm text-foreground/70">📦 {t('home.archived')}</p>}
 
       {ofYear.length > 0 && (totals.planned > 0 || totals.bought > 0) && (
         <Link to={year === currentYear() ? '/shopping' : `/shopping?year=${year}`} className="card flex flex-wrap gap-x-4 gap-y-1 py-3 text-sm font-semibold">
@@ -84,11 +84,11 @@ export default function HomePage() {
                   <Link to={`/calendars/${calendar.id}`} className="card flex flex-col gap-3 transition hover:border-primary/40">
                     <div className="flex items-baseline justify-between gap-2">
                       <h2 className="font-display text-xl font-bold">{calendar.person}</h2>
-                      <span className="text-sm text-foreground/60">
+                      <span className="text-sm text-foreground/70">
                         {t('home.filled', { count: progress.total - progress.empty, total: progress.total })}
                       </span>
                     </div>
-                    {calendar.name && <p className="-mt-2 text-sm text-foreground/60">{calendar.name}</p>}
+                    {calendar.name && <p className="-mt-2 text-sm text-foreground/70">{calendar.name}</p>}
                     <ProgressBar progress={progress} showLegend />
                   </Link>
                 </li>

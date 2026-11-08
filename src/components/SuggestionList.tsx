@@ -28,7 +28,7 @@ export default function SuggestionList({
           <li key={suggestion.gift} className="flex items-center gap-1 rounded-xl bg-background pl-3">
             <button type="button" onClick={() => onApply(suggestion)} className="flex flex-1 flex-col py-2 text-left">
               <span className="font-semibold">{suggestion.gift}</span>
-              <span className="text-xs text-foreground/60">{reason(suggestion)}</span>
+              <span className="text-xs text-foreground/70">{reason(suggestion)}</span>
             </button>
             <button
               type="button"

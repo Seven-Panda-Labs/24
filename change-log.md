@@ -12,6 +12,7 @@
 
 - As portas da grelha mostram mais do nome da prenda.
 - Cores do modo escuro com mais contraste.
+- A página de entrada abre mais depressa e o texto secundário tem mais contraste.
 
 ## [0.4.0] - 2026-11-08
 

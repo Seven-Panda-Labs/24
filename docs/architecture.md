@@ -32,7 +32,8 @@ The PWA reads and writes Firestore and Storage directly, guarded by `firestore.r
 | `src/workspace/WorkspaceContext.tsx` | Subscribes to the user's workspaces, invites, calendars and tags; every page reads from it |
 | `src/auth/` | Firebase Auth session |
 | `src/pages/`, `src/components/` | Screens and shared UI |
-| `src/services/firebase.ts` | Firebase app, Auth, Firestore (offline cache) and Storage, emulator wiring |
+| `src/services/firebase.ts` | Firebase app and Auth, emulator wiring |
+| `src/services/firestore.ts` | Firestore (offline cache) and Storage, loaded only with the signed-in app (`src/SignedInApp.tsx`) |
 | `src/i18n/` | i18next setup and the `pt` and `en` locales |
 | `src/styles/globals.css` | Tailwind theme tokens and base components, see [`visual-identity.md`](./visual-identity.md) |
 | `public/` | Icons and illustrations cropped from `docs/assets/` |

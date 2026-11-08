@@ -47,7 +47,7 @@ export default function OnboardingPage({ invites }: { invites: Workspace[] }) {
         <button type="submit" className={invites.length ? 'btn-secondary' : 'btn-primary'}>
           {t('onboarding.create')}
         </button>
-        <p className="text-xs text-foreground/60">{t('onboarding.waitingForInvite', { email: user.email })}</p>
+        <p className="text-xs text-foreground/70">{t('onboarding.waitingForInvite', { email: user.email })}</p>
       </form>
 
       <button type="button" onClick={() => signOut(auth)} className="btn-ghost self-center">

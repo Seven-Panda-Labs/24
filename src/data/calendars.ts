@@ -1,6 +1,6 @@
 import { collection, deleteDoc, deleteField, doc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore'
 import type { CalendarFields, Day, Status } from '../domain/types.ts'
-import { db } from '../services/firebase.ts'
+import { db } from '../services/firestore.ts'
 import { report } from './report.ts'
 
 const calendarRef = (wid: string, id: string) => doc(db, 'workspaces', wid, 'calendars', id)

@@ -5,7 +5,7 @@ import type { Calendar, Tag, Workspace } from '../domain/types.ts'
 import OnboardingPage from '../pages/OnboardingPage.tsx'
 import Splash from '../components/Splash.tsx'
 import { useDocs } from '../data/useDocs.ts'
-import { db } from '../services/firebase.ts'
+import { db } from '../services/firestore.ts'
 
 interface WorkspaceState {
   workspace: Workspace

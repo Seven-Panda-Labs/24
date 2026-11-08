@@ -64,11 +64,11 @@ export default function HistoryPage() {
         </label>
       </div>
 
-      <p className="text-sm text-foreground/60" role="status">
+      <p className="text-sm text-foreground/70" role="status">
         {t('history.count', { count: entries.length })}
       </p>
       {filledThisYear.length > 0 && (
-        <p className="text-sm text-foreground/60">
+        <p className="text-sm text-foreground/70">
           ✨{' '}
           {t('history.suggestionShare', {
             percent: Math.round((100 * fromSuggestions) / filledThisYear.length),
@@ -92,7 +92,7 @@ export default function HistoryPage() {
                   <li key={`${calendar.id}-${day}`}>
                     <Link to={`/calendars/${calendar.id}?day=${day}`} className="flex flex-col gap-1 py-2">
                       <span className="font-semibold">{value.gift}</span>
-                      <span className="flex flex-wrap items-center gap-1 text-xs text-foreground/60">
+                      <span className="flex flex-wrap items-center gap-1 text-xs text-foreground/70">
                         {calendar.person} · {t('day.number', { number: day })}
                         {value.tagIds.flatMap((id) => tagsById.get(id) ?? []).map((tag) => (
                           <TagChip key={tag.id} tag={tag} />
