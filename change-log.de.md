@@ -6,6 +6,13 @@
 
 - Die ganze App auf Deutsch und Französisch, auch die Geschenkideen, diese Seite mit Neuigkeiten und die wöchentlichen Erinnerungen. Die Sprache wählst du in den Einstellungen, beim ersten Mal richtet sie sich nach dem Browser.
 
+## [0.14.1] - 2026-11-08
+
+### Behoben
+
+- Auf dem Handy mit schwachem Empfang öffnet sich die App sofort mit den gespeicherten Daten, statt auf dem Startbildschirm auf die Anmeldedienste von Google zu warten.
+- Die Anmeldeseite erscheint auf dem Handy schneller.
+
 ## [0.14.0] - 2026-11-08
 
 ### Hinzugefügt

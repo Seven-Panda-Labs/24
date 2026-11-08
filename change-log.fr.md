@@ -6,6 +6,13 @@
 
 - Toute l’app en allemand et en français, y compris les idées de cadeaux, cette page de nouveautés et les rappels hebdomadaires. La langue se choisit dans les Paramètres ; la première fois, elle suit celle du navigateur.
 
+## [0.14.1] - 2026-11-08
+
+### Corrigé
+
+- Sur un téléphone avec un signal faible, l’app s’ouvre tout de suite avec les données enregistrées, au lieu d’attendre sur l’écran d’accueil les services de connexion de Google.
+- La page de connexion s’affiche plus vite sur le téléphone.
+
 ## [0.14.0] - 2026-11-08
 
 ### Ajouté

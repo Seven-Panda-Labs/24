@@ -1,19 +1,26 @@
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
-import { useState } from 'react'
+import { GoogleAuthProvider, signInWithCredential, signInWithPopup } from 'firebase/auth'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Logo from '../components/Logo.tsx'
-import { auth } from '../services/firebase.ts'
+import { auth, signInAuth } from '../services/firebase.ts'
 
 // Google is the only sign-in method; the rules refuse any other provider.
 export default function LoginPage() {
   const { t } = useTranslation()
   const [error, setError] = useState('')
+  const [ready, setReady] = useState(false)
+
+  useEffect(() => {
+    void signInAuth().authStateReady().then(() => setReady(true))
+  }, [])
 
   function signInWithGoogle() {
     setError('')
-    signInWithPopup(auth, new GoogleAuthProvider()).catch((cause: { code?: string }) => {
-      if (cause.code !== 'auth/popup-closed-by-user') setError(t('login.googleFailed'))
-    })
+    signInWithPopup(signInAuth(), new GoogleAuthProvider())
+      .then((result) => signInWithCredential(auth, GoogleAuthProvider.credentialFromResult(result)!))
+      .catch((cause: { code?: string }) => {
+        if (cause.code !== 'auth/popup-closed-by-user') setError(t('login.googleFailed'))
+      })
   }
 
   return (
@@ -25,7 +32,7 @@ export default function LoginPage() {
         <p>{t('tagline')}</p>
       </div>
 
-      <button type="button" onClick={signInWithGoogle} className="btn-primary">
+      <button type="button" onClick={signInWithGoogle} disabled={!ready} className="btn-primary">
         {t('login.google')}
       </button>
 

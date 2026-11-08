@@ -6,6 +6,13 @@
 
 - The whole app in German and French, including the suggested ideas, this What's new page and the weekly reminders. Choose the language in Settings; the first time, it follows the browser.
 
+## [0.14.1] - 2026-11-08
+
+### Fixed
+
+- On a phone with a weak signal, the app opens straight away with the saved data, instead of waiting on the splash for Google's sign-in services.
+- The sign-in page shows up faster on phones.
+
 ## [0.14.0] - 2026-11-08
 
 ### Added
