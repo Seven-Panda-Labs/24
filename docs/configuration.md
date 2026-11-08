@@ -2,9 +2,16 @@
 
 Environment variables and config files. Step-by-step setup: [`self-hosting.md`](./self-hosting.md).
 
-## Web app (`.env.local`)
+## Web app (`.env.development.local`, `.env.production.local`)
 
-Copy [`.env.example`](../.env.example) to `.env.local`. For emulator-only development use [`.env.emulator.example`](../.env.emulator.example) instead.
+Vite reads one file per mode, so local development and the deployed app keep separate configs:
+
+| File | Read by | Usually a copy of |
+|------|---------|-------------------|
+| `.env.development.local` | `npm run dev` | [`.env.emulator.example`](../.env.emulator.example), for the emulators |
+| `.env.production.local` | `npm run build`, `preview`, `deploy` | [`.env.example`](../.env.example), filled with your project's config |
+
+Avoid `.env.local`: Vite reads it in every mode, so it would apply to both. All of these are gitignored.
 
 | Variable | Required | Description |
 |----------|----------|-------------|

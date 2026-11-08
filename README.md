@@ -38,7 +38,7 @@ O produto e o plano estão em [`docs/project_brief.md`](docs/project_brief.md).
 
 ```bash
 npm install && npm --prefix functions install
-cp .env.emulator.example .env.local
+cp .env.emulator.example .env.development.local
 npm run emulators    # terminal 1
 npm run dev          # terminal 2
 ```
@@ -79,7 +79,7 @@ The product and the plan are in [`docs/project_brief.md`](docs/project_brief.md)
 
 ```bash
 npm install && npm --prefix functions install
-cp .env.emulator.example .env.local
+cp .env.emulator.example .env.development.local
 npm run emulators    # terminal 1
 npm run dev          # terminal 2
 ```

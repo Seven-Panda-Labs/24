@@ -11,7 +11,7 @@ Deploy your own instance on your own Firebase project. Variables: [`configuratio
 
 1. Create the project.
 2. Enable **Authentication** with the Google provider only, **Firestore** (production mode, e.g. `europe-west1`), **Storage** and **Hosting**.
-3. **Project settings → Your apps → Web**: register an app and copy `firebaseConfig` into `.env.local`. Set `VITE_FIREBASE_AUTH_DOMAIN` to the serving domain (`your-project.web.app`), not `firebaseapp.com`, or sign-in breaks on Safari/iOS.
+3. **Project settings → Your apps → Web**: register an app and copy `firebaseConfig` into `.env.production.local`. Set `VITE_FIREBASE_AUTH_DOMAIN` to the serving domain (`your-project.web.app`), not `firebaseapp.com`, or sign-in breaks on Safari/iOS.
 4. Optional, for reminders: **Project settings → Cloud Messaging → Web Push certificates**, generate a key pair and set `VITE_FIREBASE_VAPID_KEY`.
 
 ## 2. Local setup
@@ -20,13 +20,13 @@ Deploy your own instance on your own Firebase project. Variables: [`configuratio
 git clone https://github.com/Seven-Panda-Labs/24.git
 cd 24
 npm install && npm --prefix functions install
-cp .env.example .env.local
+cp .env.example .env.production.local
 cp .firebaserc.example .firebaserc
 npx firebase login
 npx firebase use --add YOUR_PROJECT_ID
 ```
 
-`npm run dev` runs against the real project (`localhost` is an authorized domain by default). To work without it, see [`emulators.md`](./emulators.md).
+`npm run build`, `preview` and `deploy` read `.env.production.local`. `npm run dev` reads `.env.development.local` instead: copy `.env.emulator.example` there to develop against the emulators ([`emulators.md`](./emulators.md)), or `.env.example` to develop against the real project (`localhost` is an authorized domain by default). See [`configuration.md`](./configuration.md).
 
 ## 3. Deploy
 
@@ -50,6 +50,6 @@ The Storage rules check workspace membership in Firestore. On the first deploy t
 |---------|-------|
 | Login fails in production | Authorized domains; OAuth client origins and redirect URI |
 | Login fails on Safari/iOS | `VITE_FIREBASE_AUTH_DOMAIN` is the serving domain |
-| `Missing VITE_*` | `.env.local` complete before build |
+| `Missing VITE_*` | `.env.production.local` complete before build |
 | No reminders option in Settings | `VITE_FIREBASE_VAPID_KEY` set before the build |
 | Reminders on but nothing arrives | It runs on Sundays, 1 November to 24 December, and skips workspaces with nothing left; check the `sendReminders` logs. On iPhone the app must be installed on the home screen |

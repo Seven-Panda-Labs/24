@@ -17,7 +17,7 @@ git clone https://github.com/Seven-Panda-Labs/24.git
 cd 24
 npm install && npm --prefix functions install
 npm run setup:githooks                 # once per clone
-cp .env.emulator.example .env.local
+cp .env.emulator.example .env.development.local
 npm run emulators                      # terminal 1
 npm run dev                            # terminal 2, http://localhost:5173
 ```
@@ -48,4 +48,4 @@ Sections: Added, Changed, Fixed, Removed (Adicionado, Alterado, Corrigido, Remov
 - One topic per PR, minimal diff. Follow the patterns of the file you edit.
 - English, imperative title and commits: `Add calendar grid view`.
 - Fill in the [PR template](.github/PULL_REQUEST_TEMPLATE.md); add screenshots for UI changes and `Fixes #NNN` where it applies.
-- No secrets (`.env.local`, `.firebaserc`, service accounts) and no real personal data in fixtures or screenshots (use names like «Zé Ninguém»).
+- No secrets (`.env*.local`, `.firebaserc`, service accounts) and no real personal data in fixtures or screenshots (use names like «Zé Ninguém»).
