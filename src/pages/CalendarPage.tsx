@@ -9,7 +9,7 @@ import Sack from '../components/Sack.tsx'
 import StatusButton from '../components/StatusButton.tsx'
 import TagChip from '../components/TagChip.tsx'
 import { query, where } from 'firebase/firestore'
-import { clearGift, moveGift, updateGift } from '../data/calendars.ts'
+import { clearGift, moveGifts, updateGift } from '../data/calendars.ts'
 import { feedbackOf, recordFeedback, type Feedback } from '../data/feedback.ts'
 import { deletePhoto } from '../data/photos.ts'
 import { useDocs } from '../data/useDocs.ts'
@@ -77,7 +77,7 @@ export default function CalendarPage() {
   }
   const move = (from: Slot, to: Slot, changes: Partial<Day>) => {
     const current = giftAt(calendar, from)
-    if (current) moveGift(workspace.id, calendar.id, from, to, { ...current, ...changes })
+    if (current) moveGifts(workspace.id, calendar.id, [{ from, to, value: { ...current, ...changes } }])
   }
 
   const ideas: Idea[] = Object.entries(t('ideas', { returnObjects: true }) as Record<string, string[]>).flatMap(
@@ -205,6 +205,13 @@ export default function CalendarPage() {
         onAdd={(gift) => updateGift(workspace.id, calendar.id, { sack: newSackId() }, { gift, status: 'planned', tagIds: [], notes: '' })}
         onAdvance={(id, value) => updateGift(workspace.id, calendar.id, { sack: id }, { status: nextStatus(value.status) })}
         onOpen={(id) => open({ sack: id })}
+        onDistribute={(plan) =>
+          moveGifts(
+            workspace.id,
+            calendar.id,
+            plan.map(({ id, day }) => ({ from: { sack: id }, to: { day }, value: calendar.sack[id] })),
+          )
+        }
       />
 
       {openSlot && (

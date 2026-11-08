@@ -34,13 +34,16 @@ export function clearGift(wid: string, id: string, slot: Slot): void {
   void updateDoc(calendarRef(wid, id), { [pathOf(slot)]: deleteField(), updatedAt: serverTimestamp() }).catch(report)
 }
 
-/** Takes a gift out of one slot and puts it in another, in one write. */
-export function moveGift(wid: string, id: string, from: Slot, to: Slot, value: Day): void {
-  void updateDoc(calendarRef(wid, id), {
-    [pathOf(from)]: deleteField(),
-    [pathOf(to)]: value,
-    updatedAt: serverTimestamp(),
-  }).catch(report)
+export interface Move {
+  from: Slot
+  to: Slot
+  value: Day
+}
+
+/** Takes each gift out of one slot and puts it in another, all in one write. */
+export function moveGifts(wid: string, id: string, moves: Move[]): void {
+  const fields = Object.fromEntries(moves.flatMap(({ from, to, value }) => [[pathOf(from), deleteField()], [pathOf(to), value]]))
+  void updateDoc(calendarRef(wid, id), { ...fields, updatedAt: serverTimestamp() }).catch(report)
 }
 
 export function setGiftPhoto(wid: string, id: string, slot: Slot, photo: { path: string; url: string } | null): void {

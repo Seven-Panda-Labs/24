@@ -64,6 +64,8 @@ A **calendar** keeps its days in a map keyed by day number, so a year of history
 
 The **sack** holds a calendar's gifts without a day yet, in the same document, keyed by ids that sort by when they went in. Putting a gift on a day, or back in the sack, is one write that deletes it from one map and sets it in the other. The progress and the weekly reminder count the sack towards the empty days, the furthest along first; gifts past that are spare ideas. Two people moving the same gift offline at the same time can end up with it on two days: preventing that would take a transaction, and transactions need a connection.
 
+**Spreading the sack** ([`src/domain/distribute.ts`](../src/domain/distribute.ts)) fills the empty days from the earliest, after a preview, and never moves a gift already on a day. With more gifts than empty days, the furthest along go first. Gifts that share a tag are kept apart, counting the filled days: each day prefers a gift far enough from the last one with its tag (the gifts left divided by how many have that tag), then the most common tag, so it does not bunch up at the end. All the moves are one write.
+
 **Tags** start as the five defaults in `src/domain/tags.ts`; their ids are stable and other code refers to them.
 
 **Feedback** is append-only: a row each time a suggestion is picked or dismissed. Dismissed gifts stop being suggested for that calendar. A day filled from a suggestion also carries `fromSuggestion: true`, which feeds the share shown on the History page.

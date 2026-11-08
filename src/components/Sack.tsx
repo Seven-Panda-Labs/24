@@ -1,7 +1,9 @@
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { dayNumbers, dayOf, sackOf } from '../domain/days.ts'
+import type { Placement } from '../domain/distribute.ts'
 import type { Calendar, Day, Tag } from '../domain/types.ts'
+import DistributeDialog from './DistributeDialog.tsx'
 import StatusButton from './StatusButton.tsx'
 import TagChip from './TagChip.tsx'
 
@@ -12,17 +14,21 @@ export default function Sack({
   onAdd,
   onAdvance,
   onOpen,
+  onDistribute,
 }: {
   calendar: Calendar
   tags: Map<string, Tag>
   onAdd: (gift: string) => void
   onAdvance: (id: string, value: Day) => void
   onOpen: (id: string) => void
+  onDistribute: (plan: Placement[]) => void
 }) {
   const { t } = useTranslation()
   const [draft, setDraft] = useState('')
+  const [previewing, setPreviewing] = useState(false)
   const gifts = sackOf(calendar)
-  const spare = gifts.length - dayNumbers(calendar).filter((day) => !dayOf(calendar, day)).length
+  const emptyDays = dayNumbers(calendar).filter((day) => !dayOf(calendar, day)).length
+  const spare = gifts.length - emptyDays
 
   function add(event: FormEvent) {
     event.preventDefault()
@@ -71,7 +77,15 @@ export default function Sack({
         </ul>
       )}
 
+      {gifts.length > 0 && emptyDays > 0 && (
+        <button type="button" onClick={() => setPreviewing(true)} className="btn-secondary self-start">
+          {t('sack.distribute')}
+        </button>
+      )}
+
       {spare > 0 && <p className="text-xs text-foreground/70">{t('sack.spare', { count: spare })}</p>}
+
+      {previewing && <DistributeDialog calendar={calendar} tags={tags} onApply={onDistribute} onClose={() => setPreviewing(false)} />}
     </section>
   )
 }
