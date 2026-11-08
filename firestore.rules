@@ -111,7 +111,7 @@ service cloud.firestore {
 
       match /calendars/{cid} {
         function validCalendar(c) {
-          return c.keys().hasOnly(['year', 'person', 'name', 'startDate', 'dayCount', 'allowRepeats', 'originality', 'days', 'createdAt', 'updatedAt'])
+          return c.keys().hasOnly(['year', 'person', 'name', 'startDate', 'dayCount', 'allowRepeats', 'originality', 'days', 'sack', 'createdAt', 'updatedAt'])
             && c.year is int && c.year >= 2000 && c.year <= 2100
             && validName(c.person, 80)
             && c.name is string && c.name.size() <= 80
@@ -119,7 +119,9 @@ service cloud.firestore {
             && c.dayCount is int && c.dayCount >= 1 && c.dayCount <= 31
             && c.allowRepeats is bool
             && c.originality is number && c.originality >= 0 && c.originality <= 1
-            && c.days is map && c.days.size() <= 31;
+            && c.days is map && c.days.size() <= 31
+            // Gifts without a day yet; calendars from before the sack have none.
+            && (!c.keys().hasAny(['sack']) || (c.sack is map && c.sack.size() <= 100));
         }
 
         allow read, delete: if isMember(wid);

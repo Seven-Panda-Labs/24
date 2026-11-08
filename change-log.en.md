@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.12.0] - 2026-11-08
+
+### Added
+
+- A sack in each calendar: gifts and ideas without a day yet, to place later. They count towards progress while there are empty days, and show on the shopping list and in the weekly reminder. A gift goes from the sack to a day from its editor or from an empty day, and a filled day can send its gift back to the sack.
+
 ## [0.11.0] - 2026-11-08
 
 ### Changed

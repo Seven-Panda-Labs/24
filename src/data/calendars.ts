@@ -1,9 +1,10 @@
 import { collection, deleteDoc, deleteField, doc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore'
-import type { CalendarFields, Day } from '../domain/types.ts'
+import type { CalendarFields, Day, Slot } from '../domain/types.ts'
 import { db } from '../services/firestore.ts'
 import { report } from './report.ts'
 
 const calendarRef = (wid: string, id: string) => doc(db, 'workspaces', wid, 'calendars', id)
+const pathOf = (slot: Slot) => ('day' in slot ? `days.${slot.day}` : `sack.${slot.sack}`)
 
 export function createCalendar(wid: string, fields: CalendarFields): string {
   const ref = doc(collection(db, 'workspaces', wid, 'calendars'))
@@ -20,23 +21,32 @@ export function deleteCalendar(wid: string, id: string): void {
 }
 
 /**
- * Writes the given fields of one day by path (`days.5.status`), so edits to
- * different days, or to different fields of the same day, never overwrite
- * each other. Missing parents are created, so this also starts a new day.
+ * Writes the given fields of one gift by path (`days.5.status`), so edits to
+ * different gifts, or to different fields of the same gift, never overwrite
+ * each other. Missing parents are created, so this also starts a new gift.
  */
-export function updateDay(wid: string, id: string, day: number, changes: Partial<Day>): void {
-  const fields = Object.fromEntries(Object.entries(changes).map(([key, value]) => [`days.${day}.${key}`, value]))
+export function updateGift(wid: string, id: string, slot: Slot, changes: Partial<Day>): void {
+  const fields = Object.fromEntries(Object.entries(changes).map(([key, value]) => [`${pathOf(slot)}.${key}`, value]))
   void updateDoc(calendarRef(wid, id), { ...fields, updatedAt: serverTimestamp() }).catch(report)
 }
 
-export function clearDay(wid: string, id: string, day: number): void {
-  void updateDoc(calendarRef(wid, id), { [`days.${day}`]: deleteField(), updatedAt: serverTimestamp() }).catch(report)
+export function clearGift(wid: string, id: string, slot: Slot): void {
+  void updateDoc(calendarRef(wid, id), { [pathOf(slot)]: deleteField(), updatedAt: serverTimestamp() }).catch(report)
 }
 
-export function setDayPhoto(wid: string, id: string, day: number, photo: { path: string; url: string } | null): void {
+/** Takes a gift out of one slot and puts it in another, in one write. */
+export function moveGift(wid: string, id: string, from: Slot, to: Slot, value: Day): void {
   void updateDoc(calendarRef(wid, id), {
-    [`days.${day}.photoPath`]: photo?.path ?? deleteField(),
-    [`days.${day}.photoUrl`]: photo?.url ?? deleteField(),
+    [pathOf(from)]: deleteField(),
+    [pathOf(to)]: value,
+    updatedAt: serverTimestamp(),
+  }).catch(report)
+}
+
+export function setGiftPhoto(wid: string, id: string, slot: Slot, photo: { path: string; url: string } | null): void {
+  void updateDoc(calendarRef(wid, id), {
+    [`${pathOf(slot)}.photoPath`]: photo?.path ?? deleteField(),
+    [`${pathOf(slot)}.photoUrl`]: photo?.url ?? deleteField(),
     updatedAt: serverTimestamp(),
   }).catch(report)
 }

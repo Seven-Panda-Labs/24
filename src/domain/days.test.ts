@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { cleanDays, dateOfDay, dayChanges, daysWithStatus, matchesFilter, progressOf } from './days.ts'
+import { cleanDays, dateOfDay, dayChanges, giftsWithStatus, matchesFilter, progressOf, sackOf } from './days.ts'
 import type { Calendar, Day } from './types.ts'
 
 function calendar(days: Calendar['days'], overrides: Partial<Calendar> = {}): Calendar {
@@ -13,6 +13,7 @@ function calendar(days: Calendar['days'], overrides: Partial<Calendar> = {}): Ca
     allowRepeats: false,
     originality: 0.5,
     days,
+    sack: {},
     ...overrides,
   }
 }
@@ -36,6 +37,19 @@ describe('progressOf', () => {
     const progress = progressOf(calendar({ '5': day('Meias', 'wrapped') }, { dayCount: 4 }))
     expect(progress).toEqual({ total: 4, empty: 4, planned: 0, bought: 0, wrapped: 0 })
   })
+
+  it('counts the sack towards the empty days, the furthest along first, and no further', () => {
+    const sack = { a: day('Livro', 'planned'), b: day('Vela', 'wrapped'), c: day('Doces', 'bought') }
+    const progress = progressOf(calendar({ '1': day('Meias', 'planned') }, { dayCount: 3, sack }))
+    expect(progress).toEqual({ total: 3, empty: 0, planned: 1, bought: 1, wrapped: 1 })
+  })
+})
+
+describe('sackOf', () => {
+  it('lists the sack in the order the gifts went in', () => {
+    const sack = { mb: day('Vela', 'planned'), ma: day('Meias', 'planned') }
+    expect(sackOf({ sack }).map(([id]) => id)).toEqual(['ma', 'mb'])
+  })
 })
 
 describe('matchesFilter', () => {
@@ -56,15 +70,16 @@ describe('dateOfDay', () => {
   })
 })
 
-describe('daysWithStatus', () => {
-  it('lists matching days across calendars in order', () => {
-    const a = calendar({ '3': day('Meias', 'planned'), '1': day('Doces', 'planned'), '2': day('Vela', 'bought') })
+describe('giftsWithStatus', () => {
+  it('lists matching gifts across calendars, days in order and then the sack', () => {
+    const a = calendar(
+      { '3': day('Meias', 'planned'), '1': day('Doces', 'planned'), '2': day('Vela', 'bought') },
+      { sack: { s1: day('Livro', 'planned'), s2: day('Caneca', 'bought') } },
+    )
     const b = calendar({ '1': day('Livro', 'planned') }, { id: 'c2' })
-    expect(daysWithStatus([a, b], 'planned').map((ref) => `${ref.calendar.id}:${ref.day}`)).toEqual([
-      'c1:1',
-      'c1:3',
-      'c2:1',
-    ])
+    const where = ({ calendar, slot }: ReturnType<typeof giftsWithStatus>[number]) =>
+      `${calendar.id}:${'day' in slot ? slot.day : slot.sack}`
+    expect(giftsWithStatus([a, b], 'planned').map(where)).toEqual(['c1:1', 'c1:3', 'c1:s1', 'c2:1'])
   })
 })
 

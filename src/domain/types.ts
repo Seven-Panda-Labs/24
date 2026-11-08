@@ -1,6 +1,7 @@
 export const STATUSES = ['planned', 'bought', 'wrapped'] as const
 export type Status = (typeof STATUSES)[number]
 
+/** A gift, on a day of the calendar or in its sack. */
 export interface Day {
   gift: string
   status: Status
@@ -30,7 +31,12 @@ export interface Calendar extends CalendarFields {
   id: string
   /** Keyed by day number ("1".."24"). A missing key is an empty day. */
   days: Record<string, Day>
+  /** Gifts without a day yet, keyed by an id that sorts by when they went in. */
+  sack: Record<string, Day>
 }
+
+/** Where a gift is kept: a day of the calendar, or the sack until it gets one. */
+export type Slot = { day: number } | { sack: string }
 
 export interface Member {
   name: string

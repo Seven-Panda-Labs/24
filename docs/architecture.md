@@ -49,7 +49,8 @@ The PWA reads and writes Firestore and Storage directly, guarded by `firestore.r
 ```
 workspaces/{wid}                 name, ownerId, memberIds[], members{uid: {name, email}}, invitedEmails[]
   calendars/{cid}                year, person, name, startDate, dayCount, allowRepeats, originality,
-                                 days{"1": {gift, status, tagIds[], notes, fromSuggestion?, photoPath?, photoUrl?}, ...}
+                                 days{"1": {gift, status, tagIds[], notes, fromSuggestion?, photoPath?, photoUrl?}, ...},
+                                 sack{"<id>": {the same fields as a day}}
   tags/{tid}                     name, color, emoji
   feedback/{fid}                 calendarId, gift, action (accepted | dismissed), at
 users/{uid}                      fcmTokens[], language
@@ -61,11 +62,13 @@ A **workspace** is the family space. `memberIds` is there for the "my workspaces
 
 A **calendar** keeps its days in a map keyed by day number, so a year of history is one document per calendar. Days are written by field path (`days.5`), so two people editing different days never overwrite each other. A missing key is an empty day.
 
+The **sack** holds a calendar's gifts without a day yet, in the same document, keyed by ids that sort by when they went in. Putting a gift on a day, or back in the sack, is one write that deletes it from one map and sets it in the other. The progress and the weekly reminder count the sack towards the empty days, the furthest along first; gifts past that are spare ideas. Two people moving the same gift offline at the same time can end up with it on two days: preventing that would take a transaction, and transactions need a connection.
+
 **Tags** start as the five defaults in `src/domain/tags.ts`; their ids are stable and other code refers to them.
 
 **Feedback** is append-only: a row each time a suggestion is picked or dismissed. Dismissed gifts stop being suggested for that calendar. A day filled from a suggestion also carries `fromSuggestion: true`, which feeds the share shown on the History page.
 
-**Photos** live in Storage at `workspaces/{wid}/photos/{cid}/{day}-{timestamp}.jpg`, shrunk in the browser to a JPEG of at most 1280px a side. The day keeps the path, to delete the file, and the download URL, so the photo shows offline from the service worker cache. Uploads need a connection: Storage has no offline queue. Emptying a day or deleting a calendar deletes its photos.
+**Photos** live in Storage at `workspaces/{wid}/photos/{cid}/{day}-{timestamp}.jpg` (`sack-{id}-{timestamp}.jpg` for a gift in the sack, a name it keeps when it moves), shrunk in the browser to a JPEG of at most 1280px a side. The day keeps the path, to delete the file, and the download URL, so the photo shows offline from the service worker cache. Uploads need a connection: Storage has no offline queue. Emptying a day or deleting a calendar deletes its photos.
 
 Rules: [`firestore.rules`](../firestore.rules) and [`storage.rules`](../storage.rules), tested together in [`firestore.rules.test.ts`](../firestore.rules.test.ts) against the emulators. Storage rules read workspace membership from Firestore. Indexes: [`firestore.indexes.json`](../firestore.indexes.json).
 

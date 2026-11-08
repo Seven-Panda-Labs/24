@@ -9,6 +9,17 @@ describe('countsFor', () => {
     ])
     expect(counts).toEqual({ toBuy: 1, toWrap: 1, empty: 3 })
   })
+
+  it('counts the sack towards the empty days, the furthest along first', () => {
+    const counts = countsFor([
+      {
+        dayCount: 3,
+        days: { '1': { gift: 'Meias', status: 'wrapped' } },
+        sack: { a: { gift: 'Livro', status: 'planned' }, b: { gift: 'Vela', status: 'bought' }, c: { gift: 'Doces', status: 'planned' } },
+      },
+    ])
+    expect(counts).toEqual({ toBuy: 1, toWrap: 1, empty: 0 })
+  })
 })
 
 describe('reminderFor', () => {

@@ -1,8 +1,11 @@
 // No Firebase imports here: the root Vitest suite tests this file directly.
 
+type GiftDoc = { gift?: unknown; status?: unknown } | null
+
 export interface CalendarDoc {
   dayCount: number
-  days?: Record<string, { gift?: unknown; status?: unknown } | null>
+  days?: Record<string, GiftDoc>
+  sack?: Record<string, GiftDoc>
 }
 
 export interface Counts {
@@ -11,16 +14,32 @@ export interface Counts {
   empty: number
 }
 
-/** What is left across a workspace's calendars for the year. */
+const hasGift = (value: GiftDoc | undefined) => typeof value?.gift === 'string' && value.gift !== ''
+const FURTHEST_FIRST: Record<string, number> = { wrapped: 0, bought: 1 }
+
+/**
+ * What is left across a workspace's calendars for the year. Gifts in the sack
+ * fill the empty days, the furthest along first, as in the app's progress.
+ */
 export function countsFor(calendars: CalendarDoc[]): Counts {
   const counts: Counts = { toBuy: 0, toWrap: 0, empty: 0 }
+  const count = (value: GiftDoc | undefined) => {
+    if (value?.status === 'bought') counts.toWrap++
+    else if (value?.status !== 'wrapped') counts.toBuy++
+  }
   for (const calendar of calendars) {
+    let empty = 0
     for (let day = 1; day <= calendar.dayCount; day++) {
       const value = calendar.days?.[String(day)]
-      if (typeof value?.gift !== 'string' || !value.gift) counts.empty++
-      else if (value.status === 'bought') counts.toWrap++
-      else if (value.status !== 'wrapped') counts.toBuy++
+      if (hasGift(value)) count(value)
+      else empty++
     }
+    const sack = Object.values(calendar.sack ?? {})
+      .filter(hasGift)
+      .sort((a, b) => (FURTHEST_FIRST[String(a?.status)] ?? 2) - (FURTHEST_FIRST[String(b?.status)] ?? 2))
+      .slice(0, empty)
+    sack.forEach(count)
+    counts.empty += empty - sack.length
   }
   return counts
 }
