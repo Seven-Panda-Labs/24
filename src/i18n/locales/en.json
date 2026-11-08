@@ -4,5 +4,167 @@
     "label": "Language",
     "pt": "Português",
     "en": "English"
+  },
+  "common": {
+    "close": "Close",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "nav": {
+    "label": "Main navigation",
+    "calendars": "Calendars",
+    "shopping": "Shopping",
+    "settings": "Settings"
+  },
+  "login": {
+    "google": "Sign in with Google",
+    "or": "or",
+    "email": "Email",
+    "sendLink": "Email me a sign-in link",
+    "linkSent": "We sent a link to {{email}}. Open it on this device to sign in.",
+    "confirmEmail": "Confirm your email to sign in",
+    "linkFailed": "This link is no longer valid. Ask for a new one.",
+    "sendFailed": "Could not send the link. Try again.",
+    "googleFailed": "Could not sign in with Google.",
+    "emulator": "Sign in (emulator)"
+  },
+  "onboarding": {
+    "title": "Welcome to 24",
+    "intro": "Calendars live in a family space, shared with whoever you invite.",
+    "defaultName": "{{name}}'s family",
+    "nameLabel": "Space name",
+    "create": "Create a family space",
+    "invited": "You were invited to “{{name}}”.",
+    "join": "Join",
+    "waitingForInvite": "Waiting for an invite? Ask them to invite {{email}}."
+  },
+  "home": {
+    "title": "Calendars",
+    "year": "Year",
+    "archived": "Archived year. Still editable.",
+    "archivedShort": "archive",
+    "toBuy_one": "{{count}} left to buy",
+    "toBuy_other": "{{count}} left to buy",
+    "toWrap_one": "{{count}} left to wrap",
+    "toWrap_other": "{{count}} left to wrap",
+    "emptyTitle": "Nothing here… not even the reindeer came by!",
+    "emptyText": "No calendars for {{year}} yet. Why not start now?",
+    "newCalendar": "New calendar",
+    "filled": "{{count}} of {{total}} days"
+  },
+  "progress": {
+    "summary": "{{wrapped}} wrapped, {{bought}} bought, {{planned}} planned, {{empty}} empty",
+    "wrapped_one": "{{count}} wrapped",
+    "wrapped_other": "{{count}} wrapped",
+    "bought_one": "{{count}} bought",
+    "bought_other": "{{count}} bought",
+    "planned_one": "{{count}} planned",
+    "planned_other": "{{count}} planned",
+    "empty_one": "{{count}} empty",
+    "empty_other": "{{count}} empty"
+  },
+  "status": {
+    "planned": "Planned",
+    "bought": "Bought",
+    "wrapped": "Wrapped"
+  },
+  "calendar": {
+    "notFound": "This calendar does not exist or was deleted.",
+    "edit": "Edit calendar",
+    "view": "View",
+    "grid": "Grid",
+    "list": "List"
+  },
+  "calendarForm": {
+    "newTitle": "New calendar",
+    "editTitle": "Edit calendar",
+    "person": "For whom",
+    "name": "Calendar name (optional)",
+    "year": "Year",
+    "startDate": "Starts on",
+    "dayCount": "Days",
+    "suggestions": "Suggestions",
+    "allowRepeats": "Allow repeating gifts in this calendar",
+    "originality": "Which suggestions do you prefer?",
+    "traditional": "Traditional",
+    "original": "Original",
+    "delete": "Delete calendar",
+    "confirmDelete": "Delete {{person}}'s calendar ({{year}})? This cannot be undone."
+  },
+  "filters": {
+    "label": "Filter days",
+    "all": "All",
+    "empty": "Empty ({{count}})",
+    "toBuy": "To buy ({{count}})",
+    "toWrap": "To wrap ({{count}})"
+  },
+  "day": {
+    "number": "Day {{number}}",
+    "emptyLabel": "Day {{number}}, empty",
+    "open": "Open day {{number}}",
+    "gift": "Gift",
+    "giftFor": "Gift for day {{number}}",
+    "giftPlaceholder": "E.g. wool socks + chocolate",
+    "status": "Status",
+    "tags": "Tags",
+    "notes": "Notes",
+    "notesPlaceholder": "E.g. size M, buy at the market",
+    "clear": "Empty this day",
+    "saveAndNext": "Save and next",
+    "advance": "Next status"
+  },
+  "shopping": {
+    "title": "Shopping",
+    "buyTab": "Buy ({{count}})",
+    "wrapTab": "Wrap ({{count}})",
+    "buyEmpty": "Everything is bought!",
+    "wrapEmpty": "Nothing waiting for paper and ribbon."
+  },
+  "tags": {
+    "title": "Tags",
+    "intro": "Tags replace the spreadsheet colours. Each gift can have several.",
+    "add": "New tag",
+    "newName": "New tag",
+    "name": "Name",
+    "emoji": "Emoji",
+    "color": "Colour",
+    "delete": "Delete",
+    "confirmDelete": "Delete the “{{name}}” tag? Gifts stay, without it.",
+    "defaults": {
+      "sweets": "Sweets",
+      "clothes": "Clothes",
+      "home": "Home",
+      "experiences": "Experiences",
+      "books": "Books and stationery"
+    },
+    "colors": {
+      "amber": "Yellow",
+      "slate": "Grey",
+      "sky": "Blue",
+      "emerald": "Green",
+      "purple": "Purple",
+      "red": "Red",
+      "pink": "Pink",
+      "orange": "Orange"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "workspace": "Family space",
+    "switchWorkspace": "Active space",
+    "workspaceName": "Name",
+    "members": "Members",
+    "owner": "owner",
+    "pending": "invite pending",
+    "remove": "Remove",
+    "confirmRemove": "Remove {{name}} from the space?",
+    "cancelInvite": "Cancel",
+    "inviteEmail": "Email to invite",
+    "invite": "Invite",
+    "inviteHelp": "They see the invite when they sign in to 24 with this email.",
+    "tagsHelp": "Name, emoji and colour of gift tags.",
+    "manageTags": "Manage tags",
+    "signedInAs": "Signed in as {{email}}",
+    "signOut": "Sign out"
   }
 }

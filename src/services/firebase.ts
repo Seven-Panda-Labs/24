@@ -16,7 +16,7 @@ function requireEnv(name: keyof ImportMetaEnv): string {
   return value
 }
 
-const useEmulators = import.meta.env.DEV && import.meta.env.VITE_USE_FIREBASE_EMULATORS === 'true'
+export const useEmulators = import.meta.env.DEV && import.meta.env.VITE_USE_FIREBASE_EMULATORS === 'true'
 
 export const app = initializeApp({
   apiKey: requireEnv('VITE_FIREBASE_API_KEY'),

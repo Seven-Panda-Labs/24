@@ -14,7 +14,13 @@ npm run emulators    # terminal 1
 npm run dev          # terminal 2, http://localhost:5173
 ```
 
-Project ID is `demo-24`, so no `.firebaserc` is needed and nothing reaches a real project. Google sign-in does not work against the Auth emulator; create test users in the Emulator UI.
+Project ID is `demo-24`, so no `.firebaserc` is needed and nothing reaches a real project.
+
+## Signing in
+
+- **Entrar (emulador)** signs in as `dev@24.local` / `devpassword`, created on first use. Its email is not verified, so it cannot accept invites.
+- **Entrar com Google** opens the Auth emulator's account picker: "Add new account" creates a fake Google account with a verified email. Use it to test invites with a second browser profile.
+- Email links appear in the `npm run emulators` output instead of being sent.
 
 Ports (set in [`firebase.json`](../firebase.json), wired in [`src/services/firebase.ts`](../src/services/firebase.ts)): UI 4000, Auth 9099, Firestore 8080, Storage 9199.
 
@@ -40,4 +46,4 @@ npx firebase emulators:start --project demo-24 --import=./emulator-data --export
 |---------|-----|
 | `Java version before 21` | Install JDK 21+ |
 | `Missing VITE_FIREBASE_…` on start | `.env.local` missing; copy `.env.emulator.example` |
-| Every read denied | Expected until the data model lands: `firestore.rules` denies everything |
+| Stuck on the loading screen after sign-in | Check the browser console for `permission-denied`; the listeners retry, but a rules change needs a reload |

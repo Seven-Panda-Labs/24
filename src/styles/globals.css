@@ -9,6 +9,8 @@
   --color-background: #faf6ef;
   --color-surface: #f2ebdc;
   --color-foreground: #2e2a26;
+  /* Carvão Doce in both themes, for text on light chips and cards. */
+  --color-carvao: #2e2a26;
 
   --font-display: 'Fredoka', sans-serif;
   --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
@@ -30,5 +32,45 @@
 
   body {
     @apply min-h-screen bg-background font-sans text-foreground antialiased;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply rounded-2xl bg-primary px-5 py-3 text-sm font-bold text-background shadow-sm transition hover:bg-primary-hover disabled:opacity-50;
+  }
+
+  .btn-secondary {
+    @apply rounded-2xl border-2 border-primary px-5 py-2.5 text-sm font-bold text-primary transition hover:bg-primary/10 disabled:opacity-50;
+  }
+
+  .btn-ghost {
+    @apply rounded-xl px-3 py-2 text-sm font-semibold text-foreground/70 transition hover:bg-foreground/5;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-foreground/20 bg-background px-3 py-2 text-base font-normal text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20;
+  }
+
+  .card {
+    @apply rounded-3xl border border-foreground/10 bg-surface p-5;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-lg border px-2 py-0.5 text-xs font-medium;
+  }
+
+  /* Jute and paper, from the moodboard. */
+  .jute {
+    background-color: #efe4cf;
+    background-image: radial-gradient(#dccaa6 1px, transparent 0);
+    background-size: 8px 8px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .jute {
+    background-color: #33415f;
+    background-image: radial-gradient(#3f4e70 1px, transparent 0);
   }
 }
