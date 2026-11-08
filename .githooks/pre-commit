@@ -1,5 +1,5 @@
 #!/bin/sh
-# Blocks a commit that bumps package.json without staging both changelogs.
+# Blocks a commit that bumps package.json without staging every changelog.
 
 set -e
 
@@ -16,10 +16,10 @@ HEAD_VERSION=$(git show HEAD:package.json 2>/dev/null | version || echo '')
 
 [ "$STAGED_VERSION" != "$HEAD_VERSION" ] || exit 0
 
-for file in change-log.md change-log.en.md; do
+for file in change-log.md change-log.en.md change-log.de.md change-log.fr.md; do
   echo "$STAGED" | grep -qx "$file" || {
     echo "pre-commit: package.json bumped to ${STAGED_VERSION} but ${file} is not staged."
-    echo "Add a ## [${STAGED_VERSION}] section at the top of both changelogs and git add them."
+    echo "Add a ## [${STAGED_VERSION}] section at the top of every changelog and git add them."
     exit 1
   }
 done

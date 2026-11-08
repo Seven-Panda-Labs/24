@@ -32,7 +32,7 @@ Details: [docs/emulators.md](docs/emulators.md). Using your own Firebase project
 
 Every PR that changes what users see or get (the app, the rules, the functions) bumps the version: minor for features and visible changes, patch for fixes. `npm version minor --no-git-tag-version` (or `patch`) updates `package.json` and `package-lock.json`. Docs, tests, CI and refactors with no visible effect don't bump. The app shows the version in its footer and this changelog on its What's new page.
 
-With the bump, add a section at the top of `change-log.md` (Portuguese) and `change-log.en.md`:
+With the bump, add a section at the top of `change-log.md` (Portuguese), `change-log.en.md`, `change-log.de.md` and `change-log.fr.md`:
 
 ```markdown
 ## [0.2.0] - 2026-11-20
@@ -42,7 +42,7 @@ With the bump, add a section at the top of `change-log.md` (Portuguese) and `cha
 - Advent grid with 24 doors per calendar.
 ```
 
-Sections: Added, Changed, Fixed, Removed (Adicionado, Alterado, Corrigido, Removido). Write for users, not about the implementation. `npm run check:changelog` verifies the versions match.
+Sections: Added, Changed, Fixed, Removed (Adicionado, Alterado, Corrigido, Removido; Hinzugefügt, Geändert, Behoben, Entfernt; Ajouté, Modifié, Corrigé, Supprimé). Write for users, not about the implementation. `npm run check:changelog` verifies the versions match.
 
 ## Pull requests
 

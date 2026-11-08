@@ -54,7 +54,7 @@ export default function DayCard({
         </span>
       </span>
       {day ? (
-        <span className="line-clamp-3 text-[11px] leading-tight font-semibold break-words sm:text-xs">{day.gift}</span>
+        <span className="line-clamp-3 text-[11px] leading-tight font-semibold break-words hyphens-auto sm:text-xs">{day.gift}</span>
       ) : (
         <span aria-hidden className="m-auto text-2xl">
           +

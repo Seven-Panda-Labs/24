@@ -1,0 +1,298 @@
+{
+  "tagline": "Le chaos organisé de décembre",
+  "language": {
+    "label": "Langue",
+    "pt-PT": "Português",
+    "en": "English",
+    "de": "Deutsch",
+    "fr": "Français"
+  },
+  "theme": {
+    "label": "Thème",
+    "system": "Système",
+    "light": "Clair",
+    "dark": "Sombre"
+  },
+  "common": {
+    "close": "Fermer",
+    "save": "Enregistrer",
+    "cancel": "Annuler"
+  },
+  "nav": {
+    "label": "Navigation principale",
+    "calendars": "Calendriers",
+    "shopping": "Achats",
+    "history": "Historique",
+    "settings": "Paramètres"
+  },
+  "login": {
+    "google": "Se connecter avec Google",
+    "googleFailed": "Impossible de se connecter avec Google."
+  },
+  "onboarding": {
+    "title": "Bienvenue dans 24",
+    "intro": "Les calendriers vivent dans un espace familial, partagé avec les personnes que tu invites.",
+    "defaultName": "Famille de {{name}}",
+    "nameLabel": "Nom de l’espace",
+    "create": "Créer un espace familial",
+    "invited": "Tu as reçu une invitation pour « {{name}} ».",
+    "join": "Rejoindre",
+    "waitingForInvite": "Tu attends une invitation ? Demande qu’on invite {{email}}."
+  },
+  "home": {
+    "title": "Calendriers",
+    "year": "Année",
+    "archived": "Année archivée. Toujours modifiable.",
+    "archivedShort": "archive",
+    "toBuy_one": "Encore {{count}} à acheter",
+    "toBuy_other": "Encore {{count}} à acheter",
+    "toWrap_one": "Encore {{count}} à emballer",
+    "toWrap_other": "Encore {{count}} à emballer",
+    "emptyTitle": "Rien par ici… les rennes ne sont même pas passés !",
+    "emptyText": "Pas encore de calendrier pour {{year}}. Et si tu commençais maintenant ?",
+    "newCalendar": "Nouveau calendrier",
+    "filled": "{{count}} jours sur {{total}}"
+  },
+  "progress": {
+    "summary": "Emballés : {{wrapped}}, achetés : {{bought}}, prévus : {{planned}}, vides : {{empty}}",
+    "wrapped_one": "{{count}} emballé",
+    "wrapped_other": "{{count}} emballés",
+    "bought_one": "{{count}} acheté",
+    "bought_other": "{{count}} achetés",
+    "planned_one": "{{count}} prévu",
+    "planned_other": "{{count}} prévus",
+    "empty_one": "{{count}} vide",
+    "empty_other": "{{count}} vides"
+  },
+  "status": {
+    "planned": "Prévu",
+    "bought": "Acheté",
+    "wrapped": "Emballé"
+  },
+  "calendar": {
+    "notFound": "Ce calendrier n’existe pas ou a été supprimé.",
+    "edit": "Modifier le calendrier",
+    "view": "Affichage",
+    "grid": "Grille",
+    "list": "Liste"
+  },
+  "calendarForm": {
+    "newTitle": "Nouveau calendrier",
+    "editTitle": "Modifier le calendrier",
+    "person": "Pour qui",
+    "name": "Nom du calendrier (facultatif)",
+    "year": "Année",
+    "startDate": "Commence le",
+    "dayCount": "Jours",
+    "suggestions": "Suggestions",
+    "allowRepeats": "Autoriser les cadeaux répétés dans ce calendrier",
+    "originality": "Quelles suggestions préfères-tu ?",
+    "traditional": "Traditionnelles",
+    "original": "Originales",
+    "delete": "Supprimer le calendrier",
+    "confirmDelete": "Supprimer le calendrier de {{person}} ({{year}}) ? C’est définitif."
+  },
+  "filters": {
+    "label": "Filtrer les jours",
+    "all": "Tous",
+    "empty": "Vides ({{count}})",
+    "toBuy": "À acheter ({{count}})",
+    "toWrap": "À emballer ({{count}})"
+  },
+  "day": {
+    "number": "Jour {{number}}",
+    "emptyLabel": "Jour {{number}}, vide",
+    "open": "Ouvrir le jour {{number}}",
+    "gift": "Cadeau",
+    "giftFor": "Cadeau du jour {{number}}",
+    "giftPlaceholder": "Ex. : chaussettes en laine + chocolat",
+    "status": "Statut",
+    "tags": "Étiquettes",
+    "notes": "Notes",
+    "notesPlaceholder": "Ex. : taille M, à acheter au marché de Noël",
+    "clear": "Vider ce jour",
+    "saveAndNext": "Enregistrer et suivant",
+    "advance": "Statut suivant"
+  },
+  "sack": {
+    "title": "Hotte",
+    "intro": "Les cadeaux et les idées qui n’ont pas encore de jour. Ils comptent dans la progression tant qu’il reste des jours vides.",
+    "add": "Mettre dans la hotte",
+    "noDay": "Pas encore de jour",
+    "fromSack": "De la hotte",
+    "putOnDay": "Placer sur un jour",
+    "keepInSack": "Garder dans la hotte",
+    "remove": "Supprimer le cadeau",
+    "backToSack": "Remettre dans la hotte",
+    "inSack": "Dans la hotte",
+    "spare_one": "{{count}} cadeau de plus que de jours vides.",
+    "spare_other": "{{count}} cadeaux de plus que de jours vides.",
+    "distribute": "Répartir sur les jours",
+    "distributeTitle": "Répartir la hotte",
+    "distributeIntro": "Chaque cadeau va sur un jour vide, et ceux qui ont la même étiquette sont le plus espacés possible. Les jours déjà remplis ne changent pas.",
+    "staysEmpty": "Reste vide",
+    "kept_one": "{{count}} cadeau reste dans la hotte.",
+    "kept_other": "{{count}} cadeaux restent dans la hotte.",
+    "apply": "Répartir"
+  },
+  "shopping": {
+    "title": "Achats",
+    "buyTab": "Acheter ({{count}})",
+    "wrapTab": "Emballer ({{count}})",
+    "buyEmpty": "Tout est acheté !",
+    "wrapEmpty": "Rien n’attend le papier et le ruban."
+  },
+  "tags": {
+    "title": "Étiquettes",
+    "intro": "Les étiquettes remplacent les couleurs du tableur. Chaque cadeau peut en avoir plusieurs.",
+    "add": "Nouvelle étiquette",
+    "newName": "Nouvelle étiquette",
+    "name": "Nom",
+    "emoji": "Emoji",
+    "color": "Couleur",
+    "delete": "Supprimer",
+    "confirmDelete": "Supprimer l’étiquette « {{name}} » ? Les cadeaux restent, sans elle.",
+    "defaults": {
+      "sweets": "Douceurs",
+      "clothes": "Vêtements",
+      "home": "Déco",
+      "experiences": "Expériences",
+      "books": "Livres et papeterie"
+    },
+    "colors": {
+      "amber": "Jaune",
+      "slate": "Gris",
+      "sky": "Bleu",
+      "emerald": "Vert",
+      "purple": "Violet",
+      "red": "Rouge",
+      "pink": "Rose",
+      "orange": "Orange"
+    }
+  },
+  "settings": {
+    "title": "Paramètres",
+    "workspace": "Espace familial",
+    "switchWorkspace": "Espace actif",
+    "workspaceName": "Nom",
+    "members": "Membres",
+    "owner": "propriétaire",
+    "pending": "invitation en attente",
+    "remove": "Retirer",
+    "confirmRemove": "Retirer {{name}} de l’espace ?",
+    "cancelInvite": "Annuler",
+    "inviteEmail": "E-mail à inviter",
+    "invite": "Inviter",
+    "inviteHelp": "La personne voit l’invitation quand elle se connecte à 24 avec le compte Google de cet e-mail.",
+    "tagsHelp": "Nom, emoji et couleur des étiquettes de cadeaux.",
+    "manageTags": "Gérer les étiquettes",
+    "signedInAs": "Compte connecté : {{email}}",
+    "signOut": "Se déconnecter"
+  },
+  "history": {
+    "title": "Historique",
+    "search": "Chercher des cadeaux et des notes",
+    "person": "Personne",
+    "everyone": "Tout le monde",
+    "count_one": "{{count}} cadeau",
+    "count_other": "{{count}} cadeaux",
+    "noMatch": "Aucun cadeau de ce nom. Même pas dans le petit soulier.",
+    "empty": "Pas encore d’historique. Les calendriers de chaque année arrivent ici.",
+    "suggestionShare": "{{percent}} % des jours remplis en {{year}} viennent des suggestions."
+  },
+  "suggestions": {
+    "title": "Suggestions",
+    "tradition_one": "Tradition : {{count}} an, la dernière fois en {{year}}",
+    "tradition_other": "Tradition : {{count}} ans, la dernière fois en {{year}}",
+    "forgotten": "Pas revu depuis {{year}}",
+    "family": "Déjà offert à quelqu’un d’autre de la famille",
+    "idea": "Nouvelle idée",
+    "dismiss": "Ne plus suggérer « {{gift}} » pour ce calendrier"
+  },
+  "ideas": {
+    "sweets": [
+      "Chocolat chaud en poudre",
+      "Biscuits au pain d’épices",
+      "Père Noël en chocolat",
+      "Caramels au beurre salé",
+      "Sucres d’orge",
+      "Guimauves",
+      "Dragées",
+      "Miel aromatisé"
+    ],
+    "clothes": [
+      "Chaussettes de Noël",
+      "Bonnet en laine",
+      "Gants pour écran tactile",
+      "Chaussons",
+      "Écharpe",
+      "Élastiques à cheveux",
+      "Serre-tête",
+      "Mouchoir en tissu"
+    ],
+    "home": [
+      "Bougie parfumée",
+      "Décoration pour le sapin",
+      "Guirlande lumineuse à piles",
+      "Sous-verres",
+      "Graines d’herbes aromatiques",
+      "Torchon",
+      "Magnet pour le frigo",
+      "Mini plante grasse"
+    ],
+    "experiences": [
+      "Bon pour un petit-déjeuner au lit",
+      "Places de cinéma",
+      "Bon pour une soirée jeux",
+      "Balade pour voir les illuminations de Noël",
+      "Bon pour un massage",
+      "Cours de cuisine",
+      "Visite d’un musée",
+      "Patin à glace"
+    ],
+    "books": [
+      "Marque-page",
+      "Washi tape",
+      "Joli stylo",
+      "Cartes de Noël",
+      "Autocollants",
+      "Mini carnet",
+      "Livre de poche",
+      "Crayons de couleur"
+    ]
+  },
+  "photo": {
+    "label": "Photo",
+    "add": "Ajouter une photo",
+    "replace": "Changer la photo",
+    "remove": "Retirer la photo",
+    "uploading": "Envoi…",
+    "failed": "Impossible d’envoyer la photo.",
+    "offline": "Hors ligne : les photos ne s’envoient qu’avec une connexion."
+  },
+  "celebration": {
+    "title": "Tout est emballé !",
+    "text": "Les {{days}} jours de {{person}} sont prêts. Il n’y a plus qu’à attendre décembre.",
+    "seal": "Sceau : approuvé par l’Atelier du Père Noël",
+    "sealText": "APPROUVÉ PAR L’ATELIER DU PÈRE NOËL ★ "
+  },
+  "connection": {
+    "offline": "Hors ligne. Tes modifications sont gardées et se synchronisent dès que la connexion revient.",
+    "refused": "Le serveur a refusé une modification, elle a été annulée. Si ça continue, recharge l’app."
+  },
+  "reminders": {
+    "title": "Rappels",
+    "help": "Le dimanche soir, de novembre à Noël, une notification avec ce qu’il reste à acheter, emballer et remplir. À activer sur chaque appareil. Sur iPhone, installe d’abord l’app sur l’écran d’accueil.",
+    "enable": "Activer sur cet appareil",
+    "disable": "Désactiver sur cet appareil",
+    "unsupported": "Ce navigateur ne gère pas les notifications.",
+    "denied": "Les notifications sont bloquées. Autorise-les dans les réglages du navigateur et réessaie.",
+    "failed": "Impossible de modifier les rappels. Réessaie avec une connexion."
+  },
+  "footer": {
+    "changelog": "Voir les nouveautés de la version {{version}}"
+  },
+  "changelog": {
+    "title": "Nouveautés"
+  }
+}

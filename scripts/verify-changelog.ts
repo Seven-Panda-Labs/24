@@ -6,7 +6,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 const ROOT = resolve(import.meta.dirname, '..')
-const CHANGELOGS = ['change-log.md', 'change-log.en.md']
+const CHANGELOGS = ['change-log.md', 'change-log.en.md', 'change-log.de.md', 'change-log.fr.md']
 
 const { version } = JSON.parse(readFileSync(resolve(ROOT, 'package.json'), 'utf8')) as { version: string }
 
@@ -20,7 +20,7 @@ for (const file of CHANGELOGS) {
 }
 
 if (failed) {
-  console.error(`Add a ## [${version}] - YYYY-MM-DD section at the top of ${CHANGELOGS.join(' and ')}.`)
+  console.error(`Add a ## [${version}] - YYYY-MM-DD section at the top of ${CHANGELOGS.join(', ')}.`)
   process.exit(1)
 }
 console.log(`Changelogs aligned with package.json (${version})`)

@@ -129,7 +129,7 @@ export default function SettingsPage() {
 
       <section className="card flex flex-col gap-3">
         <h2 className="font-display text-lg font-bold">{t('language.label')}</h2>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           {LANGUAGES.map((language) => (
             <Choice key={language} pressed={i18n.resolvedLanguage === language} onClick={() => void i18n.changeLanguage(language)}>
               {t(`language.${language}`)}

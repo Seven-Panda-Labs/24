@@ -38,7 +38,7 @@ The PWA reads and writes Firestore and Storage directly, guarded by `firestore.r
 | `src/pages/`, `src/components/` | Screens and shared UI |
 | `src/services/firebase.ts` | Firebase app and Auth, emulator wiring |
 | `src/services/firestore.ts` | Firestore (offline cache) and Storage, loaded only with the signed-in app (`src/SignedInApp.tsx`) |
-| `src/i18n/` | i18next setup and the `pt` and `en` locales |
+| `src/i18n/` | i18next setup and the `pt`, `en`, `de` and `fr` locales |
 | `src/styles/globals.css` | Tailwind theme tokens and base components, see [`visual-identity.md`](./visual-identity.md) |
 | `public/` | Icons and illustrations cropped from `docs/assets/` |
 | `functions/` | Cloud Functions (`sendReminders`), its own package and lockfile; `npm run check` builds it |

@@ -66,7 +66,7 @@ Enforced by hooks, see [Enforcement](#enforcement).
 
 Users see the version in the app's footer and read the changelog on its What's new page, so they must stay current.
 
-- **Every PR that changes what users see or get** (the app, the Firestore or Storage rules, the functions) bumps the version and adds an entry at the top of **both** `change-log.md` (pt-PT) and `change-log.en.md`, as `## [X.Y.Z] - YYYY-MM-DD`.
+- **Every PR that changes what users see or get** (the app, the Firestore or Storage rules, the functions) bumps the version and adds an entry at the top of **every** changelog, `change-log.md` (pt-PT), `change-log.en.md`, `change-log.de.md` and `change-log.fr.md`, as `## [X.Y.Z] - YYYY-MM-DD`.
 - **Minor** for features and visible changes, **patch** for fixes: `npm version minor --no-git-tag-version` (or `patch`) updates `package.json` and `package-lock.json` together.
 - Docs, tests, CI and refactors with no visible effect don't bump.
 - If `main` reaches your version before your PR merges, bump again when you update the branch.
@@ -95,7 +95,7 @@ Applies to everything an agent writes: UI strings, i18n locales, code comments, 
 | **Comments only where the code is not self-evident.** Explain *why*, not *what* | A comment restating the line below it is noise that rots |
 | **Comments in English**, like commits | Public repo, mixed-language contributors |
 
-UI strings live in `src/i18n/locales/` in pt-PT and en; `npm run test` fails when the two files have different keys. User content (gift names, notes) is never translated.
+UI strings live in `src/i18n/locales/` in pt-PT, en, de and fr; `npm run test` fails when a locale's keys or `{{placeholders}}` differ from en. A new string goes into all four. User content (gift names, notes) is never translated.
 
 ## Enforcement
 

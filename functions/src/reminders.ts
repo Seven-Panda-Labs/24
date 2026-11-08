@@ -53,11 +53,13 @@ export function inReminderSeason(date: Date): boolean {
 const TEXT = {
   'pt-PT': { title: '24 · Ponto da situação', toBuy: 'Por comprar', toWrap: 'Por embrulhar', empty: 'Dias por preencher' },
   en: { title: '24 · Where things stand', toBuy: 'To buy', toWrap: 'To wrap', empty: 'Days to fill' },
+  de: { title: '24 · Wie es aussieht', toBuy: 'Zu kaufen', toWrap: 'Zu verpacken', empty: 'Leere Tage' },
+  fr: { title: '24 · Où en est-on', toBuy: 'À acheter', toWrap: 'À emballer', empty: 'Jours à remplir' },
 }
 
 /** The push data for one person, or null when nothing is left to do. */
 export function reminderFor(counts: Counts, language: unknown): { title: string; body: string; url: string } | null {
-  const text = language === 'en' ? TEXT.en : TEXT['pt-PT']
+  const text = TEXT[language as keyof typeof TEXT] ?? TEXT['pt-PT']
   const parts = (['toBuy', 'toWrap', 'empty'] as const).filter((key) => counts[key] > 0).map((key) => `${text[key]}: ${counts[key]}`)
   if (!parts.length) return null
   return { title: text.title, body: parts.join(' · '), url: counts.toBuy + counts.toWrap > 0 ? '/shopping' : '/' }
