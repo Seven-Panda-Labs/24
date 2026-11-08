@@ -1,7 +1,9 @@
+import Logo from './Logo.tsx'
+
 export default function Splash() {
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <img src="/logo.webp" alt="24" width={96} height={96} className="animate-pulse rounded-3xl" />
+      <Logo size={96} alt="24" className="animate-pulse" />
     </div>
   )
 }

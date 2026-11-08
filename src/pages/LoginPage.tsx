@@ -1,6 +1,7 @@
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import Logo from '../components/Logo.tsx'
 import { auth } from '../services/firebase.ts'
 
 // Google is the only sign-in method; the rules refuse any other provider.
@@ -18,8 +19,9 @@ export default function LoginPage() {
   return (
     <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center gap-8 p-6">
       <div className="flex flex-col items-center gap-3 text-center">
-        <img src="/logo.webp" alt="" width={120} height={120} className="rounded-3xl" />
-        <h1 className="font-display text-5xl font-bold text-primary">24</h1>
+        <h1>
+          <Logo size={120} alt="24" />
+        </h1>
         <p>{t('tagline')}</p>
       </div>
 

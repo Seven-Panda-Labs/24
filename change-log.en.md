@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.0] - 2026-11-08
+
+### Changed
+
+- New logo: the sack on a navy circle in the light theme and on a white circle in the dark theme. The "24" text next to the logo is gone from the sign-in page and the navigation bar.
+- Empty-state illustrations all have the same size and shape, on a cream circle, with no figure cut off.
+
 ## [0.10.0] - 2026-11-08
 
 ### Removed

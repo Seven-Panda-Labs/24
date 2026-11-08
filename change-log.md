@@ -1,5 +1,12 @@
 # Registo de alterações
 
+## [0.11.0] - 2026-11-08
+
+### Alterado
+
+- Logótipo novo: o saco num círculo azul-escuro no tema claro e num círculo branco no tema escuro. O "24" em texto ao lado do logótipo saiu do login e da barra de navegação.
+- As ilustrações dos ecrãs vazios têm todas o mesmo tamanho e formato, num círculo creme, sem figuras cortadas.
+
 ## [0.10.0] - 2026-11-08
 
 ### Removido
