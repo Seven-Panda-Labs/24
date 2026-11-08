@@ -10,7 +10,7 @@
 
 - [ ] `npm run check`
 - [ ] Manually tested: …
-- [ ] Version bump only: `change-log.md` and `change-log.en.md` updated
+- [ ] Visible change: version bumped (minor for features, patch for fixes) and entry added to `change-log.md` and `change-log.en.md`
 
 ## Issues
 
