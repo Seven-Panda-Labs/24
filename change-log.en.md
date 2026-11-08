@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.8.0] - 2026-11-08
+
+### Changed
+
+- Tags look like vintage gift tags, with a clipped point and a punched hole. The selected tag in the editor is bold and outlined.
+
 ## [0.7.0] - 2026-11-08
 
 ### Added
