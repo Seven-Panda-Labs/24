@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0] - 2026-11-08
+
+### Added
+
+- A notice when offline: changes are kept and sync later.
+- An alert when the server refuses a change, instead of it vanishing without a word.
+
 ## [0.5.0] - 2026-11-08
 
 ### Added

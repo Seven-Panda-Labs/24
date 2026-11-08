@@ -1,6 +1,7 @@
 import { NavLink, Outlet } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
+import StatusBanner from './StatusBanner.tsx'
 
 const NAV = [
   { to: '/', key: 'calendars', icon: '🎄', end: true },
@@ -29,6 +30,8 @@ export default function Layout() {
           ))}
         </nav>
       </header>
+
+      <StatusBanner />
 
       <main className="flex-1 px-4 pt-2 pb-28 sm:pb-10">
         <Outlet />
