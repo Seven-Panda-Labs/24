@@ -11,6 +11,9 @@ dist-ssr
 .firebaserc
 emulator-data
 
+# Private source data, such as the original Excel calendars. Never committed.
+/private/
+
 # Every env file is a secret until proven otherwise, and the proof is being an
 # example.
 .env*
