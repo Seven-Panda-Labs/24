@@ -1,5 +1,12 @@
 # Registo de alterações
 
+## [0.6.0] - 2026-11-08
+
+### Adicionado
+
+- Aviso quando não há rede: o que mudares fica guardado e sincroniza depois.
+- Alerta quando o servidor recusa uma alteração, em vez de ela desaparecer sem explicação.
+
 ## [0.5.0] - 2026-11-08
 
 ### Adicionado

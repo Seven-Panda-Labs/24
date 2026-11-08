@@ -254,5 +254,9 @@
     "text": "All {{days}} days for {{person}} are ready. Now it is just waiting for December.",
     "seal": "Seal: approved by Santa's Workshop",
     "sealText": "APPROVED BY SANTA'S WORKSHOP ★ "
+  },
+  "connection": {
+    "offline": "Offline. Your changes are kept and sync when you are back online.",
+    "refused": "The server refused a change and it was undone. If it keeps happening, reload the app."
   }
 }
