@@ -62,11 +62,14 @@ describe('distribute', () => {
     expect(distribute(calendar(2, sack)).map(({ id }) => id)).toEqual(['b', 'c'])
   })
 
-  it('fills the earliest empty days when the sack holds fewer gifts', () => {
-    const sack = { a: gift('Livro'), b: gift('Vela') }
-    expect(distribute(calendar(4, sack, { '1': gift('Meias') }))).toEqual([
-      { id: 'a', day: 2 },
-      { id: 'b', day: 3 },
-    ])
+  it('spreads fewer gifts than empty days over the whole calendar', () => {
+    const sack = Object.fromEntries(Array.from({ length: 9 }, (_, index) => [`g${index}`, gift(`Ideia ${index}`)]))
+    expect(layout(calendar(24, sack))).toBe('. . - . - . . - . - . . - . - . . - . - . . - .')
+  })
+
+  it('spreads them between the days already filled', () => {
+    const sack = { a: gift('Livro'), b: gift('Vela'), c: gift('Meias') }
+    const days = { '1': gift('Chocolate', ['sweets']), '2': gift('Bolachas', ['sweets']), '12': gift('Cinema', ['experiences']) }
+    expect(layout(calendar(16, sack, days))).toBe('sweets sweets . . - . . . - . . experiences . . - .')
   })
 })

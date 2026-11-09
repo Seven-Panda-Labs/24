@@ -1,5 +1,11 @@
 # Registo de alterações
 
+## [0.17.0] - 2026-11-09
+
+### Alterado
+
+- Distribuir o saco espalha as prendas por todo o calendário, em vez de encher os primeiros dias vazios: 9 prendas em 24 dias ficam de 2 em 2 ou de 3 em 3 dias.
+
 ## [0.16.1] - 2026-11-09
 
 ### Corrigido

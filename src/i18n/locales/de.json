@@ -129,7 +129,7 @@
     "spare_other": "{{count}} Geschenke mehr als leere Tage.",
     "distribute": "Auf die Tage verteilen",
     "distributeTitle": "Den Sack verteilen",
-    "distributeIntro": "Jedes Geschenk kommt auf einen leeren Tag, und Geschenke mit demselben Etikett liegen so weit auseinander wie möglich. Bereits gefüllte Tage bleiben, wie sie sind.",
+    "distributeIntro": "Die Geschenke verteilen sich über die leeren Tage, und Geschenke mit demselben Etikett liegen so weit auseinander wie möglich. Bereits gefüllte Tage bleiben, wie sie sind.",
     "staysEmpty": "Bleibt leer",
     "kept_one": "{{count}} Geschenk bleibt im Sack.",
     "kept_other": "{{count}} Geschenke bleiben im Sack.",
