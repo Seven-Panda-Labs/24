@@ -1,5 +1,11 @@
 # Journal des modifications
 
+## [0.17.0] - 2026-11-09
+
+### Modifié
+
+- Répartir la hotte place maintenant les cadeaux sur tout le calendrier au lieu des premiers jours vides : 9 cadeaux sur 24 jours tombent tous les 2 ou 3 jours.
+
 ## [0.16.1] - 2026-11-09
 
 ### Corrigé

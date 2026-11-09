@@ -1,5 +1,11 @@
 # Änderungsprotokoll
 
+## [0.17.0] - 2026-11-09
+
+### Geändert
+
+- Beim Verteilen des Sacks landen die Geschenke jetzt über den ganzen Kalender verteilt statt auf den ersten leeren Tagen: 9 Geschenke auf 24 Tage kommen alle 2 oder 3 Tage.
+
 ## [0.16.1] - 2026-11-09
 
 ### Behoben

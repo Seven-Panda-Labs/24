@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.17.0] - 2026-11-09
+
+### Changed
+
+- Spreading the sack now places the gifts across the whole calendar instead of on the first empty days: 9 gifts in 24 days land every 2 or 3 days.
+
 ## [0.16.1] - 2026-11-09
 
 ### Fixed

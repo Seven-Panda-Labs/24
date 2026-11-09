@@ -129,7 +129,7 @@
     "spare_other": "{{count}} cadeaux de plus que de jours vides.",
     "distribute": "Répartir sur les jours",
     "distributeTitle": "Répartir la hotte",
-    "distributeIntro": "Chaque cadeau va sur un jour vide, et ceux qui ont la même étiquette sont le plus espacés possible. Les jours déjà remplis ne changent pas.",
+    "distributeIntro": "Les cadeaux se répartissent sur les jours vides, et ceux qui ont la même étiquette sont le plus espacés possible. Les jours déjà remplis ne changent pas.",
     "staysEmpty": "Reste vide",
     "kept_one": "{{count}} cadeau reste dans la hotte.",
     "kept_other": "{{count}} cadeaux restent dans la hotte.",
