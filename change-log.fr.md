@@ -1,5 +1,11 @@
 # Journal des modifications
 
+## [0.16.1] - 2026-11-09
+
+### Corrigé
+
+- Sur Android, ajouter une photo permet maintenant de la prendre avec l’appareil photo, et pas seulement de la choisir dans la galerie.
+
 ## [0.16.0] - 2026-11-08
 
 ### Ajouté

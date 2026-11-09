@@ -7,7 +7,7 @@ import DistributeDialog from './DistributeDialog.tsx'
 import { GiftName, GiftThumb } from './Gift.tsx'
 import StatusButton from './StatusButton.tsx'
 import TagChip from './TagChip.tsx'
-import { usePhotoUpload } from './usePhotoUpload.ts'
+import { PHOTO_TYPES, usePhotoUpload } from './usePhotoUpload.ts'
 
 // It sits above the days, so a long sack must not push them off the screen.
 const SHOWN = 3
@@ -82,7 +82,7 @@ export default function Sack({
           {photo.busy ? '…' : '📷'}
           <input
             type="file"
-            accept="image/*"
+            accept={PHOTO_TYPES}
             className="sr-only"
             disabled={photo.busy}
             onChange={(event) => {
