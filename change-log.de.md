@@ -1,5 +1,11 @@
 # Änderungsprotokoll
 
+## [0.16.1] - 2026-11-09
+
+### Behoben
+
+- Unter Android lässt sich ein Foto jetzt auch mit der Kamera aufnehmen, nicht nur aus der Galerie wählen.
+
 ## [0.16.0] - 2026-11-08
 
 ### Hinzugefügt

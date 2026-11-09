@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.16.1] - 2026-11-09
+
+### Fixed
+
+- On Android, adding a photo now lets you take it with the camera, not only pick it from the gallery.
+
 ## [0.16.0] - 2026-11-08
 
 ### Added

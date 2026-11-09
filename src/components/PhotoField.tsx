@@ -3,7 +3,7 @@ import { setGiftPhoto, updateGift } from '../data/calendars.ts'
 import { deletePhoto } from '../data/photos.ts'
 import type { Day, Slot } from '../domain/types.ts'
 import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
-import { usePhotoUpload } from './usePhotoUpload.ts'
+import { PHOTO_TYPES, usePhotoUpload } from './usePhotoUpload.ts'
 
 /**
  * The gift's photo. A photo for a gift not saved yet creates it, with `draft`
@@ -38,7 +38,7 @@ export default function PhotoField({ calendarId, slot, value, draft }: { calenda
       <div className="flex flex-wrap items-center gap-2">
         <label className={`btn-secondary cursor-pointer ${busy ? 'pointer-events-none opacity-50' : ''}`}>
           {busy ? t('photo.uploading') : value?.photoUrl ? t('photo.replace') : `📷 ${t('photo.add')}`}
-          <input type="file" accept="image/*" className="sr-only" disabled={busy} onChange={(event) => void choose(event.target.files?.[0])} />
+          <input type="file" accept={PHOTO_TYPES} className="sr-only" disabled={busy} onChange={(event) => void choose(event.target.files?.[0])} />
         </label>
         {/* A gift that is only a photo is deleted as a whole, from the editor's footer. */}
         {value?.photoUrl && value.gift && (

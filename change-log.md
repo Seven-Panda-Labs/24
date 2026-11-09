@@ -1,5 +1,11 @@
 # Registo de alterações
 
+## [0.16.1] - 2026-11-09
+
+### Corrigido
+
+- No Android, adicionar uma foto passa a deixar tirá-la com a câmara, e não só escolhê-la da galeria.
+
 ## [0.16.0] - 2026-11-08
 
 ### Adicionado
