@@ -1,10 +1,9 @@
 import { collection, query, where } from 'firebase/firestore'
-import { createContext, useContext, useEffect, type ReactNode } from 'react'
+import { createContext, useContext, type ReactNode } from 'react'
 import { useUser } from '../auth/AuthContext.tsx'
 import { cleanDays } from '../domain/days.ts'
 import type { Calendar } from '../domain/types.ts'
 import Splash from '../components/Splash.tsx'
-import { listPerson } from '../data/sharing.ts'
 import { useDocs } from '../data/useDocs.ts'
 import { db } from '../services/firestore.ts'
 
@@ -29,7 +28,6 @@ export function CalendarsGate({ children }: { children: ReactNode }) {
     useDocs<Calendar>(email ? `invited:${email}` : null, () =>
       query(collection(db, 'calendars'), where('invitedEmails', 'array-contains', email)),
     ) ?? []
-  useEffect(() => listPerson(user), [user])
 
   if (!calendars) return <Splash />
 

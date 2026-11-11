@@ -53,6 +53,17 @@ export interface Member {
   email: string
 }
 
+/** Someone who has signed in. Only approved accounts get past the waiting page. */
+export interface Person extends Member {
+  id: string
+  /** Missing on entries from before approval, which count as pending. */
+  status?: 'pending' | 'approved' | 'rejected'
+  /** Set only with the Admin SDK (npm run admin:grant). */
+  admin?: boolean
+}
+
+export const statusOf = (person: Pick<Person, 'status'>) => person.status ?? 'pending'
+
 export interface TagFields {
   name: string
   color: TagColor

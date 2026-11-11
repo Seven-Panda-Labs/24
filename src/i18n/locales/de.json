@@ -192,6 +192,28 @@
     "signedInAs": "Angemeldet als {{email}}",
     "signOut": "Abmelden"
   },
+  "account": {
+    "waitingTitle": "Wartet auf Freigabe",
+    "waitingText": "{{email}} ist registriert. Sobald das Konto freigegeben ist, öffnet sich 24 hier von selbst.",
+    "rejectedTitle": "Kein Zugang",
+    "rejectedText": "{{email}} hat keinen Zugang zu diesem 24. Falls das ein Irrtum ist, frag die Person, die es betreut."
+  },
+  "accounts": {
+    "title": "Konten",
+    "intro": "Wer sich zum ersten Mal anmeldet, wartet, bis du das Konto freigibst. Nur du siehst diesen Bereich.",
+    "status": {
+      "pending": "wartet",
+      "approved": "freigegeben",
+      "rejected": "kein Zugang"
+    },
+    "admin": "Admin",
+    "approve": "Freigeben",
+    "reject": "Ablehnen",
+    "block": "Sperren",
+    "confirmReject": "{{name}} verliert den Zugang zu 24. Fortfahren?",
+    "waiting_one": "{{count}} Konto wartet auf Freigabe",
+    "waiting_other": "{{count}} Konten warten auf Freigabe"
+  },
   "history": {
     "title": "Verlauf",
     "search": "Geschenke und Notizen suchen",

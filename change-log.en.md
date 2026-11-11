@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.19.0] - 2026-11-11
+
+### Added
+
+- Account approval: anyone signing in for the first time waits until the admin approves their account, and only then sees calendars and people. The waiting page opens 24 by itself as soon as the account is approved.
+- For the admin, an Accounts section in Settings to approve, reject or block accounts, and a notice on the home page when accounts are waiting.
+
 ## [0.18.0] - 2026-11-11
 
 ### Changed

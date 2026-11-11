@@ -192,6 +192,28 @@
     "signedInAs": "Entraste como {{email}}",
     "signOut": "Sair"
   },
+  "account": {
+    "waitingTitle": "À espera de aprovação",
+    "waitingText": "A conta {{email}} já está registada. Assim que for aprovada, o 24 abre aqui sozinho.",
+    "rejectedTitle": "Conta sem acesso",
+    "rejectedText": "A conta {{email}} não tem acesso a este 24. Se achas que é engano, fala com quem o gere."
+  },
+  "accounts": {
+    "title": "Contas",
+    "intro": "Quem entra pela primeira vez fica à espera até o aprovares. Só tu vês esta secção.",
+    "status": {
+      "pending": "à espera",
+      "approved": "aprovada",
+      "rejected": "sem acesso"
+    },
+    "admin": "admin",
+    "approve": "Aprovar",
+    "reject": "Rejeitar",
+    "block": "Bloquear",
+    "confirmReject": "{{name}} fica sem acesso ao 24. Continuar?",
+    "waiting_one": "{{count}} conta à espera de aprovação",
+    "waiting_other": "{{count}} contas à espera de aprovação"
+  },
   "history": {
     "title": "Histórico",
     "search": "Procurar prendas e notas",

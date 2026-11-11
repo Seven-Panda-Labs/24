@@ -36,6 +36,27 @@ const CALENDAR = {
 // Bob's secret calendar for Alice.
 const SECRET = { ...CALENDAR, person: 'Alice', memberIds: ['bob'], members: { bob: MEMBERS.bob }, invitedEmails: [] }
 
+// Alice is the admin. Pat waits for approval, Rex was rejected and Olga signed
+// in before approval existed, so her entry has no status.
+const PEOPLE = {
+  alice: { ...MEMBERS.alice, status: 'approved', admin: true },
+  bob: { ...MEMBERS.bob, status: 'approved' },
+  carol: { name: 'Carol', email: 'carol@example.com', status: 'approved' },
+  eve: { name: 'Eve', email: 'eve@example.com', status: 'approved' },
+  mallory: { name: 'Mallory', email: 'carol@example.com', status: 'approved' },
+  pat: { name: 'Pat', email: 'pat@example.com', status: 'pending' },
+  rex: { name: 'Rex', email: 'rex@example.com', status: 'rejected' },
+  olga: { name: 'Olga', email: 'olga@example.com' },
+}
+
+// A calendar of the three who are not approved.
+const WAITING = {
+  ...CALENDAR,
+  memberIds: ['pat', 'rex', 'olga'],
+  members: { pat: { name: 'Pat', email: 'pat@example.com' }, rex: { name: 'Rex', email: 'rex@example.com' }, olga: { name: 'Olga', email: 'olga@example.com' } },
+  invitedEmails: [],
+}
+
 type Provider = 'google.com' | 'password' | 'email'
 
 function token(uid: string, email = `${uid}@example.com`, verified = true, provider: Provider = 'google.com') {
@@ -72,6 +93,8 @@ beforeEach(async () => {
     const db = context.firestore()
     await db.doc('calendars/c1').set(CALENDAR)
     await db.doc('calendars/secret').set(SECRET)
+    await db.doc('calendars/waiting').set(WAITING)
+    for (const [uid, person] of Object.entries(PEOPLE)) await db.doc(`people/${uid}`).set(person)
   })
 })
 
@@ -222,13 +245,52 @@ describe('gift photos', () => {
   })
 })
 
-describe('people', () => {
-  it('lets each person list themselves, and anyone signed in read the list', async () => {
-    await assertSucceeds(as('carol').doc('people/carol').set({ name: 'Carol', email: 'carol@example.com' }))
-    await assertSucceeds(as('alice').collection('people').get())
-    await assertFails(as('carol').doc('people/alice').set({ name: 'Alice', email: 'alice@example.com' }))
-    await assertFails(as('carol').doc('people/carol').set({ name: 'Carol', email: 'alice@example.com' }))
-    await assertFails(as('carol', undefined, true, 'password').collection('people').get())
+describe('account approval', () => {
+  it('lets a new account list itself as pending, and nothing more', async () => {
+    const newbie = { name: 'Nina', email: 'nina@example.com', status: 'pending' }
+    await assertFails(as('nina').doc('people/nina').set({ ...newbie, status: 'approved' }))
+    await assertFails(as('nina').doc('people/nina').set({ ...newbie, admin: true }))
+    await assertFails(as('nina').doc('people/nina').set({ ...newbie, email: 'alice@example.com' }))
+    await assertFails(as('nina').doc('people/other').set(newbie))
+    await assertSucceeds(as('nina').doc('people/nina').set(newbie))
+  })
+
+  it('shows each account its own entry, and the list only to approved ones', async () => {
+    await assertSucceeds(as('pat').doc('people/pat').get())
+    await assertFails(as('pat').doc('people/alice').get())
+    await assertFails(as('pat').collection('people').get())
+    await assertSucceeds(as('bob').collection('people').get())
+    await assertFails(as('bob', undefined, true, 'password').collection('people').get())
+  })
+
+  it('lets the owner change only their name and email', async () => {
+    await assertSucceeds(as('pat').doc('people/pat').update({ name: 'Pat Ninguém' }))
+    await assertSucceeds(as('olga').doc('people/olga').update({ name: 'Olga Ninguém' }))
+    await assertFails(as('pat').doc('people/pat').update({ status: 'approved' }))
+    await assertFails(as('olga').doc('people/olga').update({ status: 'approved' }))
+    await assertFails(as('rex').doc('people/rex').set({ name: 'Rex', email: 'rex@example.com' }))
+    await assertFails(as('bob').doc('people/bob').update({ admin: true }))
+  })
+
+  it('lets only the admin approve or reject, and never themselves', async () => {
+    await assertFails(as('bob').doc('people/pat').update({ status: 'approved' }))
+    await assertFails(as('alice').doc('people/pat').update({ status: 'pending' }))
+    await assertFails(as('alice').doc('people/pat').update({ name: 'Patrícia' }))
+    await assertFails(as('alice').doc('people/alice').update({ status: 'rejected' }))
+    await assertSucceeds(as('alice').doc('people/pat').update({ status: 'approved' }))
+    await assertSucceeds(as('alice').doc('people/bob').update({ status: 'rejected' }))
+  })
+
+  it('keeps accounts that are not approved out of calendars and photos', async () => {
+    const photo = new Uint8Array([0xff, 0xd8, 0xff])
+    for (const uid of ['pat', 'rex', 'olga']) {
+      await assertFails(as(uid).doc('calendars/waiting').get())
+      await assertFails(as(uid).collection('calendars').where('memberIds', 'array-contains', uid).get())
+      await assertFails(as(uid).doc(`calendars/${uid}-new`).set({ ...CALENDAR, memberIds: [uid], members: { [uid]: PEOPLE.pat }, invitedEmails: [] }))
+      await assertFails(uploadBytes(ref(token(uid).storage(), 'calendars/waiting/photos/1-1.jpg'), photo, { contentType: 'image/jpeg' }))
+    }
+    await assertSucceeds(as('alice').doc('people/pat').update({ status: 'approved' }))
+    await assertSucceeds(as('pat').doc('calendars/waiting').get())
   })
 })
 

@@ -53,7 +53,7 @@ calendars/{cid}                  year, person, name, startDate, dayCount, allowR
                                  tags{"<id>": {name, color, emoji}},
                                  memberIds[], members{uid: {name, email}}, invitedEmails[]
   feedback/{fid}                 gift, action (accepted | dismissed), at
-people/{uid}                     name, email
+people/{uid}                     name, email, status (pending | approved | rejected), admin?
 users/{uid}                      fcmTokens[], language
 ```
 
@@ -63,7 +63,9 @@ Until 0.18.0 calendars lived in a family space (`workspaces/{wid}`) shared as a 
 
 **Invites** are emails in `invitedEmails`. The invited person finds them with an `array-contains` query on their verified email and can read the calendar, since the invite lives in it. They join by adding themselves to `memberIds` and `members` and removing their email, in one update the rules check field by field, or decline by removing only their email.
 
-**People** lists everyone who has signed in, each written by themselves on opening the app, so the Share page can suggest them. Any signed-in account can read it: an instance is private to a family. Picking a suggestion only fills the email field, so a stray tap never invites someone to a calendar kept secret from them.
+**People** lists everyone who has signed in, so the admin can approve them and the Share page can suggest them. A first sign-in lists the account as `pending`, and [`AccessGate`](../src/account/AccessGate.tsx) shows a waiting page until the admin sets it to `approved`; it switches as soon as that changes. The rules give calendars, feedback and photos only to approved accounts, and the people list only to them too: anyone else reads just their own entry. An entry without a status, from before approval, counts as pending.
+
+The **admin** approves, rejects or blocks accounts in Settings, and the home page tells them when someone is waiting. Only the admin writes a status, never their own, and only the Admin SDK writes the `admin` flag: `npm run admin:grant`, see [`self-hosting.md`](./self-hosting.md#4-post-deploy). Picking a suggestion on the Share page only fills the email field, so a stray tap never invites someone to a calendar kept secret from them.
 
 A calendar keeps its days in a map keyed by day number, so a year of history is one document per calendar. Days are written by field path (`days.5`), so two people editing different days never overwrite each other. A missing key is an empty day.
 

@@ -21,6 +21,22 @@ service cloud.firestore {
       return request.auth.token.email_verified == true;
     }
 
+    // Accounts start pending and get in once the admin approves them. Only the
+    // admin writes the status, and only the Admin SDK the admin flag.
+    function account() {
+      return get(/databases/$(database)/documents/people/$(request.auth.uid)).data;
+    }
+
+    function approved() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/people/$(request.auth.uid))
+        && account().get('status', 'pending') == 'approved';
+    }
+
+    function isAdmin() {
+      return approved() && account().get('admin', false) == true;
+    }
+
     function changed() {
       return request.resource.data.diff(resource.data).affectedKeys();
     }
@@ -33,6 +49,11 @@ service cloud.firestore {
       return member.keys().hasOnly(['name', 'email'])
         && member.name is string && member.name.size() <= 80
         && member.email is string && member.email.size() <= 200;
+    }
+
+    // The signed-in person's own name and email, as Google gives them.
+    function ownNameAndEmail(data) {
+      return data.name is string && data.name.size() <= 80 && data.email == email();
     }
 
     // Push tokens of the user's devices and the language for reminders. Only
@@ -48,14 +69,25 @@ service cloud.firestore {
       allow create, update: if signedIn() && request.auth.uid == uid && validUser(request.resource.data);
     }
 
-    // Everyone who has signed in to this instance, suggested when inviting.
-    // Instances are private, so anyone signed in may read it; each person
-    // writes only their own entry, with their own email.
+    // Everyone who has signed in, with their approval status. Approved people
+    // see everyone, for the Share suggestions and, for the admin, the accounts
+    // to approve; anyone else sees only their own entry.
     match /people/{uid} {
-      allow read: if signedIn();
-      allow create, update: if signedIn() && request.auth.uid == uid
-        && validMember(request.resource.data)
-        && request.resource.data.email == email();
+      allow read: if signedIn() && (request.auth.uid == uid || approved());
+
+      // A new account lists itself, pending.
+      allow create: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['name', 'email', 'status'])
+        && ownNameAndEmail(request.resource.data)
+        && request.resource.data.status == 'pending';
+
+      // Its owner keeps the name and email current; the admin approves or
+      // rejects everyone else.
+      allow update: if signedIn() && (
+        (request.auth.uid == uid && changed().hasOnly(['name', 'email']) && ownNameAndEmail(request.resource.data))
+        || (request.auth.uid != uid && isAdmin()
+          && changed().hasOnly(['status'])
+          && request.resource.data.status in ['approved', 'rejected']));
     }
 
     // A calendar and who is in it. Everyone in it can do everything: edit,
@@ -119,18 +151,18 @@ service cloud.firestore {
           && request.resource.data.invitedEmails.toSet() == resource.data.invitedEmails.toSet().difference([email()].toSet());
       }
 
-      allow read: if signedIn() && (isMember() || invited());
+      allow read: if approved() && (isMember() || invited());
 
-      allow create: if signedIn()
+      allow create: if approved()
         && request.resource.data.memberIds == [request.auth.uid]
         && validMember(request.resource.data.members[request.auth.uid])
         && request.resource.data.members[request.auth.uid].email == email()
         && request.resource.data.invitedEmails == []
         && validCalendar(request.resource.data);
 
-      allow update: if signedIn() && (memberUpdate() || acceptInvite() || declineInvite());
+      allow update: if approved() && (memberUpdate() || acceptInvite() || declineInvite());
 
-      allow delete: if signedIn() && isMember();
+      allow delete: if approved() && isMember();
 
       // Implicit feedback on the calendar's suggestions: append-only.
       match /feedback/{fid} {
@@ -138,8 +170,8 @@ service cloud.firestore {
           return request.auth.uid in get(/databases/$(database)/documents/calendars/$(cid)).data.memberIds;
         }
 
-        allow read: if signedIn() && inCalendar();
-        allow create: if signedIn() && inCalendar()
+        allow read: if approved() && inCalendar();
+        allow create: if approved() && inCalendar()
           && request.resource.data.keys().hasOnly(['gift', 'action', 'at'])
           && validName(request.resource.data.gift, 200)
           && request.resource.data.action in ['accepted', 'dismissed']

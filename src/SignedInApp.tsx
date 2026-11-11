@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { AccessGate } from './account/AccessGate.tsx'
 import { CalendarsGate } from './calendars/CalendarsContext.tsx'
 import Layout from './components/Layout.tsx'
 import CalendarFormPage from './pages/CalendarFormPage.tsx'
@@ -13,7 +14,8 @@ import TagsPage from './pages/TagsPage.tsx'
 
 export default function SignedInApp() {
   return (
-    <CalendarsGate>
+    <AccessGate>
+      <CalendarsGate>
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<HomePage />} />
@@ -30,7 +32,8 @@ export default function SignedInApp() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
-    </CalendarsGate>
+      </CalendarsGate>
+    </AccessGate>
   )
 }
 

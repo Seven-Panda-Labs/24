@@ -20,6 +20,13 @@ Project ID is `demo-24`, so no `.firebaserc` is needed and nothing reaches a rea
 
 Google is the only sign-in method, and the rules refuse any other provider. **Entrar com Google** opens the Auth emulator's account picker: "Add new account" creates a fake Google account with a verified email. Use a second browser profile with another fake account to test invites.
 
+A new account waits for approval. Make your first fake account the admin, then approve the others in Settings:
+
+```bash
+FIRESTORE_EMULATOR_HOST=127.0.0.1:8080 FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099 \
+  npm run admin:grant -- --email <fake email> --project demo-24 --confirm
+```
+
 Ports (set in [`firebase.json`](../firebase.json), wired in [`src/services/firebase.ts`](../src/services/firebase.ts)): UI 4000, Auth 9099, Firestore 8080, Storage 9199.
 
 ## Reminders

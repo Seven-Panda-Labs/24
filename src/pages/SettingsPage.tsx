@@ -1,7 +1,9 @@
 import { signOut } from 'firebase/auth'
 import { useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useAccount } from '../account/AccessGate.tsx'
 import { useUser } from '../auth/AuthContext.tsx'
+import AccountsSettings from '../components/AccountsSettings.tsx'
 import { LANGUAGES } from '../i18n/index.ts'
 import RemindersSettings from '../components/RemindersSettings.tsx'
 import { auth } from '../services/firebase.ts'
@@ -11,6 +13,7 @@ import { applyTheme, storedTheme, THEMES, type Theme } from '../theme.ts'
 export default function SettingsPage() {
   const { t, i18n } = useTranslation()
   const user = useUser()
+  const { admin } = useAccount()
   const [theme, setTheme] = useState(storedTheme)
 
   function chooseTheme(choice: Theme) {
@@ -21,6 +24,8 @@ export default function SettingsPage() {
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-5">
       <h1 className="font-display text-3xl font-bold text-primary">{t('settings.title')}</h1>
+
+      {admin && <AccountsSettings />}
 
       {pushConfigured && <RemindersSettings />}
 

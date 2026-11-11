@@ -1,6 +1,6 @@
 {
   "name": "24",
-  "version": "0.18.0",
+  "version": "0.19.0",
   "private": true,
   "license": "AGPL-3.0",
   "type": "module",
@@ -19,6 +19,7 @@
     "check:changelog": "tsx scripts/verify-changelog.ts",
     "import:excel": "tsx scripts/import-excel.ts",
     "migrate:calendars": "tsx scripts/migrate-to-calendars.ts",
+    "admin:grant": "tsx scripts/grant-admin.ts",
     "check:licenses": "npm run licenses -- --start . && npm run licenses -- --start functions",
     "licenses": "license-checker-rseidelsohn --production --summary --excludePrivatePackages --onlyAllow 'MIT;Apache-2.0;BSD-3-Clause;BSD-2-Clause;ISC;0BSD;MPL-2.0'",
     "setup:githooks": "git config core.hooksPath .githooks",
