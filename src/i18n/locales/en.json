@@ -29,16 +29,6 @@
     "google": "Sign in with Google",
     "googleFailed": "Could not sign in with Google."
   },
-  "onboarding": {
-    "title": "Welcome to 24",
-    "intro": "Calendars live in a family space, shared with whoever you invite.",
-    "defaultName": "{{name}}'s family",
-    "nameLabel": "Space name",
-    "create": "Create a family space",
-    "invited": "You were invited to “{{name}}”.",
-    "join": "Join",
-    "waitingForInvite": "Waiting for an invite? Ask them to invite {{email}}."
-  },
   "home": {
     "title": "Calendars",
     "year": "Year",
@@ -84,13 +74,15 @@
     "year": "Year",
     "startDate": "Starts on",
     "dayCount": "Days",
+    "tagsFrom": "Copy tags from",
+    "defaultTags": "None: only the defaults",
     "suggestions": "Suggestions",
     "allowRepeats": "Allow repeating gifts in this calendar",
     "originality": "Which suggestions do you prefer?",
     "traditional": "Traditional",
     "original": "Original",
     "delete": "Delete calendar",
-    "confirmDelete": "Delete {{person}}'s calendar ({{year}})? This cannot be undone."
+    "confirmDelete": "Delete {{person}}'s calendar ({{year}})? It goes for everyone who sees it. This cannot be undone."
   },
   "filters": {
     "label": "Filter days",
@@ -138,6 +130,28 @@
     "showMore": "Show more ({{count}})",
     "showLess": "Show less"
   },
+  "share": {
+    "title": "Share",
+    "intro": "Everyone in this calendar sees and edits all of it, and can invite, remove people or delete it. No one else sees it.",
+    "people": "Who sees it",
+    "you": "you",
+    "pending": "invite pending",
+    "remove": "Remove",
+    "confirmRemove": "Remove {{name}} from this calendar? They will no longer see it.",
+    "leave": "Leave",
+    "confirmLeave": "Leave {{person}}'s calendar? You will no longer see it.",
+    "cancelInvite": "Cancel",
+    "inviteEmail": "Email to invite",
+    "invite": "Invite",
+    "inviteHelp": "They see the invite when they sign in to 24 with the Google account for this email.",
+    "suggested": "Already on 24:",
+    "onlyYou": "Only you see this calendar.",
+    "secret": "Only you",
+    "with": "With {{names}}",
+    "invited": "Invite to {{person}}'s calendar ({{year}}), from {{names}}.",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
   "shopping": {
     "title": "To do",
     "buyTab": "Buy ({{count}})",
@@ -147,7 +161,7 @@
   },
   "tags": {
     "title": "Tags",
-    "intro": "Tags replace the spreadsheet colours. Each gift can have several.",
+    "intro": "Tags replace the spreadsheet colours. They belong to this calendar, the same for everyone in it, and each gift can have several.",
     "add": "New tag",
     "newName": "New tag",
     "name": "Name",
@@ -175,20 +189,6 @@
   },
   "settings": {
     "title": "Settings",
-    "workspace": "Family space",
-    "switchWorkspace": "Active space",
-    "workspaceName": "Name",
-    "members": "Members",
-    "owner": "owner",
-    "pending": "invite pending",
-    "remove": "Remove",
-    "confirmRemove": "Remove {{name}} from the space?",
-    "cancelInvite": "Cancel",
-    "inviteEmail": "Email to invite",
-    "invite": "Invite",
-    "inviteHelp": "They see the invite when they sign in to 24 with the Google account for this email.",
-    "tagsHelp": "Name, emoji and colour of gift tags.",
-    "manageTags": "Manage tags",
     "signedInAs": "Signed in as {{email}}",
     "signOut": "Sign out"
   },

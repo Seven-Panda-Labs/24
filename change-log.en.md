@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.18.0] - 2026-11-11
+
+### Changed
+
+- Sharing is now per calendar, not the whole family. A new calendar is only yours; to share it, use Share on the calendar. So you can prepare someone's calendar in secret and prepare others together.
+- Everyone in a calendar can invite, remove people, leave or delete it. When you invite, the app suggests people who already use 24. Invites show on the home page, with Accept and Decline.
+- Tags now belong to each calendar and open from its settings. When you create a calendar, you pick which one to copy tags from; by default, the latest for the same person.
+- Calendars you already had move to the new format, with their tags and photos.
+- To do, History, suggestions and the Sunday reminder only count the calendars you see.
+
+### Removed
+
+- The family space, and the step to create it on first sign-in.
+
 ## [0.17.0] - 2026-11-09
 
 ### Changed

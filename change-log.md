@@ -1,5 +1,19 @@
 # Registo de alterações
 
+## [0.18.0] - 2026-11-11
+
+### Alterado
+
+- A partilha passa a ser por calendário, e não pela família toda. Um calendário novo é só de quem o cria; para o partilhar, usa Partilhar no próprio calendário. Assim podes preparar em segredo o calendário de alguém e preparar outros em conjunto.
+- Quem está num calendário pode convidar, tirar pessoas, sair ou apagá-lo. Ao convidar, a app sugere quem já usa o 24. Os convites aparecem no início, com Aceitar e Recusar.
+- As etiquetas passam a ser de cada calendário e abrem-se nas definições dele. Ao criar um calendário, escolhes de qual copiar as etiquetas; por omissão, do último da mesma pessoa.
+- Os calendários que já tinhas passam para o novo formato, com as etiquetas e as fotos.
+- Por fazer, Histórico, sugestões e o lembrete de domingo contam só os calendários que vês.
+
+### Removido
+
+- O espaço da família, e o passo para o criar na primeira entrada.
+
 ## [0.17.0] - 2026-11-09
 
 ### Alterado

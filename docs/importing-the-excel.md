@@ -22,11 +22,11 @@ Comments exported by Google Sheets have no rich-text runs, and exceljs reads the
 Dry run first: without `--confirm` it only prints what it would write.
 
 ```bash
-npm run import:excel -- --file "private/Calendario de Natal.xlsx" --person "Ana" --workspace <workspace id> --project <project id>
+npm run import:excel -- --file "private/Calendario de Natal.xlsx" --person "Ana" --email <Google account> --project <project id>
 ```
 
-Add `--confirm` to write. The workspace id is in the Firebase console (Firestore, `workspaces`) or in the browser's local storage under `24:workspace`.
+Add `--confirm` to write. `--email` is the Google account the calendars go to: it must have signed in to the app once. The calendars are only that account's until it shares them in the app. Each one gets the default tags, in Portuguese, and the bags it uses.
 
-**Against the emulators:** `FIRESTORE_EMULATOR_HOST=127.0.0.1:8080` and `--project demo-24`.
+**Against the emulators:** `FIRESTORE_EMULATOR_HOST=127.0.0.1:8080`, `FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099` and `--project demo-24`.
 
 **Against the real project:** the script uses the Admin SDK with your Google credentials, so run `gcloud auth application-default login` once with an account that owns the project.

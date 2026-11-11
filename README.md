@@ -24,7 +24,7 @@ O caos organizado de Dezembro. PWA para planear calendários de advento: 24 dias
   <img src="docs/screenshots/wrapped.webp" alt="Calendário todo embrulhado, com o selo da Oficina do Pai Natal" width="30%" />
 </p>
 
-- Vários calendários por ano, um por pessoa, num espaço da família partilhado por convite
+- Vários calendários por ano, um por pessoa, cada um partilhado por convite só com quem o deve ver
 - Grelha de 24 portas e vista em lista; cada dia com prenda, estado, etiquetas, notas e foto
 - Lista de compras e lista do que falta embrulhar, mesmo sem rede
 - Sugestões a partir do histórico: tradições, prendas esquecidas e ideias novas
@@ -65,7 +65,7 @@ Licença [AGPL-3.0](LICENSE). Segurança: [`SECURITY.md`](SECURITY.md).
 
 December's organized chaos. A PWA to plan advent calendars: 24 days, 24 small gifts, per person and per year. Works offline and syncs via Firebase.
 
-- Several calendars a year, one per person, in a family space shared by invite
+- Several calendars a year, one per person, each shared by invite only with those who should see it
 - A 24-door grid and a list view; each day has a gift, status, tags, notes and a photo
 - Shopping list and a list of what is left to wrap, even offline
 - Suggestions from history: traditions, forgotten gifts and new ideas

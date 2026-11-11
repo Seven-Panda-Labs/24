@@ -11,8 +11,8 @@ import { useEffect, useState } from 'react'
  * cached empty result is still empty, nothing but the metadata changes.
  *
  * A listener the server refuses is dead for good, so it resubscribes with
- * backoff. That happens right after creating a workspace: the listen on its
- * calendars can reach the server before the workspace write does, and the
+ * backoff. That happens right after creating a calendar: the listen on its
+ * feedback can reach the server before the calendar write does, and the
  * membership rule refuses it.
  */
 export function useDocs<T>(key: string | null, build: () => Query, waitForServer = false): T[] | undefined {

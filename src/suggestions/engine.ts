@@ -15,7 +15,7 @@ export interface Idea {
 }
 
 export interface SuggestInput {
-  /** Every filled day of every other calendar in the workspace. */
+  /** Every filled day of every other calendar the user is in. */
   history: HistoryGift[]
   calendar: { person: string; year: number; allowRepeats: boolean; originality: number }
   /** Gifts already in the calendar being filled. */

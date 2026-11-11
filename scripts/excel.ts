@@ -4,7 +4,7 @@ import type { TagColor } from '../src/domain/types.ts'
 /**
  * Column C is the colour of the bag each gift goes in. Bags alternate by day so
  * neighbouring gifts look different; they are not gift categories. The import
- * script creates these tags in the workspace when they are missing.
+ * script adds to each calendar the ones its days use.
  */
 export const BAG_TAGS: Record<string, { id: string; name: string; color: TagColor }> = {
   CCCCCC: { id: 'bag-grey', name: 'Saco Cinza', color: 'slate' },

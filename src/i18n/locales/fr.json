@@ -29,16 +29,6 @@
     "google": "Se connecter avec Google",
     "googleFailed": "Impossible de se connecter avec Google."
   },
-  "onboarding": {
-    "title": "Bienvenue dans 24",
-    "intro": "Les calendriers vivent dans un espace familial, partagé avec les personnes que tu invites.",
-    "defaultName": "Famille de {{name}}",
-    "nameLabel": "Nom de l’espace",
-    "create": "Créer un espace familial",
-    "invited": "Tu as reçu une invitation pour « {{name}} ».",
-    "join": "Rejoindre",
-    "waitingForInvite": "Tu attends une invitation ? Demande qu’on invite {{email}}."
-  },
   "home": {
     "title": "Calendriers",
     "year": "Année",
@@ -84,13 +74,15 @@
     "year": "Année",
     "startDate": "Commence le",
     "dayCount": "Jours",
+    "tagsFrom": "Copier les étiquettes de",
+    "defaultTags": "Aucun : seulement celles par défaut",
     "suggestions": "Suggestions",
     "allowRepeats": "Autoriser les cadeaux répétés dans ce calendrier",
     "originality": "Quelles suggestions préfères-tu ?",
     "traditional": "Traditionnelles",
     "original": "Originales",
     "delete": "Supprimer le calendrier",
-    "confirmDelete": "Supprimer le calendrier de {{person}} ({{year}}) ? C’est définitif."
+    "confirmDelete": "Supprimer le calendrier de {{person}} ({{year}}) ? Il disparaît pour tous ceux qui le voient. C’est définitif."
   },
   "filters": {
     "label": "Filtrer les jours",
@@ -138,6 +130,28 @@
     "showMore": "Voir plus ({{count}})",
     "showLess": "Voir moins"
   },
+  "share": {
+    "title": "Partager",
+    "intro": "Les personnes de ce calendrier le voient et le modifient en entier, et peuvent inviter, retirer quelqu’un ou le supprimer. Personne d’autre ne le voit.",
+    "people": "Qui le voit",
+    "you": "toi",
+    "pending": "invitation en attente",
+    "remove": "Retirer",
+    "confirmRemove": "Retirer {{name}} de ce calendrier ? Cette personne ne le verra plus.",
+    "leave": "Quitter",
+    "confirmLeave": "Quitter le calendrier de {{person}} ? Tu ne le verras plus.",
+    "cancelInvite": "Annuler",
+    "inviteEmail": "E-mail à inviter",
+    "invite": "Inviter",
+    "inviteHelp": "La personne voit l’invitation quand elle se connecte à 24 avec le compte Google de cet e-mail.",
+    "suggested": "Déjà sur 24 :",
+    "onlyYou": "Personne d’autre que toi ne voit ce calendrier.",
+    "secret": "Toi seulement",
+    "with": "Avec {{names}}",
+    "invited": "Invitation au calendrier de {{person}} ({{year}}), de la part de {{names}}.",
+    "accept": "Accepter",
+    "decline": "Refuser"
+  },
   "shopping": {
     "title": "À faire",
     "buyTab": "Acheter ({{count}})",
@@ -147,7 +161,7 @@
   },
   "tags": {
     "title": "Étiquettes",
-    "intro": "Les étiquettes remplacent les couleurs du tableur. Chaque cadeau peut en avoir plusieurs.",
+    "intro": "Les étiquettes remplacent les couleurs du tableur. Elles appartiennent à ce calendrier, les mêmes pour tous ceux qui le voient, et chaque cadeau peut en avoir plusieurs.",
     "add": "Nouvelle étiquette",
     "newName": "Nouvelle étiquette",
     "name": "Nom",
@@ -175,20 +189,6 @@
   },
   "settings": {
     "title": "Paramètres",
-    "workspace": "Espace familial",
-    "switchWorkspace": "Espace actif",
-    "workspaceName": "Nom",
-    "members": "Membres",
-    "owner": "propriétaire",
-    "pending": "invitation en attente",
-    "remove": "Retirer",
-    "confirmRemove": "Retirer {{name}} de l’espace ?",
-    "cancelInvite": "Annuler",
-    "inviteEmail": "E-mail à inviter",
-    "invite": "Inviter",
-    "inviteHelp": "La personne voit l’invitation quand elle se connecte à 24 avec le compte Google de cet e-mail.",
-    "tagsHelp": "Nom, emoji et couleur des étiquettes de cadeaux.",
-    "manageTags": "Gérer les étiquettes",
     "signedInAs": "Compte connecté : {{email}}",
     "signOut": "Se déconnecter"
   },

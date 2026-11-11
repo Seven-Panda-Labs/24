@@ -1,5 +1,19 @@
 # Journal des modifications
 
+## [0.18.0] - 2026-11-11
+
+### Modifié
+
+- Le partage se fait maintenant par calendrier, et non plus pour toute la famille. Un nouveau calendrier n’est qu’à toi ; pour le partager, utilise « Partager » dans le calendrier. Tu peux ainsi préparer en secret le calendrier de quelqu’un, et d’autres à plusieurs.
+- Toutes les personnes d’un calendrier peuvent inviter, retirer quelqu’un, le quitter ou le supprimer. Pour inviter, l’app propose les personnes qui utilisent déjà 24. Les invitations apparaissent sur l’accueil, avec « Accepter » et « Refuser ».
+- Les étiquettes appartiennent désormais à chaque calendrier et s’ouvrent depuis ses réglages. En créant un calendrier, tu choisis celui dont copier les étiquettes ; par défaut, le dernier de la même personne.
+- Les calendriers existants passent au nouveau format, avec leurs étiquettes et leurs photos.
+- « À faire », l’historique, les suggestions et le rappel du dimanche ne comptent que les calendriers que tu vois.
+
+### Supprimé
+
+- L’espace familial, et l’étape pour le créer à la première connexion.
+
 ## [0.17.0] - 2026-11-09
 
 ### Modifié

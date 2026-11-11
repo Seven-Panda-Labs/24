@@ -21,11 +21,6 @@ service cloud.firestore {
       return request.auth.token.email_verified == true;
     }
 
-    function isMember(wid) {
-      return signedIn()
-        && request.auth.uid in get(/databases/$(database)/documents/workspaces/$(wid)).data.memberIds;
-    }
-
     function changed() {
       return request.resource.data.diff(resource.data).affectedKeys();
     }
@@ -53,99 +48,99 @@ service cloud.firestore {
       allow create, update: if signedIn() && request.auth.uid == uid && validUser(request.resource.data);
     }
 
-    match /workspaces/{wid} {
+    // Everyone who has signed in to this instance, suggested when inviting.
+    // Instances are private, so anyone signed in may read it; each person
+    // writes only their own entry, with their own email.
+    match /people/{uid} {
+      allow read: if signedIn();
+      allow create, update: if signedIn() && request.auth.uid == uid
+        && validMember(request.resource.data)
+        && request.resource.data.email == email();
+    }
+
+    // A calendar and who is in it. Everyone in it can do everything: edit,
+    // invite, take others out and delete it. Nobody joins without accepting.
+    match /calendars/{cid} {
+      function isMember() {
+        return request.auth.uid in resource.data.memberIds;
+      }
+
       function invited() {
-        return signedIn() && verified() && email() in resource.data.invitedEmails;
+        return verified() && email() in resource.data.invitedEmails;
       }
 
-      function validInvites(data) {
-        return data.invitedEmails is list && data.invitedEmails.size() <= 20;
+      // memberIds (for queries) and the members map (for display) name the
+      // same people. Calendars from before the sack have none.
+      function validCalendar(c) {
+        return c.keys().hasOnly(['year', 'person', 'name', 'startDate', 'dayCount', 'allowRepeats', 'originality', 'days', 'sack', 'tags', 'memberIds', 'members', 'invitedEmails', 'createdAt', 'updatedAt'])
+          && c.year is int && c.year >= 2000 && c.year <= 2100
+          && validName(c.person, 80)
+          && c.name is string && c.name.size() <= 80
+          && c.startDate is string && c.startDate.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+          && c.dayCount is int && c.dayCount >= 1 && c.dayCount <= 31
+          && c.allowRepeats is bool
+          && c.originality is number && c.originality >= 0 && c.originality <= 1
+          && c.days is map && c.days.size() <= 31
+          && (!c.keys().hasAny(['sack']) || (c.sack is map && c.sack.size() <= 100))
+          && c.tags is map && c.tags.size() <= 30
+          && c.memberIds is list && c.memberIds.size() >= 1 && c.memberIds.size() <= 20
+          && c.members.keys().toSet() == c.memberIds.toSet()
+          && c.invitedEmails is list && c.invitedEmails.size() <= 20;
       }
 
+      // Anything but adding people: they only join by accepting.
       function memberUpdate() {
-        return request.auth.uid in resource.data.memberIds
-          && changed().hasOnly(['name', 'invitedEmails'])
-          && validName(request.resource.data.name, 60)
-          && validInvites(request.resource.data);
-      }
-
-      // The owner can also remove members. memberIds (for queries) and the
-      // members map (for display) must keep naming the same people.
-      function ownerUpdate() {
         let data = request.resource.data;
-        return resource.data.ownerId == request.auth.uid
-          && changed().hasOnly(['name', 'invitedEmails', 'memberIds', 'members'])
-          && request.auth.uid in data.memberIds
-          && data.members.keys().toSet() == data.memberIds.toSet()
-          && validName(data.name, 60)
-          && validInvites(data);
+        let people = data.members.diff(resource.data.members);
+        return isMember()
+          && data.memberIds.toSet().difference(resource.data.memberIds.toSet()).size() == 0
+          && people.addedKeys().size() == 0
+          && people.changedKeys().size() == 0
+          && validCalendar(data);
       }
 
       // An invited person adds themselves and removes their own invite, nothing else.
       function acceptInvite() {
         let data = request.resource.data;
         return invited()
-          && !(request.auth.uid in resource.data.memberIds)
+          && !isMember()
           && changed().hasOnly(['memberIds', 'members', 'invitedEmails'])
           && data.memberIds == resource.data.memberIds.concat([request.auth.uid])
+          && data.memberIds.size() <= 20
           && data.members.diff(resource.data.members).affectedKeys().hasOnly([request.auth.uid])
           && validMember(data.members[request.auth.uid])
           && data.members[request.auth.uid].email == email()
           && data.invitedEmails.toSet() == resource.data.invitedEmails.toSet().difference([email()].toSet());
       }
 
-      allow read: if signedIn() && (request.auth.uid in resource.data.memberIds || invited());
+      function declineInvite() {
+        return invited()
+          && changed().hasOnly(['invitedEmails'])
+          && request.resource.data.invitedEmails.toSet() == resource.data.invitedEmails.toSet().difference([email()].toSet());
+      }
+
+      allow read: if signedIn() && (isMember() || invited());
 
       allow create: if signedIn()
-        && request.resource.data.keys().hasOnly(['name', 'ownerId', 'memberIds', 'members', 'invitedEmails', 'createdAt'])
-        && request.resource.data.ownerId == request.auth.uid
         && request.resource.data.memberIds == [request.auth.uid]
-        && request.resource.data.members.keys().hasOnly([request.auth.uid])
         && validMember(request.resource.data.members[request.auth.uid])
-        && validName(request.resource.data.name, 60)
-        && validInvites(request.resource.data);
+        && request.resource.data.members[request.auth.uid].email == email()
+        && request.resource.data.invitedEmails == []
+        && validCalendar(request.resource.data);
 
-      allow update: if signedIn() && (memberUpdate() || ownerUpdate() || acceptInvite());
+      allow update: if signedIn() && (memberUpdate() || acceptInvite() || declineInvite());
 
-      allow delete: if signedIn() && resource.data.ownerId == request.auth.uid;
+      allow delete: if signedIn() && isMember();
 
-      match /calendars/{cid} {
-        function validCalendar(c) {
-          return c.keys().hasOnly(['year', 'person', 'name', 'startDate', 'dayCount', 'allowRepeats', 'originality', 'days', 'sack', 'createdAt', 'updatedAt'])
-            && c.year is int && c.year >= 2000 && c.year <= 2100
-            && validName(c.person, 80)
-            && c.name is string && c.name.size() <= 80
-            && c.startDate is string && c.startDate.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
-            && c.dayCount is int && c.dayCount >= 1 && c.dayCount <= 31
-            && c.allowRepeats is bool
-            && c.originality is number && c.originality >= 0 && c.originality <= 1
-            && c.days is map && c.days.size() <= 31
-            // Gifts without a day yet; calendars from before the sack have none.
-            && (!c.keys().hasAny(['sack']) || (c.sack is map && c.sack.size() <= 100));
-        }
-
-        allow read, delete: if isMember(wid);
-        allow create, update: if isMember(wid) && validCalendar(request.resource.data);
-      }
-
-      match /tags/{tid} {
-        function validTag(t) {
-          return t.keys().hasOnly(['name', 'color', 'emoji'])
-            && validName(t.name, 40)
-            && t.color in ['amber', 'slate', 'sky', 'emerald', 'purple', 'red', 'pink', 'orange']
-            && t.emoji is string && t.emoji.size() <= 16;
-        }
-
-        allow read, delete: if isMember(wid);
-        allow create, update: if isMember(wid) && validTag(request.resource.data);
-      }
-
-      // Implicit feedback on suggestions: append-only.
+      // Implicit feedback on the calendar's suggestions: append-only.
       match /feedback/{fid} {
-        allow read: if isMember(wid);
-        allow create: if isMember(wid)
-          && request.resource.data.keys().hasOnly(['calendarId', 'gift', 'action', 'at'])
-          && request.resource.data.calendarId is string
+        function inCalendar() {
+          return request.auth.uid in get(/databases/$(database)/documents/calendars/$(cid)).data.memberIds;
+        }
+
+        allow read: if signedIn() && inCalendar();
+        allow create: if signedIn() && inCalendar()
+          && request.resource.data.keys().hasOnly(['gift', 'action', 'at'])
           && validName(request.resource.data.gift, 200)
           && request.resource.data.action in ['accepted', 'dismissed']
           && request.resource.data.at == request.time;

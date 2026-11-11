@@ -1,18 +1,21 @@
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { useUser } from '../auth/AuthContext.tsx'
+import { useCalendars } from '../calendars/CalendarsContext.tsx'
 import { createCalendar, deleteCalendar, updateCalendar } from '../data/calendars.ts'
 import { deletePhoto } from '../data/photos.ts'
 import { currentYear } from '../domain/days.ts'
+import { defaultTags } from '../domain/tags.ts'
 import type { CalendarFields } from '../domain/types.ts'
-import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
 
 export default function CalendarFormPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { id } = useParams()
   const [params] = useSearchParams()
-  const { workspace, calendars } = useWorkspace()
+  const user = useUser()
+  const { calendars } = useCalendars()
   const existing = calendars.find((calendar) => calendar.id === id)
   const initialYear = Number(params.get('year')) || currentYear()
 
@@ -37,6 +40,10 @@ export default function CalendarFormPage() {
           originality: 0.5,
         },
   )
+  // The calendar a new one copies its tags from, '' for the defaults. Until one is picked: the latest
+  // for the same person, else the latest of all, so tags made by hand carry over to the next year.
+  const [pickedSource, pickSource] = useState<string>()
+  const tagSource = pickedSource ?? (calendars.find((calendar) => calendar.person === fields.person.trim()) ?? calendars[0])?.id ?? ''
   const people = [...new Set(calendars.map((calendar) => calendar.person))].sort()
   const filled = existing ? Object.keys(existing.days).map(Number) : []
   const minDays = Math.max(1, ...filled)
@@ -56,17 +63,18 @@ export default function CalendarFormPage() {
     event.preventDefault()
     const clean = { ...fields, person: fields.person.trim(), name: fields.name.trim() }
     if (existing) {
-      updateCalendar(workspace.id, existing.id, clean)
+      updateCalendar(existing.id, clean)
       navigate(`/calendars/${existing.id}`)
-    } else {
-      navigate(`/calendars/${createCalendar(workspace.id, clean)}`, { replace: true })
+      return
     }
+    const tags = calendars.find((calendar) => calendar.id === tagSource)?.tags ?? defaultTags((tag) => t(`tags.defaults.${tag}`))
+    navigate(`/calendars/${createCalendar(user, clean, tags)}`, { replace: true })
   }
 
   function remove() {
     if (!existing || !window.confirm(t('calendarForm.confirmDelete', { person: existing.person, year: existing.year }))) return
     for (const gift of [...Object.values(existing.days), ...Object.values(existing.sack)]) deletePhoto(gift)
-    deleteCalendar(workspace.id, existing.id)
+    deleteCalendar(existing.id)
     navigate(`/?year=${existing.year}`)
   }
 
@@ -137,6 +145,20 @@ export default function CalendarFormPage() {
         </label>
       </div>
 
+      {!existing && calendars.length > 0 && (
+        <label className="flex flex-col gap-1 text-sm font-semibold">
+          {t('calendarForm.tagsFrom')}
+          <select value={tagSource} onChange={(event) => pickSource(event.target.value)} className="input">
+            {calendars.map((calendar) => (
+              <option key={calendar.id} value={calendar.id}>
+                {calendar.person} · {calendar.year}
+              </option>
+            ))}
+            <option value="">{t('calendarForm.defaultTags')}</option>
+          </select>
+        </label>
+      )}
+
       <fieldset className="card flex flex-col gap-4">
         <legend className="px-1 text-sm font-semibold">{t('calendarForm.suggestions')}</legend>
         <label className="flex items-center gap-3 text-sm">
@@ -165,6 +187,17 @@ export default function CalendarFormPage() {
           </span>
         </label>
       </fieldset>
+
+      {existing && (
+        <div className="flex flex-wrap gap-2">
+          <Link to={`/calendars/${existing.id}/share`} className="btn-secondary">
+            <span aria-hidden>👥</span> {t('share.title')}
+          </Link>
+          <Link to={`/calendars/${existing.id}/tags`} className="btn-secondary">
+            <span aria-hidden>🏷️</span> {t('tags.title')}
+          </Link>
+        </div>
+      )}
 
       <div className="flex flex-wrap items-center gap-2">
         {existing && (

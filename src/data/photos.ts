@@ -12,9 +12,9 @@ export type Photo = Required<Pick<Day, 'photoPath' | 'photoUrl' | 'thumbUrl'>>
 const thumbPathOf = (path: string) => path.replace(/\.jpg$/, '-thumb.jpg')
 
 /** Shrinks the photo to a JPEG of at most 1280px a side, plus a thumbnail, and uploads both. Needs a connection. */
-export async function uploadPhoto(wid: string, calendarId: string, slot: Slot, file: File): Promise<Photo> {
+export async function uploadPhoto(calendarId: string, slot: Slot, file: File): Promise<Photo> {
   const name = 'day' in slot ? slot.day : `sack-${slot.sack}`
-  const path = `workspaces/${wid}/photos/${calendarId}/${name}-${Date.now()}.jpg`
+  const path = `calendars/${calendarId}/photos/${name}-${Date.now()}.jpg`
   const bitmap = await createImageBitmap(file)
   const [photoUrl, thumbUrl] = await Promise.all([
     upload(path, await shrink(bitmap, MAX_SIDE)),

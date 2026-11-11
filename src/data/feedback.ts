@@ -4,16 +4,15 @@ import { report } from './report.ts'
 
 export interface Feedback {
   id: string
-  calendarId: string
   gift: string
   action: 'accepted' | 'dismissed'
 }
 
-export function feedbackOf(wid: string) {
-  return collection(db, 'workspaces', wid, 'feedback')
+export function feedbackOf(calendarId: string) {
+  return collection(db, 'calendars', calendarId, 'feedback')
 }
 
 /** Implicit feedback on a suggestion. Dismissed ones stop being suggested for that calendar. */
-export function recordFeedback(wid: string, calendarId: string, gift: string, action: Feedback['action']): void {
-  void addDoc(feedbackOf(wid), { calendarId, gift, action, at: serverTimestamp() }).catch(report)
+export function recordFeedback(calendarId: string, gift: string, action: Feedback['action']): void {
+  void addDoc(feedbackOf(calendarId), { gift, action, at: serverTimestamp() }).catch(report)
 }

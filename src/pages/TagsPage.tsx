@@ -1,31 +1,31 @@
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import { useCalendars } from '../calendars/CalendarsContext.tsx'
 import TagChip from '../components/TagChip.tsx'
 import { deleteTag, newTagId, saveTag } from '../data/tags.ts'
-import { TAG_STYLES } from '../domain/tags.ts'
+import { TAG_STYLES, tagsOf } from '../domain/tags.ts'
 import { TAG_COLORS, type Tag } from '../domain/types.ts'
-import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
 
+/** The calendar's tags, the same for everyone in it. */
 export default function TagsPage() {
   const { t } = useTranslation()
-  const { workspace, tags } = useWorkspace()
-  const sorted = [...tags].sort((a, b) => a.name.localeCompare(b.name))
+  const { id } = useParams()
+  const calendar = useCalendars().calendars.find((candidate) => candidate.id === id)
+  if (!calendar) return <p className="card">{t('calendar.notFound')}</p>
 
-  function add() {
-    saveTag(workspace.id, { id: newTagId(workspace.id), name: t('tags.newName'), color: 'red', emoji: '🎁' })
-  }
+  const add = () => saveTag(calendar.id, { id: newTagId(), name: t('tags.newName'), color: 'red', emoji: '🎁' })
 
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-4">
-      <Link to="/settings" className="text-sm text-foreground/70">
-        ← {t('settings.title')}
+      <Link to={`/calendars/${calendar.id}`} className="text-sm text-foreground/70">
+        ← {calendar.person} · {calendar.year}
       </Link>
       <h1 className="font-display text-3xl font-bold text-primary">{t('tags.title')}</h1>
       <p className="text-sm text-foreground/70">{t('tags.intro')}</p>
 
       <ul className="flex flex-col gap-3">
-        {sorted.map((tag) => (
-          <TagRow key={tag.id} tag={tag} onChange={(next) => saveTag(workspace.id, next)} onDelete={() => deleteTag(workspace.id, tag.id)} />
+        {tagsOf(calendar).map((tag) => (
+          <TagRow key={tag.id} tag={tag} onChange={(next) => saveTag(calendar.id, next)} onDelete={() => deleteTag(calendar.id, tag.id)} />
         ))}
       </ul>
 

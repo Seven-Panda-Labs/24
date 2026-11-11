@@ -16,6 +16,10 @@ function calendar(dayCount: number, sack: Calendar['sack'], days: Calendar['days
     originality: 0.5,
     days,
     sack,
+    tags: {},
+    memberIds: [],
+    members: {},
+    invitedEmails: [],
   }
 }
 

@@ -1,5 +1,19 @@
 # Änderungsprotokoll
 
+## [0.18.0] - 2026-11-11
+
+### Geändert
+
+- Geteilt wird jetzt pro Kalender, nicht mehr die ganze Familie. Ein neuer Kalender gehört nur dir; zum Teilen gibt es „Teilen“ im Kalender. So kannst du den Kalender von jemandem heimlich vorbereiten und andere gemeinsam.
+- Alle in einem Kalender können einladen, Personen entfernen, ihn verlassen oder löschen. Beim Einladen schlägt die App vor, wer 24 schon nutzt. Einladungen erscheinen auf der Startseite, mit „Annehmen“ und „Ablehnen“.
+- Etiketten gehören jetzt zu jedem Kalender und öffnen sich in seinen Einstellungen. Beim Anlegen eines Kalenders wählst du, von welchem die Etiketten übernommen werden; vorgegeben ist der letzte derselben Person.
+- Bestehende Kalender wechseln mit ihren Etiketten und Fotos ins neue Format.
+- „Zu erledigen“, Verlauf, Vorschläge und die Sonntagserinnerung zählen nur die Kalender, die du siehst.
+
+### Entfernt
+
+- Der Familienbereich und der Schritt, ihn bei der ersten Anmeldung anzulegen.
+
 ## [0.17.0] - 2026-11-09
 
 ### Geändert

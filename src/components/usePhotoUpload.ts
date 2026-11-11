@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { uploadPhoto, type Photo } from '../data/photos.ts'
 import type { Slot } from '../domain/types.ts'
-import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
 
 // When every accepted type is an image, Chrome on Android 14+ opens the system photo picker, which has no camera
 // (https://issues.chromium.org/issues/40937303). A type no file has brings back its chooser with the camera,
@@ -12,7 +11,6 @@ export const PHOTO_TYPES = 'image/*,android/allowCamera'
 /** Uploads straight away, outside any Save: Storage has no offline queue to wait in. */
 export function usePhotoUpload(calendarId: string) {
   const { t } = useTranslation()
-  const { workspace } = useWorkspace()
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
 
@@ -25,7 +23,7 @@ export function usePhotoUpload(calendarId: string) {
     setBusy(true)
     setError('')
     try {
-      return await uploadPhoto(workspace.id, calendarId, slot, file)
+      return await uploadPhoto(calendarId, slot, file)
     } catch (cause) {
       console.error(cause)
       setError(navigator.onLine ? t('photo.failed') : t('photo.offline'))
