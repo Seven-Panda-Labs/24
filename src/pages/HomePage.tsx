@@ -1,17 +1,23 @@
 import { Link, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useAccount } from '../account/AccessGate.tsx'
 import { useUser } from '../auth/AuthContext.tsx'
 import { useCalendars } from '../calendars/CalendarsContext.tsx'
 import EmptyState from '../components/EmptyState.tsx'
 import ProgressBar from '../components/ProgressBar.tsx'
+import { people } from '../data/people.ts'
 import { acceptInvite, declineInvite } from '../data/sharing.ts'
+import { useDocs } from '../data/useDocs.ts'
 import { currentYear, progressOf } from '../domain/days.ts'
-import type { Calendar } from '../domain/types.ts'
+import { statusOf, type Calendar, type Person } from '../domain/types.ts'
 
 export default function HomePage() {
   const { t, i18n } = useTranslation()
   const user = useUser()
   const { calendars, invites } = useCalendars()
+  const { admin } = useAccount()
+  // Without notifications, this is how the admin learns someone is waiting.
+  const waiting = (useDocs<Person>(admin ? 'people' : null, people) ?? []).filter((person) => statusOf(person) === 'pending')
   // "Ana and Bruno": everyone in the calendar but the user, by first name.
   const others = (calendar: Calendar) =>
     new Intl.ListFormat(i18n.resolvedLanguage, { type: 'conjunction' }).format(
@@ -32,6 +38,12 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col gap-5">
+      {waiting.length > 0 && (
+        <Link to="/settings" className="card py-3 font-semibold">
+          👤 {t('accounts.waiting', { count: waiting.length })}
+        </Link>
+      )}
+
       {invites.map((calendar) => (
         <div key={calendar.id} className="card flex flex-wrap items-center gap-3">
           <p className="flex-1">{t('share.invited', { person: calendar.person, year: calendar.year, names: others(calendar) })}</p>

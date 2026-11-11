@@ -192,6 +192,28 @@
     "signedInAs": "Signed in as {{email}}",
     "signOut": "Sign out"
   },
+  "account": {
+    "waitingTitle": "Waiting for approval",
+    "waitingText": "{{email}} is signed up. Once it is approved, 24 opens here by itself.",
+    "rejectedTitle": "No access",
+    "rejectedText": "{{email}} has no access to this 24. If you think that is a mistake, ask whoever runs it."
+  },
+  "accounts": {
+    "title": "Accounts",
+    "intro": "Anyone signing in for the first time waits until you approve them. Only you see this section.",
+    "status": {
+      "pending": "waiting",
+      "approved": "approved",
+      "rejected": "no access"
+    },
+    "admin": "admin",
+    "approve": "Approve",
+    "reject": "Reject",
+    "block": "Block",
+    "confirmReject": "{{name}} will lose access to 24. Continue?",
+    "waiting_one": "{{count}} account waiting for approval",
+    "waiting_other": "{{count}} accounts waiting for approval"
+  },
   "history": {
     "title": "History",
     "search": "Search gifts and notes",

@@ -192,6 +192,28 @@
     "signedInAs": "Compte connecté : {{email}}",
     "signOut": "Se déconnecter"
   },
+  "account": {
+    "waitingTitle": "En attente de validation",
+    "waitingText": "Le compte {{email}} est inscrit. Dès qu’il sera validé, 24 s’ouvrira ici tout seul.",
+    "rejectedTitle": "Pas d’accès",
+    "rejectedText": "Le compte {{email}} n’a pas accès à ce 24. Si c’est une erreur, demande à la personne qui le gère."
+  },
+  "accounts": {
+    "title": "Comptes",
+    "intro": "Toute personne qui se connecte pour la première fois attend que tu valides son compte. Personne d’autre que toi ne voit cette section.",
+    "status": {
+      "pending": "en attente",
+      "approved": "validé",
+      "rejected": "sans accès"
+    },
+    "admin": "admin",
+    "approve": "Valider",
+    "reject": "Refuser",
+    "block": "Bloquer",
+    "confirmReject": "{{name}} n’aura plus accès à 24. Continuer ?",
+    "waiting_one": "{{count}} compte en attente de validation",
+    "waiting_other": "{{count}} comptes en attente de validation"
+  },
   "history": {
     "title": "Historique",
     "search": "Chercher des cadeaux et des notes",

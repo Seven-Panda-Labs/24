@@ -1,5 +1,12 @@
 # Journal des modifications
 
+## [0.19.0] - 2026-11-11
+
+### Ajouté
+
+- Validation des comptes : toute personne qui se connecte pour la première fois attend que l’admin valide son compte, et ne voit qu’ensuite calendriers et personnes. La page d’attente ouvre 24 toute seule dès que le compte est validé.
+- Pour l’admin, une section « Comptes » dans les paramètres pour valider, refuser ou bloquer des comptes, et un avis sur l’accueil quand des comptes attendent.
+
 ## [0.18.0] - 2026-11-11
 
 ### Modifié

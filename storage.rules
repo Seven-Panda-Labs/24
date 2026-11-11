@@ -1,14 +1,16 @@
 rules_version = '2';
 
-// Gift photos, readable and writable by the people in their calendar. Who is in
-// it is read from Firestore; in production the first deploy asks to grant
-// Storage access to Firestore for these cross-service rules.
+// Gift photos, readable and writable by the people in their calendar, once
+// their account is approved. Both are read from Firestore; in production the
+// first deploy asks to grant Storage access to Firestore for these
+// cross-service rules.
 service firebase.storage {
   match /b/{bucket}/o {
     function inCalendar(cid) {
       // Google only, as in firestore.rules.
       return request.auth != null
         && request.auth.token.firebase.sign_in_provider == 'google.com'
+        && firestore.get(/databases/(default)/documents/people/$(request.auth.uid)).data.get('status', 'pending') == 'approved'
         && request.auth.uid in firestore.get(/databases/(default)/documents/calendars/$(cid)).data.memberIds;
     }
 

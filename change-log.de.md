@@ -1,5 +1,12 @@
 # Änderungsprotokoll
 
+## [0.19.0] - 2026-11-11
+
+### Hinzugefügt
+
+- Kontofreigabe: Wer sich zum ersten Mal anmeldet, wartet, bis der Admin das Konto freigibt, und sieht erst dann Kalender und Personen. Die Warteseite öffnet 24 von selbst, sobald das Konto freigegeben ist.
+- Für den Admin ein Bereich „Konten“ in den Einstellungen, um Konten freizugeben, abzulehnen oder zu sperren, und ein Hinweis auf der Startseite, wenn Konten warten.
+
 ## [0.18.0] - 2026-11-11
 
 ### Geändert

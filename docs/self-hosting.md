@@ -53,6 +53,7 @@ The Storage rules check in Firestore who is in each calendar. On the first deplo
 1. **Authentication → Settings → Authorized domains:** add `YOUR_PROJECT.web.app` and any custom domain.
 2. **Google Cloud → APIs & Services → Credentials:** on the OAuth Web client, add `https://<serving domain>` to JavaScript origins and `https://<serving domain>/__/auth/handler` to redirect URIs. On the browser key (`VITE_FIREBASE_API_KEY`), restrict HTTP referrers to `http://localhost:5173/*` and the serving domains.
 3. Custom domain: **Hosting → Add custom domain**, then repeat steps 1 and 2 for it.
+4. **The admin:** new accounts wait until the admin approves them. Sign in once with your Google account, then make it the admin: `npm run admin:grant -- --email <your email> --project <project id>`, and again with `--confirm`. It uses your Google credentials, like the Excel import. From then on you approve the others in **Settings → Accounts**.
 
 ## Upgrading to 0.18.0
 
@@ -64,6 +65,10 @@ The Storage rules check in Firestore who is in each calendar. On the first deplo
 4. Once all looks right, delete `workspaces` in Firestore and the `workspaces/` folder in Storage.
 
 The script copies calendars, tags, photos and feedback, and skips calendars already copied, so it can run again. Like the Excel import, it uses your Google credentials (`gcloud auth application-default login`). Against the emulators: `FIRESTORE_EMULATOR_HOST=127.0.0.1:8080`, `FIREBASE_STORAGE_EMULATOR_HOST=127.0.0.1:9199`, `--project demo-24 --bucket demo-24.appspot.com`.
+
+## Upgrading to 0.19.0
+
+0.19.0 adds account approval, and everyone signed in before it counts as pending. Make yourself the admin first (step 4.4), then deploy, then approve the others in Settings.
 
 ## Troubleshooting
 

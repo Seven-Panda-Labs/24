@@ -1,5 +1,12 @@
 # Registo de alterações
 
+## [0.19.0] - 2026-11-11
+
+### Adicionado
+
+- Aprovação de contas: quem entra pela primeira vez fica à espera até o administrador aprovar a conta, e só então vê calendários e pessoas. A página de espera abre o 24 sozinha assim que a conta é aprovada.
+- Para o administrador, uma secção Contas nas Definições, para aprovar, rejeitar ou bloquear contas, e um aviso no início quando há contas à espera.
+
 ## [0.18.0] - 2026-11-11
 
 ### Alterado
