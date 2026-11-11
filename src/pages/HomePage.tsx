@@ -1,16 +1,24 @@
 import { Link, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useUser } from '../auth/AuthContext.tsx'
+import { useCalendars } from '../calendars/CalendarsContext.tsx'
 import EmptyState from '../components/EmptyState.tsx'
 import ProgressBar from '../components/ProgressBar.tsx'
-import { acceptInvite } from '../data/workspaces.ts'
+import { acceptInvite, declineInvite } from '../data/sharing.ts'
 import { currentYear, progressOf } from '../domain/days.ts'
-import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
+import type { Calendar } from '../domain/types.ts'
 
 export default function HomePage() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const user = useUser()
-  const { calendars, invites, selectWorkspace } = useWorkspace()
+  const { calendars, invites } = useCalendars()
+  // "Ana and Bruno": everyone in the calendar but the user, by first name.
+  const others = (calendar: Calendar) =>
+    new Intl.ListFormat(i18n.resolvedLanguage, { type: 'conjunction' }).format(
+      calendar.memberIds
+        .filter((uid) => uid !== user.uid)
+        .map((uid) => calendar.members[uid]?.name.split(' ')[0] || calendar.members[uid]?.email || ''),
+    )
   const [params, setParams] = useSearchParams()
   const year = Number(params.get('year')) || currentYear()
   const years = [...new Set([currentYear(), ...calendars.map((calendar) => calendar.year)])].sort((a, b) => b - a)
@@ -24,18 +32,14 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col gap-5">
-      {invites.map((workspace) => (
-        <div key={workspace.id} className="card flex flex-wrap items-center gap-3">
-          <p className="flex-1">{t('onboarding.invited', { name: workspace.name })}</p>
-          <button
-            type="button"
-            className="btn-secondary"
-            onClick={() => {
-              acceptInvite(workspace, user)
-              selectWorkspace(workspace.id)
-            }}
-          >
-            {t('onboarding.join')}
+      {invites.map((calendar) => (
+        <div key={calendar.id} className="card flex flex-wrap items-center gap-3">
+          <p className="flex-1">{t('share.invited', { person: calendar.person, year: calendar.year, names: others(calendar) })}</p>
+          <button type="button" className="btn-ghost" onClick={() => declineInvite(calendar, user)}>
+            {t('share.decline')}
+          </button>
+          <button type="button" className="btn-primary" onClick={() => acceptInvite(calendar, user)}>
+            {t('share.accept')}
           </button>
         </div>
       ))}
@@ -90,6 +94,9 @@ export default function HomePage() {
                     </div>
                     {calendar.name && <p className="-mt-2 text-sm text-foreground/70">{calendar.name}</p>}
                     <ProgressBar progress={progress} showLegend />
+                    <p className="text-xs text-foreground/70">
+                      {calendar.memberIds.length > 1 ? `👥 ${t('share.with', { names: others(calendar) })}` : `🔒 ${t('share.secret')}`}
+                    </p>
                   </Link>
                 </li>
               )

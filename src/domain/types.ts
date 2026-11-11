@@ -36,6 +36,13 @@ export interface Calendar extends CalendarFields {
   days: Record<string, Day>
   /** Gifts without a day yet, keyed by an id that sorts by when they went in. */
   sack: Record<string, Day>
+  /** Shared by everyone in the calendar. The defaults keep the same ids in every calendar. */
+  tags: Record<string, TagFields>
+  /** Who sees and edits it: the ids for the "my calendars" query, the names to show. */
+  memberIds: string[]
+  members: Record<string, Member>
+  /** Lowercase emails invited in, until they accept or decline. */
+  invitedEmails: string[]
 }
 
 /** Where a gift is kept: a day of the calendar, or the sack until it gets one. */
@@ -46,20 +53,14 @@ export interface Member {
   email: string
 }
 
-export interface Workspace {
-  id: string
-  name: string
-  ownerId: string
-  memberIds: string[]
-  members: Record<string, Member>
-  invitedEmails: string[]
-}
-
-export interface Tag {
-  id: string
+export interface TagFields {
   name: string
   color: TagColor
   emoji: string
+}
+
+export interface Tag extends TagFields {
+  id: string
 }
 
 export const TAG_COLORS = ['amber', 'slate', 'sky', 'emerald', 'purple', 'red', 'pink', 'orange'] as const

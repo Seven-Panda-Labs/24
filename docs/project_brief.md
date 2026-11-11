@@ -85,7 +85,7 @@ Comportamento: **mistura de tradições + novidades, com controlo do utilizador.
 ### 4.5 Contas, partilha e sincronização
 
 - **Firebase:** Authentication (exclusivamente Google), Firestore, Storage.
-- Espaço familiar comum (workspace). Convidar familiares por email.
+- Partilha por calendário, não por família: um calendário novo é só de quem o cria, e convida-se por email quem o deve ver e editar. Assim cada adulto pode preparar em segredo o calendário do outro e os dois prepararem juntos os das crianças. Até à 0.18.0 havia um espaço da família partilhado por inteiro; o feedback dos primeiros utilizadores mostrou que impedia as surpresas.
 - **Offline-first:** Firestore local persistence + IndexDB; sincronização automática ao recuperar rede.
 
 ### 4.6 Migração de dados

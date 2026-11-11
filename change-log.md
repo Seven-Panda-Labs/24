@@ -1,5 +1,19 @@
 # Registo de alterações
 
+## [0.18.0] - 2026-11-11
+
+### Alterado
+
+- A partilha passa a ser por calendário, e não pela família toda. Um calendário novo é só de quem o cria; para o partilhar, usa Partilhar no próprio calendário. Assim podes preparar em segredo o calendário de alguém e preparar outros em conjunto.
+- Os calendários que já existiam continuam partilhados com quem estava no espaço da família. Para tornar um deles secreto, tira de lá quem não o deve ver. Os convites que estavam pendentes têm de ser enviados de novo, em cada calendário.
+- Quem está num calendário pode convidar, tirar pessoas, sair ou apagá-lo. Os convites aparecem no início, com Aceitar e Recusar.
+- As etiquetas passam a ser de cada calendário e abrem-se nas definições dele. Um calendário novo leva as do último calendário da mesma pessoa.
+- Por fazer, Histórico, sugestões e o lembrete de domingo contam só os calendários que vês.
+
+### Removido
+
+- O espaço da família, e o passo para o criar na primeira entrada.
+
 ## [0.17.0] - 2026-11-09
 
 ### Alterado

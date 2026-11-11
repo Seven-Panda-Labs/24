@@ -1,5 +1,19 @@
 # Änderungsprotokoll
 
+## [0.18.0] - 2026-11-11
+
+### Geändert
+
+- Geteilt wird jetzt pro Kalender, nicht mehr die ganze Familie. Ein neuer Kalender gehört nur dir; zum Teilen gibt es „Teilen“ im Kalender. So kannst du den Kalender von jemandem heimlich vorbereiten und andere gemeinsam.
+- Bestehende Kalender bleiben mit allen geteilt, die im Familienbereich waren. Soll einer geheim sein, entferne alle, die ihn nicht sehen sollen. Noch offene Einladungen musst du in jedem Kalender neu verschicken.
+- Alle in einem Kalender können einladen, Personen entfernen, ihn verlassen oder löschen. Einladungen erscheinen auf der Startseite, mit „Annehmen“ und „Ablehnen“.
+- Etiketten gehören jetzt zu jedem Kalender und öffnen sich in seinen Einstellungen. Ein neuer Kalender übernimmt die des letzten Kalenders derselben Person.
+- „Zu erledigen“, Verlauf, Vorschläge und die Sonntagserinnerung zählen nur die Kalender, die du siehst.
+
+### Entfernt
+
+- Der Familienbereich und der Schritt, ihn bei der ersten Anmeldung anzulegen.
+
 ## [0.17.0] - 2026-11-09
 
 ### Geändert

@@ -1,4 +1,4 @@
-import type { TagColor } from './types.ts'
+import type { Calendar, Day, Tag, TagColor, TagFields } from './types.ts'
 
 /** Full class strings, so Tailwind finds them when it scans the source. */
 export const TAG_STYLES: Record<TagColor, { chip: string; soft: string }> = {
@@ -13,8 +13,9 @@ export const TAG_STYLES: Record<TagColor, { chip: string; soft: string }> = {
 }
 
 /**
- * Tags every new workspace starts with. The ids double as the categories of the
- * idea catalog (`ideas.*` in the locales), so keep them stable.
+ * Tags a calendar starts with when there is no earlier one to copy. The ids
+ * double as the categories of the idea catalog (`ideas.*` in the locales), so
+ * keep them stable.
  */
 export const DEFAULT_TAGS: { id: string; color: TagColor; emoji: string }[] = [
   { id: 'sweets', color: 'amber', emoji: '🍬' },
@@ -23,3 +24,20 @@ export const DEFAULT_TAGS: { id: string; color: TagColor; emoji: string }[] = [
   { id: 'experiences', color: 'emerald', emoji: '🎟️' },
   { id: 'books', color: 'purple', emoji: '📚' },
 ]
+
+/** The default tags, named by `nameOf` (the interface language, or the Excel's for an import). */
+export function defaultTags(nameOf: (id: string) => string): Record<string, TagFields> {
+  return Object.fromEntries(DEFAULT_TAGS.map(({ id, ...tag }) => [id, { ...tag, name: nameOf(id) }]))
+}
+
+/** The calendar's tags, by name. */
+export function tagsOf(calendar: Pick<Calendar, 'tags'>): Tag[] {
+  return Object.entries(calendar.tags)
+    .map(([id, tag]) => ({ id, ...tag }))
+    .sort((a, b) => a.name.localeCompare(b.name))
+}
+
+/** The gift's tags that the calendar still has. */
+export function tagsOfGift(calendar: Pick<Calendar, 'tags'>, gift: Pick<Day, 'tagIds'>): Tag[] {
+  return gift.tagIds.flatMap((id) => (calendar.tags[id] ? [{ id, ...calendar.tags[id] }] : []))
+}

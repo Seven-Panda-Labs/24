@@ -14,6 +14,10 @@ function calendar(days: Calendar['days'], overrides: Partial<Calendar> = {}): Ca
     originality: 0.5,
     days,
     sack: {},
+    tags: {},
+    memberIds: [],
+    members: {},
+    invitedEmails: [],
     ...overrides,
   }
 }

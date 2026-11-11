@@ -1,22 +1,28 @@
 rules_version = '2';
 
-// Gift photos, readable and writable by members of the workspace. Membership
-// is read from Firestore; in production the first deploy asks to grant
+// Gift photos, readable and writable by the people in their calendar. Who is in
+// it is read from Firestore; in production the first deploy asks to grant
 // Storage access to Firestore for these cross-service rules.
 service firebase.storage {
   match /b/{bucket}/o {
-    function isMember(wid) {
+    function inCalendar(cid) {
       // Google only, as in firestore.rules.
       return request.auth != null
         && request.auth.token.firebase.sign_in_provider == 'google.com'
-        && request.auth.uid in firestore.get(/databases/(default)/documents/workspaces/$(wid)).data.memberIds;
+        && request.auth.uid in firestore.get(/databases/(default)/documents/calendars/$(cid)).data.memberIds;
     }
 
-    match /workspaces/{wid}/photos/{cid}/{file} {
-      allow read, delete: if isMember(wid);
-      allow create: if isMember(wid)
+    match /calendars/{cid}/photos/{file} {
+      allow read, delete: if inCalendar(cid);
+      allow create: if inCalendar(cid)
         && request.resource.contentType.matches('image/.*')
         && request.resource.size <= 5 * 1024 * 1024;
+    }
+
+    // Photos from before calendar sharing stay where they were. The calendar
+    // id in the path still says who may see and delete them.
+    match /workspaces/{wid}/photos/{cid}/{file} {
+      allow read, delete: if inCalendar(cid);
     }
   }
 }

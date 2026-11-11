@@ -29,16 +29,6 @@
     "google": "Entrar com Google",
     "googleFailed": "Não foi possível entrar com Google."
   },
-  "onboarding": {
-    "title": "Bem-vindo ao 24",
-    "intro": "Os calendários vivem num espaço da família, partilhado com quem convidares.",
-    "defaultName": "Família de {{name}}",
-    "nameLabel": "Nome do espaço",
-    "create": "Criar espaço da família",
-    "invited": "Foste convidado para «{{name}}».",
-    "join": "Entrar",
-    "waitingForInvite": "À espera de um convite? Pede que convidem {{email}}."
-  },
   "home": {
     "title": "Calendários",
     "year": "Ano",
@@ -90,7 +80,7 @@
     "traditional": "Tradicionais",
     "original": "Originais",
     "delete": "Apagar calendário",
-    "confirmDelete": "Apagar o calendário de {{person}} ({{year}})? Não dá para desfazer."
+    "confirmDelete": "Apagar o calendário de {{person}} ({{year}})? Desaparece para todos os que o veem. Não dá para desfazer."
   },
   "filters": {
     "label": "Filtrar dias",
@@ -138,6 +128,27 @@
     "showMore": "Ver mais ({{count}})",
     "showLess": "Ver menos"
   },
+  "share": {
+    "title": "Partilhar",
+    "intro": "Quem está neste calendário vê e edita tudo, e pode convidar, tirar pessoas ou apagá-lo. Quem não está não o vê.",
+    "people": "Quem o vê",
+    "you": "tu",
+    "pending": "convite pendente",
+    "remove": "Tirar",
+    "confirmRemove": "Tirar {{name}} deste calendário? Deixa de o ver.",
+    "leave": "Sair",
+    "confirmLeave": "Sair do calendário de {{person}}? Deixas de o ver.",
+    "cancelInvite": "Cancelar",
+    "inviteEmail": "Email a convidar",
+    "invite": "Convidar",
+    "inviteHelp": "A pessoa vê o convite ao entrar no 24 com a conta Google deste email.",
+    "onlyYou": "Só tu vês este calendário.",
+    "secret": "Só tu",
+    "with": "Com {{names}}",
+    "invited": "Convite para o calendário de {{person}} ({{year}}), de {{names}}.",
+    "accept": "Aceitar",
+    "decline": "Recusar"
+  },
   "shopping": {
     "title": "Por fazer",
     "buyTab": "Comprar ({{count}})",
@@ -147,7 +158,7 @@
   },
   "tags": {
     "title": "Etiquetas",
-    "intro": "As etiquetas substituem as cores do Excel. Cada prenda pode ter várias.",
+    "intro": "As etiquetas substituem as cores do Excel. São deste calendário, as mesmas para quem o vê, e cada prenda pode ter várias.",
     "add": "Nova etiqueta",
     "newName": "Nova etiqueta",
     "name": "Nome",
@@ -175,20 +186,6 @@
   },
   "settings": {
     "title": "Definições",
-    "workspace": "Espaço da família",
-    "switchWorkspace": "Espaço ativo",
-    "workspaceName": "Nome",
-    "members": "Membros",
-    "owner": "dono",
-    "pending": "convite pendente",
-    "remove": "Remover",
-    "confirmRemove": "Remover {{name}} do espaço?",
-    "cancelInvite": "Cancelar",
-    "inviteEmail": "Email a convidar",
-    "invite": "Convidar",
-    "inviteHelp": "A pessoa vê o convite ao entrar no 24 com a conta Google deste email.",
-    "tagsHelp": "Nome, emoji e cor das etiquetas das prendas.",
-    "manageTags": "Gerir etiquetas",
     "signedInAs": "Entraste como {{email}}",
     "signOut": "Sair"
   },

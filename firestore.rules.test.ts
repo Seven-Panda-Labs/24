@@ -6,23 +6,18 @@ import {
   initializeTestEnvironment,
   type RulesTestEnvironment,
 } from '@firebase/rules-unit-testing'
-import { collection, deleteDoc, deleteField, doc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
+import { collection, deleteDoc, deleteField, doc, getDocs, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore'
 import { deleteObject, getBytes, ref, uploadBytes } from 'firebase/storage'
 import { afterAll, beforeAll, beforeEach, describe, it } from 'vitest'
 
 let testEnv: RulesTestEnvironment
 
-const WORKSPACE = {
-  name: 'Família Ninguém',
-  ownerId: 'alice',
-  memberIds: ['alice', 'bob'],
-  members: {
-    alice: { name: 'Alice', email: 'alice@example.com' },
-    bob: { name: 'Bob', email: 'bob@example.com' },
-  },
-  invitedEmails: ['carol@example.com'],
+const MEMBERS = {
+  alice: { name: 'Alice', email: 'alice@example.com' },
+  bob: { name: 'Bob', email: 'bob@example.com' },
 }
 
+// Shared by Alice and Bob, with Carol and Dan invited.
 const CALENDAR = {
   year: 2026,
   person: 'Zé Ninguém',
@@ -32,7 +27,14 @@ const CALENDAR = {
   allowRepeats: false,
   originality: 0.5,
   days: {},
+  tags: { sweets: { name: 'Doces', color: 'amber', emoji: '🍬' } },
+  memberIds: ['alice', 'bob'],
+  members: MEMBERS,
+  invitedEmails: ['carol@example.com', 'dan@example.com'],
 }
+
+// Bob's secret calendar for Alice.
+const SECRET = { ...CALENDAR, person: 'Alice', memberIds: ['bob'], members: { bob: MEMBERS.bob }, invitedEmails: [] }
 
 type Provider = 'google.com' | 'password' | 'email'
 
@@ -68,8 +70,8 @@ beforeEach(async () => {
   await testEnv.clearFirestore()
   await testEnv.withSecurityRulesDisabled(async (context) => {
     const db = context.firestore()
-    await db.doc('workspaces/w1').set(WORKSPACE)
-    await db.doc('workspaces/w1/calendars/c1').set(CALENDAR)
+    await db.doc('calendars/c1').set(CALENDAR)
+    await db.doc('calendars/secret').set(SECRET)
   })
 })
 
@@ -77,150 +79,157 @@ afterAll(async () => {
   await testEnv.cleanup()
 })
 
-describe('workspaces', () => {
-  it('lets members read and keeps outsiders out', async () => {
-    await assertSucceeds(as('bob').doc('workspaces/w1').get())
-    await assertSucceeds(as('alice').collection('workspaces').where('memberIds', 'array-contains', 'alice').get())
-    await assertFails(as('eve').doc('workspaces/w1').get())
-  })
-
-  it('lets someone create a workspace they own, alone', async () => {
-    const own = { ...WORKSPACE, ownerId: 'eve', memberIds: ['eve'], members: { eve: { name: 'Eve', email: 'eve@example.com' } }, invitedEmails: [] }
-    await assertSucceeds(as('eve').doc('workspaces/w2').set(own))
-    await assertFails(as('eve').doc('workspaces/w3').set({ ...own, memberIds: ['eve', 'alice'] }))
-    await assertFails(as('eve').doc('workspaces/w4').set({ ...own, ownerId: 'alice' }))
-  })
-
-  it('lets members rename and invite, and only the owner remove members', async () => {
-    await assertSucceeds(as('bob').doc('workspaces/w1').update({ name: 'Natal', invitedEmails: ['carol@example.com', 'dan@example.com'] }))
-    await assertFails(as('bob').doc('workspaces/w1').update({ memberIds: ['bob'], members: { bob: WORKSPACE.members.bob } }))
-    await assertSucceeds(as('alice').doc('workspaces/w1').update({ memberIds: ['alice'], members: { alice: WORKSPACE.members.alice } }))
-  })
-
-  it('does not let the owner leave members and memberIds out of step', async () => {
-    await assertFails(as('alice').doc('workspaces/w1').update({ memberIds: ['alice'] }))
-  })
-
-  it('keeps outsiders from adding themselves', async () => {
-    await assertFails(as('eve').doc('workspaces/w1').update({ memberIds: [...WORKSPACE.memberIds, 'eve'] }))
-  })
-
-  it('refuses members signed in with anything but Google', async () => {
-    await assertFails(as('bob', undefined, true, 'password').doc('workspaces/w1').get())
-    await assertFails(as('bob', undefined, true, 'email').doc('workspaces/w1/calendars/c1').get())
-  })
-})
-
-describe('invites', () => {
-  const accept = {
-    memberIds: ['alice', 'bob', 'carol'],
-    members: { ...WORKSPACE.members, carol: { name: 'Carol', email: 'carol@example.com' } },
-    invitedEmails: [],
-  }
-
-  it('lets the invited person find and read the workspace', async () => {
-    const carol = as('carol')
-    await assertSucceeds(carol.collection('workspaces').where('invitedEmails', 'array-contains', 'carol@example.com').get())
-    await assertSucceeds(carol.doc('workspaces/w1').get())
-  })
-
-  it('lets the invited person join', async () => {
-    await assertSucceeds(as('carol').doc('workspaces/w1').update(accept))
-  })
-
-  it('refuses an unverified account with the invited address', async () => {
-    await assertFails(as('mallory', 'carol@example.com', false).doc('workspaces/w1').get())
-    await assertFails(as('mallory', 'carol@example.com', false).doc('workspaces/w1').update(accept))
-  })
-
-  it('refuses a join that shows another email to the family', async () => {
-    const spoofed = { ...accept, members: { ...accept.members, carol: { name: 'Carol', email: 'alice@example.com' } } }
-    await assertFails(as('carol').doc('workspaces/w1').update(spoofed))
-  })
-
-  it('refuses a join that changes anything else', async () => {
-    await assertFails(as('carol').doc('workspaces/w1').update({ ...accept, name: 'Minha' }))
-    await assertFails(as('carol').doc('workspaces/w1').update({ ...accept, memberIds: ['carol'] }))
-  })
-})
-
 describe('calendars', () => {
-  it('lets members create, edit and read calendars', async () => {
-    const bob = as('bob')
-    await assertSucceeds(bob.doc('workspaces/w1/calendars/c2').set({ ...CALENDAR, person: 'Ana' }))
-    await assertSucceeds(
-      bob.doc('workspaces/w1/calendars/c1').update({
-        'days.1': { gift: 'Meias', status: 'planned', tagIds: ['clothes'], notes: '' },
-      }),
-    )
-    await assertSucceeds(bob.collection('workspaces/w1/calendars').get())
+  it('shows each person only the calendars they are in', async () => {
+    await assertSucceeds(as('alice').collection('calendars').where('memberIds', 'array-contains', 'alice').get())
+    await assertSucceeds(as('alice').doc('calendars/c1').get())
+    await assertFails(as('alice').doc('calendars/secret').get())
+    await assertSucceeds(as('bob').doc('calendars/secret').get())
+    await assertFails(as('alice').collection('calendars').get())
+    await assertFails(as('eve').doc('calendars/c1').get())
   })
 
-  it('lets members put gifts in the sack and move them to a day', async () => {
+  it('lets someone create a calendar that is only theirs', async () => {
+    const own = { ...CALENDAR, memberIds: ['eve'], members: { eve: { name: 'Eve', email: 'eve@example.com' } }, invitedEmails: [] }
+    await assertSucceeds(as('eve').doc('calendars/c2').set(own))
+    await assertFails(as('eve').doc('calendars/c3').set({ ...own, memberIds: ['eve', 'alice'], members: { ...own.members, alice: MEMBERS.alice } }))
+    await assertFails(as('eve').doc('calendars/c4').set({ ...own, invitedEmails: ['alice@example.com'] }))
+    await assertFails(as('eve').doc('calendars/c5').set({ ...own, members: { eve: { name: 'Eve', email: 'alice@example.com' } } }))
+  })
+
+  it('lets everyone in it edit gifts, the sack, tags and settings', async () => {
     const bob = as('bob')
-    const gift = { gift: 'Meias', status: 'planned', tagIds: [], notes: '' }
-    await assertSucceeds(bob.doc('workspaces/w1/calendars/c1').update({ 'sack.a1': gift }))
-    await assertSucceeds(updateDoc(doc(bob, 'workspaces/w1/calendars/c1'), { 'sack.a1': deleteField(), 'days.2': gift }))
+    const gift = { gift: 'Meias', status: 'planned', tagIds: ['sweets'], notes: '' }
+    await assertSucceeds(bob.doc('calendars/c1').update({ 'days.1': gift }))
+    await assertSucceeds(bob.doc('calendars/c1').update({ 'sack.a1': gift }))
+    await assertSucceeds(updateDoc(doc(bob, 'calendars/c1'), { 'sack.a1': deleteField(), 'days.2': gift }))
+    await assertSucceeds(bob.doc('calendars/c1').update({ 'tags.books': { name: 'Livros', color: 'purple', emoji: '📚' } }))
+    await assertSucceeds(updateDoc(doc(as('alice'), 'calendars/c1'), { person: 'Zé', updatedAt: serverTimestamp() }))
+    await assertFails(as('alice').doc('calendars/secret').update({ 'days.1': gift }))
   })
 
   it('refuses malformed calendars', async () => {
     const bob = as('bob')
-    await assertFails(bob.doc('workspaces/w1/calendars/c3').set({ ...CALENDAR, year: '2026' }))
-    await assertFails(bob.doc('workspaces/w1/calendars/c3').set({ ...CALENDAR, person: '' }))
-    await assertFails(bob.doc('workspaces/w1/calendars/c3').set({ ...CALENDAR, owner: 'bob' }))
-    await assertFails(bob.doc('workspaces/w1/calendars/c3').set({ ...CALENDAR, sack: 'Meias' }))
+    await assertFails(bob.doc('calendars/c1').update({ year: '2026' }))
+    await assertFails(bob.doc('calendars/c1').update({ person: '' }))
+    await assertFails(bob.doc('calendars/c1').update({ owner: 'bob' }))
+    await assertFails(bob.doc('calendars/c1').update({ sack: 'Meias' }))
+    await assertFails(bob.doc('calendars/c1').update({ tags: 'Doces' }))
     const tooMany = Object.fromEntries(Array.from({ length: 101 }, (_, index) => [`g${index}`, { gift: 'Meias' }]))
-    await assertFails(bob.doc('workspaces/w1/calendars/c3').set({ ...CALENDAR, sack: tooMany }))
+    await assertFails(bob.doc('calendars/c1').update({ sack: tooMany }))
   })
 
-  it('keeps outsiders out', async () => {
-    await assertFails(as('eve').doc('workspaces/w1/calendars/c1').get())
-    await assertFails(as('eve').doc('workspaces/w1/calendars/c2').set(CALENDAR))
+  it('lets anyone in it invite and take others out', async () => {
+    await assertSucceeds(as('bob').doc('calendars/c1').update({ invitedEmails: ['erin@example.com'] }))
+    await assertSucceeds(as('bob').doc('calendars/c1').update({ memberIds: ['bob'], members: { bob: MEMBERS.bob } }))
+    await assertFails(as('alice').doc('calendars/c1').get())
+  })
+
+  it('lets someone leave, but not the last one in', async () => {
+    await assertSucceeds(as('alice').doc('calendars/c1').update({ memberIds: ['bob'], members: { bob: MEMBERS.bob } }))
+    await assertFails(as('bob').doc('calendars/secret').update({ memberIds: [], members: {} }))
+  })
+
+  it('never lets anyone add someone else', async () => {
+    const eve = { name: 'Eve', email: 'eve@example.com' }
+    await assertFails(as('bob').doc('calendars/c1').update({ memberIds: ['alice', 'bob', 'eve'], members: { ...MEMBERS, eve } }))
+    await assertFails(as('eve').doc('calendars/c1').update({ memberIds: ['alice', 'bob', 'eve'], members: { ...MEMBERS, eve } }))
+    await assertFails(as('bob').doc('calendars/c1').update({ 'members.alice': { name: 'Alice', email: 'eve@example.com' } }))
+    await assertFails(as('bob').doc('calendars/c1').update({ memberIds: ['bob'] }))
+  })
+
+  it('lets anyone in it delete it, and nobody else', async () => {
+    await assertFails(as('alice').doc('calendars/secret').delete())
+    await assertSucceeds(as('bob').doc('calendars/c1').delete())
+  })
+
+  it('refuses accounts signed in with anything but Google', async () => {
+    await assertFails(as('bob', undefined, true, 'password').doc('calendars/c1').get())
+    await assertFails(as('bob', undefined, true, 'email').collection('calendars').where('memberIds', 'array-contains', 'bob').get())
   })
 })
 
-describe('tags', () => {
-  it('lets members manage valid tags', async () => {
-    await assertSucceeds(as('bob').doc('workspaces/w1/tags/sweets').set({ name: 'Doces', color: 'amber', emoji: '🍬' }))
-    await assertFails(as('bob').doc('workspaces/w1/tags/x').set({ name: 'Doces', color: 'gold', emoji: '🍬' }))
-    await assertFails(as('eve').doc('workspaces/w1/tags/y').set({ name: 'Doces', color: 'amber', emoji: '🍬' }))
+describe('invites', () => {
+  const carol = { name: 'Carol', email: 'carol@example.com' }
+  const accept = { memberIds: ['alice', 'bob', 'carol'], members: { ...MEMBERS, carol }, invitedEmails: ['dan@example.com'] }
+
+  it('lets the invited person find and read the calendar, and only that one', async () => {
+    await assertSucceeds(as('carol').collection('calendars').where('invitedEmails', 'array-contains', 'carol@example.com').get())
+    await assertSucceeds(as('carol').doc('calendars/c1').get())
+    await assertFails(as('carol').doc('calendars/secret').get())
+  })
+
+  it('lets the invited person join', async () => {
+    await assertSucceeds(as('carol').doc('calendars/c1').update(accept))
+  })
+
+  it('lets the invited person decline, without touching other invites', async () => {
+    await assertFails(as('carol').doc('calendars/c1').update({ invitedEmails: [] }))
+    await assertSucceeds(as('carol').doc('calendars/c1').update({ invitedEmails: ['dan@example.com'] }))
+  })
+
+  it('refuses an unverified account with the invited address', async () => {
+    await assertFails(as('mallory', 'carol@example.com', false).doc('calendars/c1').get())
+    await assertFails(as('mallory', 'carol@example.com', false).doc('calendars/c1').update(accept))
+  })
+
+  it('refuses a join that shows another email', async () => {
+    await assertFails(as('carol').doc('calendars/c1').update({ ...accept, members: { ...MEMBERS, carol: { name: 'Carol', email: 'alice@example.com' } } }))
+  })
+
+  it('refuses a join that changes anything else', async () => {
+    await assertFails(as('carol').doc('calendars/c1').update({ ...accept, person: 'Carol' }))
+    await assertFails(as('carol').doc('calendars/c1').update({ ...accept, memberIds: ['carol'], members: { carol } }))
   })
 })
 
 describe('feedback', () => {
-  const feedback = () => ({ calendarId: 'c1', gift: 'Doces', action: 'dismissed', at: serverTimestamp() })
+  const feedback = () => ({ gift: 'Doces', action: 'dismissed', at: serverTimestamp() })
 
-  it('lets members add feedback and read it, but never change it', async () => {
+  it('lets people in the calendar add feedback and read it, but never change it', async () => {
     const bob = as('bob')
-    await assertSucceeds(setDoc(doc(bob, 'workspaces/w1/feedback/f1'), feedback()))
-    await assertSucceeds(getDocs(query(collection(bob, 'workspaces/w1/feedback'), where('calendarId', '==', 'c1'))))
-    await assertFails(updateDoc(doc(bob, 'workspaces/w1/feedback/f1'), { action: 'accepted' }))
-    await assertFails(deleteDoc(doc(bob, 'workspaces/w1/feedback/f1')))
+    await assertSucceeds(setDoc(doc(bob, 'calendars/c1/feedback/f1'), feedback()))
+    await assertSucceeds(getDocs(collection(bob, 'calendars/c1/feedback')))
+    await assertFails(updateDoc(doc(bob, 'calendars/c1/feedback/f1'), { action: 'accepted' }))
+    await assertFails(deleteDoc(doc(bob, 'calendars/c1/feedback/f1')))
   })
 
-  it('refuses unknown actions, client timestamps and outsiders', async () => {
-    await assertFails(setDoc(doc(as('bob'), 'workspaces/w1/feedback/f2'), { ...feedback(), action: 'loved' }))
-    await assertFails(setDoc(doc(as('bob'), 'workspaces/w1/feedback/f3'), { ...feedback(), at: new Date() }))
-    await assertFails(setDoc(doc(as('eve'), 'workspaces/w1/feedback/f4'), feedback()))
+  it('refuses unknown actions, client timestamps and anyone outside the calendar', async () => {
+    await assertFails(setDoc(doc(as('bob'), 'calendars/c1/feedback/f2'), { ...feedback(), action: 'loved' }))
+    await assertFails(setDoc(doc(as('bob'), 'calendars/c1/feedback/f3'), { ...feedback(), at: new Date() }))
+    await assertFails(setDoc(doc(as('alice'), 'calendars/secret/feedback/f4'), feedback()))
+    await assertFails(getDocs(collection(as('alice'), 'calendars/secret/feedback')))
   })
 })
 
 describe('gift photos', () => {
   const storage = (uid: string, provider?: Provider) => token(uid, undefined, true, provider).storage()
   const photo = new Uint8Array([0xff, 0xd8, 0xff])
-  const path = 'workspaces/w1/photos/c1/1-1.jpg'
+  const path = 'calendars/c1/photos/1-1.jpg'
 
-  it('lets members upload, read and delete images', async () => {
+  it('lets people in the calendar upload, read and delete images', async () => {
     await assertSucceeds(uploadBytes(ref(storage('bob'), path), photo, { contentType: 'image/jpeg' }))
     await assertSucceeds(getBytes(ref(storage('alice'), path)))
     await assertSucceeds(deleteObject(ref(storage('bob'), path)))
   })
 
-  it('refuses other files and outsiders', async () => {
-    await assertFails(uploadBytes(ref(storage('bob'), 'workspaces/w1/photos/c1/notes.txt'), photo, { contentType: 'text/plain' }))
+  it('refuses other files and anyone outside the calendar', async () => {
+    await assertFails(uploadBytes(ref(storage('bob'), 'calendars/c1/photos/notes.txt'), photo, { contentType: 'text/plain' }))
     await assertFails(uploadBytes(ref(storage('eve'), path), photo, { contentType: 'image/jpeg' }))
+    await assertFails(uploadBytes(ref(storage('alice'), 'calendars/secret/photos/1-1.jpg'), photo, { contentType: 'image/jpeg' }))
     await assertFails(getBytes(ref(storage('eve'), path)))
     await assertFails(uploadBytes(ref(storage('bob', 'password'), path), photo, { contentType: 'image/jpeg' }))
+  })
+
+  it('keeps photos from before sharing readable and deletable by the people in their calendar', async () => {
+    const old = 'workspaces/w1/photos/c1/2-1.jpg'
+    await testEnv.withSecurityRulesDisabled(async (context) => {
+      await uploadBytes(ref(context.storage(), old), photo, { contentType: 'image/jpeg' })
+    })
+    await assertSucceeds(getBytes(ref(storage('alice'), old)))
+    await assertFails(getBytes(ref(storage('eve'), old)))
+    await assertFails(uploadBytes(ref(storage('bob'), 'workspaces/w1/photos/c1/3-1.jpg'), photo, { contentType: 'image/jpeg' }))
+    await assertSucceeds(deleteObject(ref(storage('bob'), old)))
   })
 })
 

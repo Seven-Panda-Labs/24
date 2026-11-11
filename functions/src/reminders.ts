@@ -20,7 +20,7 @@ const hasGift = (value: GiftDoc | undefined) =>
 const FURTHEST_FIRST: Record<string, number> = { wrapped: 0, bought: 1 }
 
 /**
- * What is left across a workspace's calendars for the year. Gifts in the sack
+ * What is left across a person's calendars for the year. Gifts in the sack
  * fill the empty days, the furthest along first, as in the app's progress.
  */
 export function countsFor(calendars: CalendarDoc[]): Counts {

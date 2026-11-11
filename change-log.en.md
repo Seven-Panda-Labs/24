@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.18.0] - 2026-11-11
+
+### Changed
+
+- Sharing is now per calendar, not the whole family. A new calendar is only yours; to share it, use Share on the calendar. So you can prepare someone's calendar in secret and prepare others together.
+- Calendars you already had stay shared with everyone who was in the family space. To make one secret, remove whoever should not see it. Invites that were still pending need sending again, from each calendar.
+- Everyone in a calendar can invite, remove people, leave or delete it. Invites show on the home page, with Accept and Decline.
+- Tags now belong to each calendar and open from its settings. A new calendar takes those of the latest calendar for the same person.
+- To do, History, suggestions and the Sunday reminder only count the calendars you see.
+
+### Removed
+
+- The family space, and the step to create it on first sign-in.
+
 ## [0.17.0] - 2026-11-09
 
 ### Changed

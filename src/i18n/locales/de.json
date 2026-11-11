@@ -29,16 +29,6 @@
     "google": "Mit Google anmelden",
     "googleFailed": "Die Anmeldung mit Google hat nicht geklappt."
   },
-  "onboarding": {
-    "title": "Willkommen bei 24",
-    "intro": "Die Kalender liegen in einem Familienbereich, den du mit allen teilst, die du einlädst.",
-    "defaultName": "Familie von {{name}}",
-    "nameLabel": "Name des Bereichs",
-    "create": "Familienbereich erstellen",
-    "invited": "Du wurdest zu „{{name}}“ eingeladen.",
-    "join": "Beitreten",
-    "waitingForInvite": "Wartest du auf eine Einladung? Bitte darum, dass {{email}} eingeladen wird."
-  },
   "home": {
     "title": "Kalender",
     "year": "Jahr",
@@ -90,7 +80,7 @@
     "traditional": "Traditionell",
     "original": "Originell",
     "delete": "Kalender löschen",
-    "confirmDelete": "Den Kalender von {{person}} ({{year}}) löschen? Das lässt sich nicht rückgängig machen."
+    "confirmDelete": "Den Kalender von {{person}} ({{year}}) löschen? Er verschwindet für alle, die ihn sehen. Das lässt sich nicht rückgängig machen."
   },
   "filters": {
     "label": "Tage filtern",
@@ -138,6 +128,27 @@
     "showMore": "Mehr anzeigen ({{count}})",
     "showLess": "Weniger anzeigen"
   },
+  "share": {
+    "title": "Teilen",
+    "intro": "Alle in diesem Kalender sehen und bearbeiten alles darin und können einladen, Personen entfernen oder ihn löschen. Sonst sieht ihn niemand.",
+    "people": "Wer ihn sieht",
+    "you": "du",
+    "pending": "Einladung offen",
+    "remove": "Entfernen",
+    "confirmRemove": "{{name}} aus diesem Kalender entfernen? Die Person sieht ihn dann nicht mehr.",
+    "leave": "Verlassen",
+    "confirmLeave": "Den Kalender von {{person}} verlassen? Du siehst ihn dann nicht mehr.",
+    "cancelInvite": "Zurückziehen",
+    "inviteEmail": "E-Mail-Adresse",
+    "invite": "Einladen",
+    "inviteHelp": "Die Person sieht die Einladung, wenn sie sich bei 24 mit dem Google-Konto dieser E-Mail-Adresse anmeldet.",
+    "onlyYou": "Nur du siehst diesen Kalender.",
+    "secret": "Nur du",
+    "with": "Mit {{names}}",
+    "invited": "Einladung zum Kalender von {{person}} ({{year}}), von {{names}}.",
+    "accept": "Annehmen",
+    "decline": "Ablehnen"
+  },
   "shopping": {
     "title": "Zu erledigen",
     "buyTab": "Kaufen ({{count}})",
@@ -147,7 +158,7 @@
   },
   "tags": {
     "title": "Etiketten",
-    "intro": "Etiketten ersetzen die Farben der Tabelle. Jedes Geschenk kann mehrere haben.",
+    "intro": "Etiketten ersetzen die Farben der Tabelle. Sie gehören zu diesem Kalender, gleich für alle darin, und jedes Geschenk kann mehrere haben.",
     "add": "Neues Etikett",
     "newName": "Neues Etikett",
     "name": "Name",
@@ -175,20 +186,6 @@
   },
   "settings": {
     "title": "Einstellungen",
-    "workspace": "Familienbereich",
-    "switchWorkspace": "Aktiver Bereich",
-    "workspaceName": "Name",
-    "members": "Mitglieder",
-    "owner": "Besitzer",
-    "pending": "Einladung offen",
-    "remove": "Entfernen",
-    "confirmRemove": "{{name}} aus dem Bereich entfernen?",
-    "cancelInvite": "Zurückziehen",
-    "inviteEmail": "E-Mail-Adresse",
-    "invite": "Einladen",
-    "inviteHelp": "Die Person sieht die Einladung, wenn sie sich bei 24 mit dem Google-Konto dieser E-Mail-Adresse anmeldet.",
-    "tagsHelp": "Name, Emoji und Farbe der Etiketten für Geschenke.",
-    "manageTags": "Etiketten verwalten",
     "signedInAs": "Angemeldet als {{email}}",
     "signOut": "Abmelden"
   },

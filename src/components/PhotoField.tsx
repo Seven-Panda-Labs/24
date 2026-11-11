@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next'
 import { setGiftPhoto, updateGift } from '../data/calendars.ts'
 import { deletePhoto } from '../data/photos.ts'
 import type { Day, Slot } from '../domain/types.ts'
-import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
 import { PHOTO_TYPES, usePhotoUpload } from './usePhotoUpload.ts'
 
 /**
@@ -11,24 +10,23 @@ import { PHOTO_TYPES, usePhotoUpload } from './usePhotoUpload.ts'
  */
 export default function PhotoField({ calendarId, slot, value, draft }: { calendarId: string; slot: Slot; value: Day | undefined; draft: Partial<Day> }) {
   const { t } = useTranslation()
-  const { workspace } = useWorkspace()
   const { busy, error, upload } = usePhotoUpload(calendarId)
 
   async function choose(file: File | undefined) {
     const photo = await upload(slot, file)
     if (!photo) return
     if (!value) {
-      updateGift(workspace.id, calendarId, slot, { ...draft, ...photo })
+      updateGift(calendarId, slot, { ...draft, ...photo })
       return
     }
-    setGiftPhoto(workspace.id, calendarId, slot, photo)
+    setGiftPhoto(calendarId, slot, photo)
     deletePhoto(value)
   }
 
   function remove() {
     if (!value) return
     deletePhoto(value)
-    setGiftPhoto(workspace.id, calendarId, slot, null)
+    setGiftPhoto(calendarId, slot, null)
   }
 
   return (

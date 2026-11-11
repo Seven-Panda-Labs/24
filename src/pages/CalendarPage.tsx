@@ -9,7 +9,6 @@ import Celebration from '../components/Celebration.tsx'
 import Sack from '../components/Sack.tsx'
 import StatusButton from '../components/StatusButton.tsx'
 import TagChip from '../components/TagChip.tsx'
-import { query, where } from 'firebase/firestore'
 import { clearGift, moveGifts, updateGift } from '../data/calendars.ts'
 import { feedbackOf, recordFeedback, type Feedback } from '../data/feedback.ts'
 import { deletePhoto } from '../data/photos.ts'
@@ -25,9 +24,10 @@ import {
   sackOf,
   type DayFilter,
 } from '../domain/days.ts'
+import { tagsOf } from '../domain/tags.ts'
 import type { Day, Slot, Tag } from '../domain/types.ts'
 import { historyOf, suggest, type Idea } from '../suggestions/engine.ts'
-import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
+import { useCalendars } from '../calendars/CalendarsContext.tsx'
 
 const VIEW_KEY = '24:calendar-view'
 
@@ -35,14 +35,11 @@ export default function CalendarPage() {
   const { t } = useTranslation()
   const { id } = useParams()
   const [params, setParams] = useSearchParams()
-  const { workspace, calendars, tags } = useWorkspace()
+  const { calendars } = useCalendars()
   const [view, setView] = useState<'grid' | 'list'>(() => (localStorage.getItem(VIEW_KEY) === 'list' ? 'list' : 'grid'))
   const [filter, setFilter] = useState<DayFilter>('all')
   const calendar = calendars.find((candidate) => candidate.id === id)
-  const feedback =
-    useDocs<Feedback>(id ? `feedback:${workspace.id}:${id}` : null, () =>
-      query(feedbackOf(workspace.id), where('calendarId', '==', id)),
-    ) ?? []
+  const feedback = useDocs<Feedback>(id ? `feedback:${id}` : null, () => feedbackOf(String(id))) ?? []
 
   if (!calendar) {
     return (
@@ -53,6 +50,7 @@ export default function CalendarPage() {
   }
 
   const progress = progressOf(calendar)
+  const tags = tagsOf(calendar)
   const tagsById = new Map(tags.map((tag) => [tag.id, tag]))
   const days = dayNumbers(calendar)
   const openDay = Number(params.get('day'))
@@ -66,18 +64,18 @@ export default function CalendarPage() {
     const current = giftAt(calendar, slot)
     if (changes === null) {
       if (current) deletePhoto(current)
-      clearGift(workspace.id, calendar.id, slot)
+      clearGift(calendar.id, slot)
       return
     }
     if (Object.keys(changes).length === 0) return
-    updateGift(workspace.id, calendar.id, slot, changes)
+    updateGift(calendar.id, slot, changes)
     if (changes.fromSuggestion) {
-      recordFeedback(workspace.id, calendar.id, changes.gift ?? current?.gift ?? '', 'accepted')
+      recordFeedback(calendar.id, changes.gift ?? current?.gift ?? '', 'accepted')
     }
   }
   const move = (from: Slot, to: Slot, changes: Partial<Day>) => {
     const current = giftAt(calendar, from)
-    if (current) moveGifts(workspace.id, calendar.id, [{ from, to, value: { ...current, ...changes } }])
+    if (current) moveGifts(calendar.id, [{ from, to, value: { ...current, ...changes } }])
   }
 
   const ideas: Idea[] = Object.entries(t('ideas', { returnObjects: true }) as Record<string, string[]>).flatMap(
@@ -123,6 +121,9 @@ export default function CalendarPage() {
           <h1 className="font-display text-3xl font-bold text-primary">{calendar.person}</h1>
           {calendar.name && <p className="text-sm text-foreground/70">{calendar.name}</p>}
         </div>
+        <Link to={`/calendars/${calendar.id}/share`} className="btn-ghost">
+          <span aria-hidden>👥</span> {t('share.title')}
+        </Link>
         <Link to={`/calendars/${calendar.id}/edit`} className="btn-ghost" aria-label={t('calendar.edit')}>
           ⚙️
         </Link>
@@ -139,12 +140,11 @@ export default function CalendarPage() {
       <Sack
         calendar={calendar}
         tags={tagsById}
-        onAdd={(id, value) => updateGift(workspace.id, calendar.id, { sack: id }, value)}
-        onAdvance={(id, value) => updateGift(workspace.id, calendar.id, { sack: id }, { status: nextStatus(value.status) })}
+        onAdd={(id, value) => updateGift(calendar.id, { sack: id }, value)}
+        onAdvance={(id, value) => updateGift(calendar.id, { sack: id }, { status: nextStatus(value.status) })}
         onOpen={(id) => open({ sack: id })}
         onDistribute={(plan) =>
           moveGifts(
-            workspace.id,
             calendar.id,
             plan.map(({ id, day }) => ({ from: { sack: id }, to: { day }, value: calendar.sack[id] })),
           )
@@ -207,7 +207,7 @@ export default function CalendarPage() {
                 day={dayOf(calendar, day)}
                 tags={tagsById}
                 onSave={(value) => save({ day }, value)}
-                onAdvance={(value) => updateGift(workspace.id, calendar.id, { day }, { status: nextStatus(value.status) })}
+                onAdvance={(value) => updateGift(calendar.id, { day }, { status: nextStatus(value.status) })}
                 onOpen={() => open({ day })}
               />
             ))}
@@ -225,7 +225,7 @@ export default function CalendarPage() {
           onClose={() => open(null)}
           onNext={nextDay === null ? undefined : () => open({ day: nextDay })}
           suggestions={suggestions}
-          onDismiss={(suggestion) => recordFeedback(workspace.id, calendar.id, suggestion.gift, 'dismissed')}
+          onDismiss={(suggestion) => recordFeedback(calendar.id, suggestion.gift, 'dismissed')}
         />
       )}
     </div>

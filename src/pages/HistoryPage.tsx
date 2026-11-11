@@ -5,16 +5,16 @@ import EmptyState from '../components/EmptyState.tsx'
 import { GiftName, GiftThumb } from '../components/Gift.tsx'
 import TagChip from '../components/TagChip.tsx'
 import { currentYear, dayNumbers, dayOf } from '../domain/days.ts'
+import { tagsOfGift } from '../domain/tags.ts'
 import { normalize } from '../domain/text.ts'
-import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
+import { useCalendars } from '../calendars/CalendarsContext.tsx'
 
 /** Every gift ever planned, searchable across years and people. */
 export default function HistoryPage() {
   const { t } = useTranslation()
-  const { calendars, tags } = useWorkspace()
+  const { calendars } = useCalendars()
   const [search, setSearch] = useState('')
   const [person, setPerson] = useState('')
-  const tagsById = new Map(tags.map((tag) => [tag.id, tag]))
   const people = [...new Set(calendars.map((calendar) => calendar.person))].sort()
   const needle = normalize(search)
 
@@ -98,7 +98,7 @@ export default function HistoryPage() {
                         </span>
                         <span className="flex flex-wrap items-center gap-1 text-xs text-foreground/70">
                           {calendar.person} · {t('day.number', { number: day })}
-                          {value.tagIds.flatMap((id) => tagsById.get(id) ?? []).map((tag) => (
+                          {tagsOfGift(calendar, value).map((tag) => (
                             <TagChip key={tag.id} tag={tag} />
                           ))}
                         </span>

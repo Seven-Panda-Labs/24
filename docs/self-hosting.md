@@ -46,13 +46,25 @@ npm run deploy
 
 Builds and deploys Hosting, Firestore rules and indexes, Storage rules and the `sendReminders` function (Gen 2, `europe-west1`; the CLI enables Cloud Scheduler and the other APIs it needs on the first deploy). Hosting only: `npm run deploy:hosting`.
 
-The Storage rules check workspace membership in Firestore. On the first deploy the CLI asks to grant Storage access to Firestore for these cross-service rules; accept, or every photo upload is refused.
+The Storage rules check in Firestore who is in each calendar. On the first deploy the CLI asks to grant Storage access to Firestore for these cross-service rules; accept, or every photo upload is refused.
 
 ## 4. Post-deploy
 
 1. **Authentication → Settings → Authorized domains:** add `YOUR_PROJECT.web.app` and any custom domain.
 2. **Google Cloud → APIs & Services → Credentials:** on the OAuth Web client, add `https://<serving domain>` to JavaScript origins and `https://<serving domain>/__/auth/handler` to redirect URIs. On the browser key (`VITE_FIREBASE_API_KEY`), restrict HTTP referrers to `http://localhost:5173/*` and the serving domains.
 3. Custom domain: **Hosting → Add custom domain**, then repeat steps 1 and 2 for it.
+
+## Upgrading to 0.18.0
+
+0.18.0 replaces the family space with sharing per calendar. An instance with data from before it needs its calendars copied before the deploy: the new app and rules no longer read `workspaces`.
+
+1. Dry run: `npm run migrate:calendars -- --project <project id>`. It lists each family space with its people, tags and calendars, and the pending invites it will not copy.
+2. Add `--confirm` to copy, then deploy straight away. Edits made in the old app between the two are lost.
+3. Each person opens the app, which updates itself, and removes from each calendar whoever should not see it: the copies stay shared with everyone who was in the space.
+4. Send the pending invites again, from each calendar's Share page.
+5. Once all looks right, delete `workspaces` in the Firebase console. Photos stay where they are.
+
+The script only copies and skips calendars already copied, so it can run again. Like the Excel import, it uses your Google credentials (`gcloud auth application-default login`), or the emulators with `FIRESTORE_EMULATOR_HOST=127.0.0.1:8080` and `--project demo-24`.
 
 ## Troubleshooting
 
@@ -63,4 +75,4 @@ The Storage rules check workspace membership in Firestore. On the first deploy t
 | `Missing VITE_*` | `.env.production.local` complete before build |
 | Functions deploy: `missing permission on the build service account` | The service account roles in [step 1.5](#1-firebase-project) |
 | No reminders option in Settings | `VITE_FIREBASE_VAPID_KEY` set before the build |
-| Reminders on but nothing arrives | It runs on Sundays, 1 November to 24 December, and skips workspaces with nothing left; check the `sendReminders` logs. On iPhone the app must be installed on the home screen |
+| Reminders on but nothing arrives | It runs on Sundays, 1 November to 24 December, and skips people with nothing left; check the `sendReminders` logs. On iPhone the app must be installed on the home screen |

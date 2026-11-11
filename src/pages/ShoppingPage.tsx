@@ -6,7 +6,8 @@ import { GiftName, GiftThumb } from '../components/Gift.tsx'
 import TagChip from '../components/TagChip.tsx'
 import { updateGift } from '../data/calendars.ts'
 import { currentYear, giftsWithStatus, type GiftRef } from '../domain/days.ts'
-import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
+import { tagsOfGift } from '../domain/tags.ts'
+import { useCalendars } from '../calendars/CalendarsContext.tsx'
 
 /**
  * The To do page. Its buy tab is the shopping list: every planned gift of the year, on a day or in the sack,
@@ -16,11 +17,10 @@ import { useWorkspace } from '../workspace/WorkspaceContext.tsx'
  */
 export default function ShoppingPage() {
   const { t } = useTranslation()
-  const { workspace, calendars, tags } = useWorkspace()
+  const { calendars } = useCalendars()
   const [params] = useSearchParams()
   const year = Number(params.get('year')) || currentYear()
   const [tab, setTab] = useState<'buy' | 'wrap'>('buy')
-  const tagsById = new Map(tags.map((tag) => [tag.id, tag]))
 
   const ofYear = calendars.filter((calendar) => calendar.year === year)
   const toBuy = giftsWithStatus(ofYear, 'planned')
@@ -66,7 +66,7 @@ export default function ShoppingPage() {
                     <input
                       type="checkbox"
                       className="mt-1 h-5 w-5 accent-primary"
-                      onChange={() => updateGift(workspace.id, calendar.id, slot, { status: tab === 'buy' ? 'bought' : 'wrapped' })}
+                      onChange={() => updateGift(calendar.id, slot, { status: tab === 'buy' ? 'bought' : 'wrapped' })}
                     />
                     <span className="flex flex-1 flex-col gap-1">
                       <span className="font-semibold">
@@ -77,7 +77,7 @@ export default function ShoppingPage() {
                         <span className="text-xs text-foreground/70">
                           {'day' in slot ? t('day.number', { number: slot.day }) : t('sack.inSack')}
                         </span>
-                        {value.tagIds.flatMap((id) => tagsById.get(id) ?? []).map((tag) => (
+                        {tagsOfGift(calendar, value).map((tag) => (
                           <TagChip key={tag.id} tag={tag} />
                         ))}
                       </span>
