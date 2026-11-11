@@ -1,5 +1,11 @@
 # Journal des modifications
 
+## [0.19.1] - 2026-11-11
+
+### Corrigé
+
+- Dans un calendrier partagé, les suggestions « Déjà offert à quelqu’un d’autre de la famille » ne viennent que de calendriers que tous ceux qui le partagent voient aussi. Un calendrier secret n’apparaît plus dans les suggestions d’un calendrier partagé avec la personne à qui il est caché.
+
 ## [0.19.0] - 2026-11-11
 
 ### Ajouté

@@ -1,5 +1,11 @@
 # Registo de alterações
 
+## [0.19.1] - 2026-11-11
+
+### Corrigido
+
+- Num calendário partilhado, as sugestões «Já foi para outra pessoa da família» só vêm de calendários que todos os que o partilham também veem. Um calendário secreto deixa de aparecer nas sugestões de um calendário partilhado com a pessoa de quem é segredo.
+
 ## [0.19.0] - 2026-11-11
 
 ### Adicionado

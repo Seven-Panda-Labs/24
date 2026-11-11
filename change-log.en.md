@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.19.1] - 2026-11-11
+
+### Fixed
+
+- In a shared calendar, "Already given to someone else in the family" suggestions only come from calendars everyone in it can also see. A secret calendar no longer shows up in the suggestions of a calendar shared with the person it is kept from.
+
 ## [0.19.0] - 2026-11-11
 
 ### Added

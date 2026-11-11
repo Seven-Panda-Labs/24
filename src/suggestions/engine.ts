@@ -138,6 +138,21 @@ function jitter(text: string): number {
   return (hash >>> 0) / 2 ** 32
 }
 
+/**
+ * The calendars whose gifts can be suggested in `calendar`: those for the same
+ * person, and those for anyone else that everyone in it can also see. So a
+ * calendar kept secret from someone never surfaces in one they share, neither
+ * on screen nor in the feedback a dismissed suggestion leaves there.
+ */
+export function sourcesFor(calendar: Calendar, calendars: Calendar[]): Calendar[] {
+  const person = normalize(calendar.person)
+  return calendars.filter(
+    (other) =>
+      other.id !== calendar.id &&
+      (normalize(other.person) === person || calendar.memberIds.every((uid) => other.memberIds.includes(uid))),
+  )
+}
+
 /** Every named gift on the days of the given calendars, as suggestion history. */
 export function historyOf(calendars: Calendar[]): HistoryGift[] {
   return calendars.flatMap((calendar) =>

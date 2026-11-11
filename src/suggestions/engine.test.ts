@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { suggest, type HistoryGift, type SuggestInput } from './engine.ts'
+import type { Calendar } from '../domain/types.ts'
+import { sourcesFor, suggest, type HistoryGift, type SuggestInput } from './engine.ts'
 
 const given = (gift: string, years: number[], person = 'Ana', tagIds: string[] = []): HistoryGift[] =>
   years.map((year) => ({ gift, person, year, tagIds }))
@@ -73,5 +74,22 @@ describe('suggest', () => {
     const ideas = ['Um', 'Dois', 'Três', 'Quatro', 'Cinco', 'Seis', 'Sete'].map((gift) => ({ gift, tagIds: [] }))
     const run = (seed: string) => gifts(suggest(input({ ideas, seed }, { originality: 1 })))
     expect(run('c1:1')).toEqual(run('c1:1'))
+  })
+})
+
+describe('sourcesFor', () => {
+  const calendar = (id: string, person: string, memberIds: string[]) => ({ id, person, memberIds }) as Calendar
+  // Ana and Bruno fill the children's calendar together; Bruno keeps one for Ana secret.
+  const shared = calendar('ze-2026', 'Zé', ['ana', 'bruno'])
+  const secret = calendar('ana-2026', 'Ana', ['bruno'])
+  const lastYear = calendar('ze-2025', 'ZÉ', ['bruno'])
+  const together = calendar('rita-2026', 'Rita', ['ana', 'bruno'])
+
+  it('leaves a calendar kept secret from someone out of the ones they share', () => {
+    expect(sourcesFor(shared, [shared, secret, lastYear, together]).map(({ id }) => id)).toEqual(['ze-2025', 'rita-2026'])
+  })
+
+  it('uses every calendar in one nobody else sees', () => {
+    expect(sourcesFor(secret, [shared, secret, lastYear, together]).map(({ id }) => id)).toEqual(['ze-2026', 'ze-2025', 'rita-2026'])
   })
 })
