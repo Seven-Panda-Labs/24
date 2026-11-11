@@ -48,6 +48,16 @@ service cloud.firestore {
       allow create, update: if signedIn() && request.auth.uid == uid && validUser(request.resource.data);
     }
 
+    // Everyone who has signed in to this instance, suggested when inviting.
+    // Instances are private, so anyone signed in may read it; each person
+    // writes only their own entry, with their own email.
+    match /people/{uid} {
+      allow read: if signedIn();
+      allow create, update: if signedIn() && request.auth.uid == uid
+        && validMember(request.resource.data)
+        && request.resource.data.email == email();
+    }
+
     // A calendar and who is in it. Everyone in it can do everything: edit,
     // invite, take others out and delete it. Nobody joins without accepting.
     match /calendars/{cid} {

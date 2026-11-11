@@ -58,13 +58,12 @@ The Storage rules check in Firestore who is in each calendar. On the first deplo
 
 0.18.0 replaces the family space with sharing per calendar. An instance with data from before it needs its calendars copied before the deploy: the new app and rules no longer read `workspaces`.
 
-1. Dry run: `npm run migrate:calendars -- --project <project id>`. It lists each family space with its people, tags and calendars, and the pending invites it will not copy.
-2. Add `--confirm` to copy, then deploy straight away. Edits made in the old app between the two are lost.
-3. Each person opens the app, which updates itself, and removes from each calendar whoever should not see it: the copies stay shared with everyone who was in the space.
-4. Send the pending invites again, from each calendar's Share page.
-5. Once all looks right, delete `workspaces` in the Firebase console. Photos stay where they are.
+1. Dry run: `npm run migrate:calendars -- --project <project id> --bucket <VITE_FIREBASE_STORAGE_BUCKET>`. It lists each family space with its people, tags, calendars and photos, and the pending invites it will not copy.
+2. Add `--confirm` to copy, then deploy straight away. Edits made in the old app between the two are lost. Each calendar keeps the people of its space.
+3. Send the pending invites again, from each calendar's Share page.
+4. Once all looks right, delete `workspaces` in Firestore and the `workspaces/` folder in Storage.
 
-The script only copies and skips calendars already copied, so it can run again. Like the Excel import, it uses your Google credentials (`gcloud auth application-default login`), or the emulators with `FIRESTORE_EMULATOR_HOST=127.0.0.1:8080` and `--project demo-24`.
+The script copies calendars, tags, photos and feedback, and skips calendars already copied, so it can run again. Like the Excel import, it uses your Google credentials (`gcloud auth application-default login`). Against the emulators: `FIRESTORE_EMULATOR_HOST=127.0.0.1:8080`, `FIREBASE_STORAGE_EMULATOR_HOST=127.0.0.1:9199`, `--project demo-24 --bucket demo-24.appspot.com`.
 
 ## Troubleshooting
 

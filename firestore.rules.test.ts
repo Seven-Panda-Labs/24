@@ -220,16 +220,15 @@ describe('gift photos', () => {
     await assertFails(getBytes(ref(storage('eve'), path)))
     await assertFails(uploadBytes(ref(storage('bob', 'password'), path), photo, { contentType: 'image/jpeg' }))
   })
+})
 
-  it('keeps photos from before sharing readable and deletable by the people in their calendar', async () => {
-    const old = 'workspaces/w1/photos/c1/2-1.jpg'
-    await testEnv.withSecurityRulesDisabled(async (context) => {
-      await uploadBytes(ref(context.storage(), old), photo, { contentType: 'image/jpeg' })
-    })
-    await assertSucceeds(getBytes(ref(storage('alice'), old)))
-    await assertFails(getBytes(ref(storage('eve'), old)))
-    await assertFails(uploadBytes(ref(storage('bob'), 'workspaces/w1/photos/c1/3-1.jpg'), photo, { contentType: 'image/jpeg' }))
-    await assertSucceeds(deleteObject(ref(storage('bob'), old)))
+describe('people', () => {
+  it('lets each person list themselves, and anyone signed in read the list', async () => {
+    await assertSucceeds(as('carol').doc('people/carol').set({ name: 'Carol', email: 'carol@example.com' }))
+    await assertSucceeds(as('alice').collection('people').get())
+    await assertFails(as('carol').doc('people/alice').set({ name: 'Alice', email: 'alice@example.com' }))
+    await assertFails(as('carol').doc('people/carol').set({ name: 'Carol', email: 'alice@example.com' }))
+    await assertFails(as('carol', undefined, true, 'password').collection('people').get())
   })
 })
 

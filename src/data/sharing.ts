@@ -1,5 +1,5 @@
 import type { User } from 'firebase/auth'
-import { arrayRemove, arrayUnion, deleteField, doc, updateDoc } from 'firebase/firestore'
+import { arrayRemove, arrayUnion, collection, deleteField, doc, setDoc, updateDoc } from 'firebase/firestore'
 import type { Calendar, Member } from '../domain/types.ts'
 import { db } from '../services/firestore.ts'
 import { report } from './report.ts'
@@ -9,6 +9,14 @@ export function memberOf(user: User): Member {
 }
 
 const calendarRef = (calendar: Calendar) => doc(db, 'calendars', calendar.id)
+
+/** Everyone who has signed in, suggested on the Share page. */
+export const people = () => collection(db, 'people')
+
+/** Puts the user on that list, or updates their name. */
+export function listPerson(user: User): void {
+  void setDoc(doc(db, 'people', user.uid), memberOf(user)).catch(report)
+}
 
 export function acceptInvite(calendar: Calendar, user: User): void {
   void updateDoc(calendarRef(calendar), {

@@ -5,9 +5,9 @@
 ### Modifié
 
 - Le partage se fait maintenant par calendrier, et non plus pour toute la famille. Un nouveau calendrier n’est qu’à toi ; pour le partager, utilise « Partager » dans le calendrier. Tu peux ainsi préparer en secret le calendrier de quelqu’un, et d’autres à plusieurs.
-- Les calendriers existants restent partagés avec tous ceux qui étaient dans l’espace familial. Pour en rendre un secret, retires-en ceux qui ne doivent pas le voir. Les invitations encore en attente sont à renvoyer, calendrier par calendrier.
-- Toutes les personnes d’un calendrier peuvent inviter, retirer quelqu’un, le quitter ou le supprimer. Les invitations apparaissent sur l’accueil, avec « Accepter » et « Refuser ».
-- Les étiquettes appartiennent désormais à chaque calendrier et s’ouvrent depuis ses réglages. Un nouveau calendrier reprend celles du dernier calendrier de la même personne.
+- Toutes les personnes d’un calendrier peuvent inviter, retirer quelqu’un, le quitter ou le supprimer. Pour inviter, l’app propose les personnes qui utilisent déjà 24. Les invitations apparaissent sur l’accueil, avec « Accepter » et « Refuser ».
+- Les étiquettes appartiennent désormais à chaque calendrier et s’ouvrent depuis ses réglages. En créant un calendrier, tu choisis celui dont copier les étiquettes ; par défaut, le dernier de la même personne.
+- Les calendriers existants passent au nouveau format, avec leurs étiquettes et leurs photos.
 - « À faire », l’historique, les suggestions et le rappel du dimanche ne comptent que les calendriers que tu vois.
 
 ### Supprimé

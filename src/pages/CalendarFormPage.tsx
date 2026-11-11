@@ -40,6 +40,10 @@ export default function CalendarFormPage() {
           originality: 0.5,
         },
   )
+  // The calendar a new one copies its tags from, '' for the defaults. Until one is picked: the latest
+  // for the same person, else the latest of all, so tags made by hand carry over to the next year.
+  const [pickedSource, pickSource] = useState<string>()
+  const tagSource = pickedSource ?? (calendars.find((calendar) => calendar.person === fields.person.trim()) ?? calendars[0])?.id ?? ''
   const people = [...new Set(calendars.map((calendar) => calendar.person))].sort()
   const filled = existing ? Object.keys(existing.days).map(Number) : []
   const minDays = Math.max(1, ...filled)
@@ -63,9 +67,7 @@ export default function CalendarFormPage() {
       navigate(`/calendars/${existing.id}`)
       return
     }
-    // The latest calendar for the same person passes on its tags, those made by hand included.
-    const previous = calendars.find((calendar) => calendar.person === clean.person)
-    const tags = previous?.tags ?? defaultTags((tag) => t(`tags.defaults.${tag}`))
+    const tags = calendars.find((calendar) => calendar.id === tagSource)?.tags ?? defaultTags((tag) => t(`tags.defaults.${tag}`))
     navigate(`/calendars/${createCalendar(user, clean, tags)}`, { replace: true })
   }
 
@@ -142,6 +144,20 @@ export default function CalendarFormPage() {
           />
         </label>
       </div>
+
+      {!existing && calendars.length > 0 && (
+        <label className="flex flex-col gap-1 text-sm font-semibold">
+          {t('calendarForm.tagsFrom')}
+          <select value={tagSource} onChange={(event) => pickSource(event.target.value)} className="input">
+            {calendars.map((calendar) => (
+              <option key={calendar.id} value={calendar.id}>
+                {calendar.person} · {calendar.year}
+              </option>
+            ))}
+            <option value="">{t('calendarForm.defaultTags')}</option>
+          </select>
+        </label>
+      )}
 
       <fieldset className="card flex flex-col gap-4">
         <legend className="px-1 text-sm font-semibold">{t('calendarForm.suggestions')}</legend>

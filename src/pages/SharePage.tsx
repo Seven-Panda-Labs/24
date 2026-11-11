@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useUser } from '../auth/AuthContext.tsx'
 import { useCalendars } from '../calendars/CalendarsContext.tsx'
-import { cancelInvite, invite, removeMember } from '../data/sharing.ts'
+import { cancelInvite, invite, people, removeMember } from '../data/sharing.ts'
+import { useDocs } from '../data/useDocs.ts'
+import type { Member } from '../domain/types.ts'
 
 /** Who is in the calendar. Everyone in it can invite, take others out and leave. */
 export default function SharePage() {
@@ -13,7 +15,14 @@ export default function SharePage() {
   const { id } = useParams()
   const [email, setEmail] = useState('')
   const calendar = useCalendars().calendars.find((candidate) => candidate.id === id)
+  const everyone = useDocs<Member & { id: string }>('people', people) ?? []
   if (!calendar) return <p className="card">{t('calendar.notFound')}</p>
+
+  // Others who use the app and are not in or invited yet. Picking one only fills
+  // the field: a stray tap must not show a secret calendar to the person it is for.
+  const suggestions = everyone.filter(
+    (person) => !calendar.memberIds.includes(person.id) && !calendar.invitedEmails.includes(person.email),
+  )
 
   const sendInvite = (event: FormEvent) => {
     event.preventDefault()
@@ -97,6 +106,21 @@ export default function SharePage() {
             {t('share.invite')}
           </button>
         </form>
+        {suggestions.length > 0 && (
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="text-xs text-foreground/70">{t('share.suggested')}</span>
+            {suggestions.map((person) => (
+              <button
+                key={person.id}
+                type="button"
+                onClick={() => setEmail(person.email)}
+                className="rounded-full border border-foreground/15 px-3 py-1 text-sm font-semibold"
+              >
+                {person.name || person.email}
+              </button>
+            ))}
+          </div>
+        )}
         <p className="text-xs text-foreground/70">{t('share.inviteHelp')}</p>
       </section>
     </div>

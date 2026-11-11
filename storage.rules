@@ -18,11 +18,5 @@ service firebase.storage {
         && request.resource.contentType.matches('image/.*')
         && request.resource.size <= 5 * 1024 * 1024;
     }
-
-    // Photos from before calendar sharing stay where they were. The calendar
-    // id in the path still says who may see and delete them.
-    match /workspaces/{wid}/photos/{cid}/{file} {
-      allow read, delete: if inCalendar(cid);
-    }
   }
 }
