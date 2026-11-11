@@ -77,6 +77,13 @@
     "tagsFrom": "Copiar etiquetas de",
     "defaultTags": "Nenhum: só as de origem",
     "suggestions": "Sugestões",
+    "ageRange": "Faixa etária",
+    "ageRangeHelp": "As sugestões dão ideias para esta idade e, de outras pessoas, só sugerem prendas da mesma faixa.",
+    "ageRanges": {
+      "child": "Criança (até 12 anos)",
+      "teen": "Adolescente (13 a 17 anos)",
+      "adult": "Adulto"
+    },
     "allowRepeats": "Permitir repetir prendas neste calendário",
     "originality": "Que sugestões preferes?",
     "traditional": "Tradicionais",
@@ -256,12 +263,9 @@
       "Lenço de bolso"
     ],
     "home": [
-      "Vela aromática",
       "Enfeite para a árvore",
       "Luzes LED a pilhas",
-      "Bases para copos",
       "Sementes de ervas aromáticas",
-      "Pano de cozinha",
       "Íman de frigorífico",
       "Mini suculenta"
     ],
@@ -270,7 +274,6 @@
       "Bilhetes de cinema",
       "Vale para uma noite de jogos",
       "Passeio para ver as luzes de Natal",
-      "Vale para uma massagem",
       "Aula de culinária",
       "Visita a um museu",
       "Patinagem no gelo"
@@ -285,6 +288,75 @@
       "Livro de bolso",
       "Lápis de cor"
     ]
+  },
+  "ideasByAge": {
+    "child": {
+      "sweets": [
+        "Gomas em forma de estrela",
+        "Chupa-chupa gigante"
+      ],
+      "clothes": [
+        "Pijama de Natal",
+        "Gorro com pompom"
+      ],
+      "home": [
+        "Luz de presença",
+        "Mealheiro"
+      ],
+      "experiences": [
+        "Ida ao circo",
+        "Vale para fazer bolachas juntos"
+      ],
+      "books": [
+        "Livro para colorir",
+        "Carimbos"
+      ]
+    },
+    "teen": {
+      "sweets": [
+        "Pipocas gourmet",
+        "Caixa de bombons"
+      ],
+      "clothes": [
+        "Meias com padrões divertidos",
+        "Capa para telemóvel"
+      ],
+      "home": [
+        "Fita de luzes LED para o quarto",
+        "Poster"
+      ],
+      "experiences": [
+        "Bilhetes para um concerto",
+        "Escape room"
+      ],
+      "books": [
+        "Banda desenhada",
+        "Marcadores de cores"
+      ]
+    },
+    "adult": {
+      "sweets": [
+        "Café de especialidade",
+        "Chocolate negro com flor de sal"
+      ],
+      "clothes": [
+        "Luvas de pele",
+        "Cachecol de caxemira"
+      ],
+      "home": [
+        "Vela aromática",
+        "Bases para copos",
+        "Pano de cozinha"
+      ],
+      "experiences": [
+        "Vale para uma massagem",
+        "Prova de vinhos"
+      ],
+      "books": [
+        "Agenda para o próximo ano",
+        "Livro de receitas"
+      ]
+    }
   },
   "photo": {
     "label": "Foto",

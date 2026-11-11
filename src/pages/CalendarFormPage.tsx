@@ -7,7 +7,7 @@ import { createCalendar, deleteCalendar, updateCalendar } from '../data/calendar
 import { deletePhoto } from '../data/photos.ts'
 import { currentYear } from '../domain/days.ts'
 import { defaultTags } from '../domain/tags.ts'
-import type { CalendarFields } from '../domain/types.ts'
+import { AGE_RANGES, type AgeRange, type CalendarFields } from '../domain/types.ts'
 
 export default function CalendarFormPage() {
   const { t } = useTranslation()
@@ -29,6 +29,7 @@ export default function CalendarFormPage() {
           dayCount: existing.dayCount,
           allowRepeats: existing.allowRepeats,
           originality: existing.originality,
+          ageRange: existing.ageRange,
         }
       : {
           year: initialYear,
@@ -44,6 +45,9 @@ export default function CalendarFormPage() {
   // for the same person, else the latest of all, so tags made by hand carry over to the next year.
   const [pickedSource, pickSource] = useState<string>()
   const tagSource = pickedSource ?? (calendars.find((calendar) => calendar.person === fields.person.trim()) ?? calendars[0])?.id ?? ''
+  // Until one is picked: that of the latest calendar for the same person that has one.
+  const ageRange =
+    fields.ageRange ?? calendars.find((calendar) => calendar.person === fields.person.trim() && calendar.ageRange)?.ageRange ?? 'adult'
   const people = [...new Set(calendars.map((calendar) => calendar.person))].sort()
   const filled = existing ? Object.keys(existing.days).map(Number) : []
   const minDays = Math.max(1, ...filled)
@@ -61,7 +65,7 @@ export default function CalendarFormPage() {
 
   function submit(event: FormEvent) {
     event.preventDefault()
-    const clean = { ...fields, person: fields.person.trim(), name: fields.name.trim() }
+    const clean = { ...fields, person: fields.person.trim(), name: fields.name.trim(), ageRange }
     if (existing) {
       updateCalendar(existing.id, clean)
       navigate(`/calendars/${existing.id}`)
@@ -161,6 +165,17 @@ export default function CalendarFormPage() {
 
       <fieldset className="card flex flex-col gap-4">
         <legend className="px-1 text-sm font-semibold">{t('calendarForm.suggestions')}</legend>
+        <label className="flex flex-col gap-1 text-sm font-semibold">
+          {t('calendarForm.ageRange')}
+          <select value={ageRange} onChange={(event) => set('ageRange', event.target.value as AgeRange)} className="input">
+            {AGE_RANGES.map((range) => (
+              <option key={range} value={range}>
+                {t(`calendarForm.ageRanges.${range}`)}
+              </option>
+            ))}
+          </select>
+          <span className="text-xs font-normal text-foreground/70">{t('calendarForm.ageRangeHelp')}</span>
+        </label>
         <label className="flex items-center gap-3 text-sm">
           <input
             type="checkbox"

@@ -127,7 +127,7 @@ describe('calendars', () => {
     await assertSucceeds(bob.doc('calendars/c1').update({ 'sack.a1': gift }))
     await assertSucceeds(updateDoc(doc(bob, 'calendars/c1'), { 'sack.a1': deleteField(), 'days.2': gift }))
     await assertSucceeds(bob.doc('calendars/c1').update({ 'tags.books': { name: 'Livros', color: 'purple', emoji: '📚' } }))
-    await assertSucceeds(updateDoc(doc(as('alice'), 'calendars/c1'), { person: 'Zé', updatedAt: serverTimestamp() }))
+    await assertSucceeds(updateDoc(doc(as('alice'), 'calendars/c1'), { person: 'Zé', ageRange: 'child', updatedAt: serverTimestamp() }))
     await assertFails(as('alice').doc('calendars/secret').update({ 'days.1': gift }))
   })
 
@@ -138,6 +138,7 @@ describe('calendars', () => {
     await assertFails(bob.doc('calendars/c1').update({ owner: 'bob' }))
     await assertFails(bob.doc('calendars/c1').update({ sack: 'Meias' }))
     await assertFails(bob.doc('calendars/c1').update({ tags: 'Doces' }))
+    await assertFails(bob.doc('calendars/c1').update({ ageRange: 'baby' }))
     const tooMany = Object.fromEntries(Array.from({ length: 101 }, (_, index) => [`g${index}`, { gift: 'Meias' }]))
     await assertFails(bob.doc('calendars/c1').update({ sack: tooMany }))
   })

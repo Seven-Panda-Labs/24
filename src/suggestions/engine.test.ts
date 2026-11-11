@@ -89,6 +89,14 @@ describe('sourcesFor', () => {
     expect(sourcesFor(shared, [shared, secret, lastYear, together]).map(({ id }) => id)).toEqual(['ze-2025', 'rita-2026'])
   })
 
+  it('takes gifts for someone else only from the same age range, counting calendars without one as adult', () => {
+    const child = { ...calendar('leo-2026', 'Léo', ['bruno']), ageRange: 'child' } as Calendar
+    const otherChild = { ...calendar('zé-2024', 'Zé', ['bruno']), ageRange: 'child' } as Calendar
+    const teen = { ...calendar('rita-2025', 'Rita', ['bruno']), ageRange: 'teen' } as Calendar
+    const leoBefore = calendar('leo-2025', 'Léo', ['bruno'])
+    expect(sourcesFor(child, [child, otherChild, teen, leoBefore, secret]).map(({ id }) => id)).toEqual(['zé-2024', 'leo-2025'])
+  })
+
   it('uses every calendar in one nobody else sees', () => {
     expect(sourcesFor(secret, [shared, secret, lastYear, together]).map(({ id }) => id)).toEqual(['ze-2026', 'ze-2025', 'rita-2026'])
   })

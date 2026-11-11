@@ -18,6 +18,9 @@ export interface Day {
   thumbUrl?: string
 }
 
+export const AGE_RANGES = ['child', 'teen', 'adult'] as const
+export type AgeRange = (typeof AGE_RANGES)[number]
+
 export interface CalendarFields {
   year: number
   person: string
@@ -28,7 +31,11 @@ export interface CalendarFields {
   allowRepeats: boolean
   /** 0 favours traditions, 1 favours new ideas. */
   originality: number
+  /** Steers the suggestions. Calendars from before it have none and count as adult. */
+  ageRange?: AgeRange
 }
+
+export const ageRangeOf = (calendar: Pick<CalendarFields, 'ageRange'>): AgeRange => calendar.ageRange ?? 'adult'
 
 export interface Calendar extends CalendarFields {
   id: string

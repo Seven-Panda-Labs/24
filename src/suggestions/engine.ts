@@ -1,6 +1,6 @@
 import { dayNumbers, dayOf } from '../domain/days.ts'
 import { normalize } from '../domain/text.ts'
-import type { Calendar } from '../domain/types.ts'
+import { ageRangeOf, type Calendar } from '../domain/types.ts'
 
 export interface HistoryGift {
   gift: string
@@ -140,7 +140,8 @@ function jitter(text: string): number {
 
 /**
  * The calendars whose gifts can be suggested in `calendar`: those for the same
- * person, and those for anyone else that everyone in it can also see. So a
+ * person, and those for someone else of the same age range that everyone in it
+ * can also see. So no gift for an adult is suggested for a child, and a
  * calendar kept secret from someone never surfaces in one they share, neither
  * on screen nor in the feedback a dismissed suggestion leaves there.
  */
@@ -149,7 +150,8 @@ export function sourcesFor(calendar: Calendar, calendars: Calendar[]): Calendar[
   return calendars.filter(
     (other) =>
       other.id !== calendar.id &&
-      (normalize(other.person) === person || calendar.memberIds.every((uid) => other.memberIds.includes(uid))),
+      (normalize(other.person) === person ||
+        (ageRangeOf(other) === ageRangeOf(calendar) && calendar.memberIds.every((uid) => other.memberIds.includes(uid)))),
   )
 }
 

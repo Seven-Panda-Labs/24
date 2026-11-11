@@ -77,6 +77,13 @@
     "tagsFrom": "Copier les étiquettes de",
     "defaultTags": "Aucun : seulement celles par défaut",
     "suggestions": "Suggestions",
+    "ageRange": "Tranche d’âge",
+    "ageRangeHelp": "Les suggestions proposent des idées pour cet âge et, des autres personnes, seulement des cadeaux de la même tranche.",
+    "ageRanges": {
+      "child": "Enfant (jusqu’à 12 ans)",
+      "teen": "Ado (13 à 17 ans)",
+      "adult": "Adulte"
+    },
     "allowRepeats": "Autoriser les cadeaux répétés dans ce calendrier",
     "originality": "Quelles suggestions préfères-tu ?",
     "traditional": "Traditionnelles",
@@ -256,12 +263,9 @@
       "Mouchoir en tissu"
     ],
     "home": [
-      "Bougie parfumée",
       "Décoration pour le sapin",
       "Guirlande lumineuse à piles",
-      "Sous-verres",
       "Graines d’herbes aromatiques",
-      "Torchon",
       "Magnet pour le frigo",
       "Mini plante grasse"
     ],
@@ -270,7 +274,6 @@
       "Places de cinéma",
       "Bon pour une soirée jeux",
       "Balade pour voir les illuminations de Noël",
-      "Bon pour un massage",
       "Cours de cuisine",
       "Visite d’un musée",
       "Patin à glace"
@@ -285,6 +288,75 @@
       "Livre de poche",
       "Crayons de couleur"
     ]
+  },
+  "ideasByAge": {
+    "child": {
+      "sweets": [
+        "Bonbons en forme d’étoile",
+        "Sucette géante"
+      ],
+      "clothes": [
+        "Pyjama de Noël",
+        "Bonnet à pompon"
+      ],
+      "home": [
+        "Veilleuse",
+        "Tirelire"
+      ],
+      "experiences": [
+        "Sortie au cirque",
+        "Bon pour faire des biscuits ensemble"
+      ],
+      "books": [
+        "Livre de coloriage",
+        "Tampons encreurs"
+      ]
+    },
+    "teen": {
+      "sweets": [
+        "Pop-corn gourmet",
+        "Boîte de chocolats"
+      ],
+      "clothes": [
+        "Chaussettes à motifs rigolos",
+        "Coque de téléphone"
+      ],
+      "home": [
+        "Ruban LED pour la chambre",
+        "Affiche"
+      ],
+      "experiences": [
+        "Places de concert",
+        "Escape game"
+      ],
+      "books": [
+        "Bande dessinée",
+        "Feutres de couleur"
+      ]
+    },
+    "adult": {
+      "sweets": [
+        "Café de spécialité",
+        "Chocolat noir à la fleur de sel"
+      ],
+      "clothes": [
+        "Gants en cuir",
+        "Écharpe en cachemire"
+      ],
+      "home": [
+        "Bougie parfumée",
+        "Sous-verres",
+        "Torchon"
+      ],
+      "experiences": [
+        "Bon pour un massage",
+        "Dégustation de vins"
+      ],
+      "books": [
+        "Agenda pour l’an prochain",
+        "Livre de cuisine"
+      ]
+    }
   },
   "photo": {
     "label": "Photo",

@@ -1,5 +1,11 @@
 # Registo de alterações
 
+## [0.20.0] - 2026-11-11
+
+### Adicionado
+
+- Faixa etária em cada calendário: criança, adolescente ou adulto. As sugestões passam a trazer ideias para essa idade e, de outras pessoas, só prendas da mesma faixa, para não sugerir uma prova de vinhos a uma criança. Um calendário novo leva a faixa do último da mesma pessoa, e os que já existiam contam como de adulto até a mudares nas definições deles.
+
 ## [0.19.1] - 2026-11-11
 
 ### Corrigido
