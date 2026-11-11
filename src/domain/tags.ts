@@ -14,7 +14,7 @@ export const TAG_STYLES: Record<TagColor, { chip: string; soft: string }> = {
 
 /**
  * Tags a calendar starts with when there is no earlier one to copy. The ids
- * double as the categories of the idea catalog (`ideas.*` in the locales), so
+ * double as the categories of the idea catalog (`ideas.*` and `ideasByAge.*` in the locales), so
  * keep them stable.
  */
 export const DEFAULT_TAGS: { id: string; color: TagColor; emoji: string }[] = [

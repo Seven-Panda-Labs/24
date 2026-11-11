@@ -77,6 +77,13 @@
     "tagsFrom": "Etiketten übernehmen von",
     "defaultTags": "Keinem: nur die vorgegebenen",
     "suggestions": "Vorschläge",
+    "ageRange": "Altersgruppe",
+    "ageRangeHelp": "Vorschläge bringen Ideen für dieses Alter und von anderen Personen nur Geschenke derselben Altersgruppe.",
+    "ageRanges": {
+      "child": "Kind (bis 12)",
+      "teen": "Jugendliche (13 bis 17)",
+      "adult": "Erwachsene"
+    },
     "allowRepeats": "Geschenke dürfen sich in diesem Kalender wiederholen",
     "originality": "Welche Vorschläge magst du lieber?",
     "traditional": "Traditionell",
@@ -256,12 +263,9 @@
       "Stofftaschentuch"
     ],
     "home": [
-      "Duftkerze",
       "Christbaumschmuck",
       "Lichterkette mit Batterie",
-      "Untersetzer",
       "Kräutersamen",
-      "Geschirrtuch",
       "Kühlschrankmagnet",
       "Mini-Sukkulente"
     ],
@@ -270,7 +274,6 @@
       "Kinokarten",
       "Gutschein für einen Spieleabend",
       "Spaziergang zu den Weihnachtslichtern",
-      "Massagegutschein",
       "Kochkurs",
       "Museumsbesuch",
       "Eislaufen"
@@ -285,6 +288,75 @@
       "Taschenbuch",
       "Buntstifte"
     ]
+  },
+  "ideasByAge": {
+    "child": {
+      "sweets": [
+        "Fruchtgummi-Sterne",
+        "Riesenlutscher"
+      ],
+      "clothes": [
+        "Weihnachtsschlafanzug",
+        "Bommelmütze"
+      ],
+      "home": [
+        "Nachtlicht",
+        "Sparschwein"
+      ],
+      "experiences": [
+        "Zirkusbesuch",
+        "Gutschein fürs gemeinsame Plätzchenbacken"
+      ],
+      "books": [
+        "Malbuch",
+        "Stempel"
+      ]
+    },
+    "teen": {
+      "sweets": [
+        "Gourmet-Popcorn",
+        "Pralinenschachtel"
+      ],
+      "clothes": [
+        "Socken mit lustigem Muster",
+        "Handyhülle"
+      ],
+      "home": [
+        "LED-Streifen fürs Zimmer",
+        "Poster"
+      ],
+      "experiences": [
+        "Konzertkarten",
+        "Escape Room"
+      ],
+      "books": [
+        "Comic",
+        "Bunte Marker"
+      ]
+    },
+    "adult": {
+      "sweets": [
+        "Spezialitätenkaffee",
+        "Zartbitterschokolade mit Meersalz"
+      ],
+      "clothes": [
+        "Lederhandschuhe",
+        "Kaschmirschal"
+      ],
+      "home": [
+        "Duftkerze",
+        "Untersetzer",
+        "Geschirrtuch"
+      ],
+      "experiences": [
+        "Massagegutschein",
+        "Weinprobe"
+      ],
+      "books": [
+        "Kalender fürs nächste Jahr",
+        "Kochbuch"
+      ]
+    }
   },
   "photo": {
     "label": "Foto",

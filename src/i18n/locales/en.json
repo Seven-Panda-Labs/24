@@ -77,6 +77,13 @@
     "tagsFrom": "Copy tags from",
     "defaultTags": "None: only the defaults",
     "suggestions": "Suggestions",
+    "ageRange": "Age range",
+    "ageRangeHelp": "Suggestions offer ideas for this age and, from other people, only gifts in the same range.",
+    "ageRanges": {
+      "child": "Child (up to 12)",
+      "teen": "Teenager (13 to 17)",
+      "adult": "Adult"
+    },
     "allowRepeats": "Allow repeating gifts in this calendar",
     "originality": "Which suggestions do you prefer?",
     "traditional": "Traditional",
@@ -256,12 +263,9 @@
       "Handkerchief"
     ],
     "home": [
-      "Scented candle",
       "Tree ornament",
       "Battery fairy lights",
-      "Coasters",
       "Herb seeds",
-      "Tea towel",
       "Fridge magnet",
       "Mini succulent"
     ],
@@ -270,7 +274,6 @@
       "Cinema tickets",
       "Voucher for a games night",
       "Walk to see the Christmas lights",
-      "Massage voucher",
       "Cooking class",
       "Museum visit",
       "Ice skating"
@@ -285,6 +288,75 @@
       "Pocket book",
       "Coloured pencils"
     ]
+  },
+  "ideasByAge": {
+    "child": {
+      "sweets": [
+        "Star-shaped gummies",
+        "Giant lollipop"
+      ],
+      "clothes": [
+        "Christmas pyjamas",
+        "Bobble hat"
+      ],
+      "home": [
+        "Night light",
+        "Piggy bank"
+      ],
+      "experiences": [
+        "A trip to the circus",
+        "Voucher to bake biscuits together"
+      ],
+      "books": [
+        "Colouring book",
+        "Rubber stamps"
+      ]
+    },
+    "teen": {
+      "sweets": [
+        "Gourmet popcorn",
+        "Box of chocolates"
+      ],
+      "clothes": [
+        "Fun patterned socks",
+        "Phone case"
+      ],
+      "home": [
+        "LED strip for the bedroom",
+        "Poster"
+      ],
+      "experiences": [
+        "Concert tickets",
+        "Escape room"
+      ],
+      "books": [
+        "Comic book",
+        "Coloured markers"
+      ]
+    },
+    "adult": {
+      "sweets": [
+        "Speciality coffee",
+        "Dark chocolate with sea salt"
+      ],
+      "clothes": [
+        "Leather gloves",
+        "Cashmere scarf"
+      ],
+      "home": [
+        "Scented candle",
+        "Coasters",
+        "Tea towel"
+      ],
+      "experiences": [
+        "Massage voucher",
+        "Wine tasting"
+      ],
+      "books": [
+        "Planner for next year",
+        "Cookbook"
+      ]
+    }
   },
   "photo": {
     "label": "Photo",

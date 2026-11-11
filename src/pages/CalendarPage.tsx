@@ -25,7 +25,7 @@ import {
   type DayFilter,
 } from '../domain/days.ts'
 import { tagsOf } from '../domain/tags.ts'
-import type { Day, Slot, Tag } from '../domain/types.ts'
+import { ageRangeOf, type Day, type Slot, type Tag } from '../domain/types.ts'
 import { historyOf, sourcesFor, suggest, type Idea } from '../suggestions/engine.ts'
 import { useCalendars } from '../calendars/CalendarsContext.tsx'
 
@@ -78,9 +78,10 @@ export default function CalendarPage() {
     if (current) moveGifts(calendar.id, [{ from, to, value: { ...current, ...changes } }])
   }
 
-  const ideas: Idea[] = Object.entries(t('ideas', { returnObjects: true }) as Record<string, string[]>).flatMap(
-    ([category, gifts]) => gifts.map((gift) => ({ gift, tagIds: [category] })),
-  )
+  // The ideas for every age, then those for the calendar's age range.
+  const ideas: Idea[] = [t('ideas', { returnObjects: true }), t(`ideasByAge.${ageRangeOf(calendar)}`, { returnObjects: true })]
+    .flatMap((lists) => Object.entries(lists as Record<string, string[]>))
+    .flatMap(([category, gifts]) => gifts.map((gift) => ({ gift, tagIds: [category] })))
   const suggestions =
     openSlot && 'day' in openSlot && !dayOf(calendar, openSlot.day)
       ? suggest({

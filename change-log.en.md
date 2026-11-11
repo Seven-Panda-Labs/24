@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.20.0] - 2026-11-11
+
+### Added
+
+- An age range on each calendar: child, teenager or adult. Suggestions now bring ideas for that age and, from other people, only gifts in the same range, so a child is never offered a wine tasting. A new calendar takes the range of the latest one for the same person, and existing calendars count as adult until you change it in their settings.
+
 ## [0.19.1] - 2026-11-11
 
 ### Fixed

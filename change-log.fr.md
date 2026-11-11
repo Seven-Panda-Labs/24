@@ -1,5 +1,11 @@
 # Journal des modifications
 
+## [0.20.0] - 2026-11-11
+
+### Ajouté
+
+- Une tranche d’âge pour chaque calendrier : enfant, ado ou adulte. Les suggestions proposent maintenant des idées pour cet âge et, des autres personnes, seulement des cadeaux de la même tranche, pour ne jamais suggérer une dégustation de vins à un enfant. Un nouveau calendrier reprend la tranche du dernier de la même personne, et les calendriers existants comptent comme adultes jusqu’à ce que tu la changes dans leurs réglages.
+
 ## [0.19.1] - 2026-11-11
 
 ### Corrigé

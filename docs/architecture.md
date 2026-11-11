@@ -85,12 +85,13 @@ Rules: [`firestore.rules`](../firestore.rules) and [`storage.rules`](../storage.
 
 ## Suggestions
 
-[`src/suggestions/engine.ts`](../src/suggestions/engine.ts) scores candidates in the browser, from the other calendars the user is in and the idea catalog (`ideas.*` in the locales, one list per default tag):
+[`src/suggestions/engine.ts`](../src/suggestions/engine.ts) scores candidates in the browser, from the other calendars the user is in and the idea catalog (`ideas.*` in the locales for every age, `ideasByAge.*` for each age range, one list per default tag):
 
 - **Traditions:** gifts this person got before, weighted by how many years they got them.
 - **Recent:** anything this person got in the last two years scores 30% of its tradition weight.
 - **New:** gifts they never got (from the catalog, or given to someone else in the user's calendars) score 1 for novelty; gifts they last got three or more years ago score 0.5.
 - The calendar's slider mixes the two: `(1 - originality) × tradition + originality × novelty`. Between the extremes, the five picks always include at least one of each.
+- A calendar has an age range: child (up to 12), teen (13 to 17) or adult, the default for calendars from before it. Gifts for other people only come from calendars of the same age range, and the catalog adds the ideas for that range, so a child is never offered a wine tasting. The person's own gifts count whatever their range then.
 - In a shared calendar, gifts for other people only come from calendars everyone in it can see (`sourcesFor`). A calendar kept secret from someone never surfaces in one they share, neither on screen nor in the feedback a dismissed suggestion leaves there.
 - With repeats off, gifts already in the calendar are left out. A small hash of calendar, day and gift breaks ties, so each day shows a different order but the same day always shows the same one.
 

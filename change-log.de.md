@@ -1,5 +1,11 @@
 # Änderungsprotokoll
 
+## [0.20.0] - 2026-11-11
+
+### Hinzugefügt
+
+- Eine Altersgruppe für jeden Kalender: Kind, Jugendliche oder Erwachsene. Vorschläge bringen jetzt Ideen für dieses Alter und von anderen Personen nur Geschenke derselben Gruppe, damit einem Kind keine Weinprobe vorgeschlagen wird. Ein neuer Kalender übernimmt die Gruppe des letzten Kalenders derselben Person, und bestehende Kalender zählen als Erwachsene, bis du es in ihren Einstellungen änderst.
+
 ## [0.19.1] - 2026-11-11
 
 ### Behoben
