@@ -1,5 +1,11 @@
 # Änderungsprotokoll
 
+## [0.19.1] - 2026-11-11
+
+### Behoben
+
+- In einem geteilten Kalender kommen Vorschläge „Hat schon jemand anderes in der Familie bekommen“ nur noch aus Kalendern, die alle darin auch sehen. Ein geheimer Kalender taucht nicht mehr in den Vorschlägen eines Kalenders auf, der mit der Person geteilt ist, vor der er geheim ist.
+
 ## [0.19.0] - 2026-11-11
 
 ### Hinzugefügt

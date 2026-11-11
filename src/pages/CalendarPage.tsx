@@ -26,7 +26,7 @@ import {
 } from '../domain/days.ts'
 import { tagsOf } from '../domain/tags.ts'
 import type { Day, Slot, Tag } from '../domain/types.ts'
-import { historyOf, suggest, type Idea } from '../suggestions/engine.ts'
+import { historyOf, sourcesFor, suggest, type Idea } from '../suggestions/engine.ts'
 import { useCalendars } from '../calendars/CalendarsContext.tsx'
 
 const VIEW_KEY = '24:calendar-view'
@@ -84,7 +84,7 @@ export default function CalendarPage() {
   const suggestions =
     openSlot && 'day' in openSlot && !dayOf(calendar, openSlot.day)
       ? suggest({
-          history: historyOf(calendars.filter((other) => other.id !== calendar.id)),
+          history: historyOf(sourcesFor(calendar, calendars)),
           calendar,
           current: [...days.flatMap((day) => dayOf(calendar, day)?.gift ?? []), ...sackOf(calendar).map(([, gift]) => gift.gift)],
           ideas,

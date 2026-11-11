@@ -91,6 +91,7 @@ Rules: [`firestore.rules`](../firestore.rules) and [`storage.rules`](../storage.
 - **Recent:** anything this person got in the last two years scores 30% of its tradition weight.
 - **New:** gifts they never got (from the catalog, or given to someone else in the user's calendars) score 1 for novelty; gifts they last got three or more years ago score 0.5.
 - The calendar's slider mixes the two: `(1 - originality) × tradition + originality × novelty`. Between the extremes, the five picks always include at least one of each.
+- In a shared calendar, gifts for other people only come from calendars everyone in it can see (`sourcesFor`). A calendar kept secret from someone never surfaces in one they share, neither on screen nor in the feedback a dismissed suggestion leaves there.
 - With repeats off, gifts already in the calendar are left out. A small hash of calendar, day and gift breaks ties, so each day shows a different order but the same day always shows the same one.
 
 ## Reminders
